@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasan Gürses | Bilgisayar Mühendisliği & Portfolyo (hasangurses.com)</title>
+  <meta name="description" content="Hasan Gürses — Gazi Üniversitesi Bilgisayar Mühendisliği öğrencisi. Bilgisayarlı Görü (Computer Vision), Derin Öğrenme, Backend ve Full-Stack yazılım projeleri, interaktif özgeçmiş (CV)." />
+  <meta name="keywords" content="Hasan Gürses, hasangurses.com, Gazi Üniversitesi Bilgisayar Mühendisliği, Computer Vision, Derin Öğrenme, PyTorch, RT-DETR, ViTPose, Backend Developer, CV, Portfolyo" />
+  <meta name="author" content="Hasan Gürses" />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hasangurses.com/" />
+  <meta property="og:title" content="Hasan Gürses | Bilgisayar Mühendisliği & Yazılım Portfolyosu" />
+  <meta property="og:description" content="Bilgisayarlı Görü, Derin Öğrenme, Backend ve Sistem Mimarisi projelerim ile interaktif CV'me hasangurses.com üzerinden ulaşabilirsiniz." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
+
+  <!-- Interactive Computer Vision / Neural Background Canvas -->
+  <canvas id="neural-canvas"></canvas>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div id="cursor-glow"></div>
+
+  <!-- ========================================================================
+       NAVIGATION BAR
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#about" class="brand">
+        <div class="brand-monogram">HG</div>
+        <div>
+          <span>Hasan Gürses</span>
+          <span class="brand-domain">hasangurses.com</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" class="active" data-i18n="navAbout">Hakkımda</a></li>
+        <li><a href="#projects" data-i18n="navProjects">Projeler</a></li>
+        <li><a href="#experience" data-i18n="navExperience">Deneyim & Eğitim</a></li>
+        <li><a href="#skills" data-i18n="navSkills">Yetenekler</a></li>
+        <li><a href="#contact" data-i18n="navContact">İletişim</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="openCmdPalette()" title="Hızlı Komut Menüsü (Ctrl+K)">
+          <span>⌘</span>
+          <span class="kbd-hint">Ctrl+K</span>
+        </button>
+        <button class="icon-btn" id="lang-toggle" onclick="toggleLanguage()" title="Dil Değiştir (TR/EN)">TR</button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">☀️</button>
+        <button class="btn-cv-nav" onclick="openCvModal()">
+          <span>📄</span>
+          <span data-i18n="btnCvPreview">CV Görüntüle / İndir</span>
+        </button>
+        <button class="icon-btn mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO / ABOUT SECTION
+       ======================================================================== -->
+  <main>
+    <section class="hero" id="about">
+      <div class="container hero-grid">
+        <!-- Left Column: Intro & CTAs -->
+        <div class="hero-content">
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <span data-i18n="heroBadge">Gazi Üniversitesi • Bilgisayar Mühendisliği</span>
+          </div>
+
+          <div class="hero-greeting" data-i18n="heroGreeting">Merhaba, ben</div>
+          <h1 class="hero-title">
+            Hasan <span class="gradient-text">GÜRSES</span>
+          </h1>
+
+          <div class="hero-role-wrapper">
+            <span>&gt;</span>
+            <span id="typewriter-text">Bilgisayar Mühendisliği Öğrencisi</span>
+            <span class="cursor-blink"></span>
+          </div>
+
+          <p class="hero-about" id="hero-about">
+            Gazi Üniversitesi Bilgisayar Mühendisliği öğrencisi olarak teorik eğitimimi pratik endüstriyel ve akademik projelerle desteklemekteyim. Yazılım geliştirme sürecinde Bilgisayarlı Görü (Computer Vision), Derin Öğrenme, Web ve Mobil Uygulama mimarilerinde hem arka uç (Backend/AI) hem de kullanıcı arayüzü (Frontend) alanlarında uygulamalı deneyim sahibiyim.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary">
+              <span>🚀</span>
+              <span data-i18n="heroPrimaryBtn">Projelerimi Keşfet</span>
+            </a>
+            <button class="btn btn-secondary" onclick="openCvModal()">
+              <span>📄</span>
+              <span data-i18n="heroSecondaryBtn">İnteraktif CV & PDF</span>
+            </button>
+            <a href="#contact" class="btn btn-secondary">
+              <span>✉️</span>
+              <span data-i18n="heroContactBtn">İletişime Geç</span>
+            </a>
+          </div>
+
+          <div class="hero-stats" id="hero-stats"></div>
+        </div>
+
+        <!-- Right Column: Interactive AI & Architecture Terminal -->
+        <div class="hero-visual">
+          <div class="terminal-card">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="terminal-title" data-i18n="terminalTitle">hasan@gazi-ai-lab: ~/vision-pipeline</span>
+              <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-cyan);">v2026</span>
+            </div>
+
+            <div class="terminal-tabs">
+              <button class="term-tab active" data-tab="vision">vision_pipeline.py</button>
+              <button class="term-tab" data-tab="fokus">fokus_engine.cs</button>
+              <button class="term-tab" data-tab="profile">profile.json</button>
+            </div>
+
+            <div class="terminal-body" id="terminal-body"></div>
+
+            <div class="terminal-footer">
+              <span>📍 Maltepe / Ankara</span>
+              <div class="social-quick">
+                <a href="https://github.com/HasanG55" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                <a href="https://linkedin.com/in/hasan-gurses" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PROJECTS / PORTFOLIO SECTION
+         ====================================================================== -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" data-i18n="projectsBadge">PORTFOLYO & MİMARİ</span>
+          <h2 class="section-title" data-i18n="projectsTitle">Akademik ve Bireysel Projeler</h2>
+          <p class="section-subtitle" data-i18n="projectsSubtitle">
+            Bilgisayarlı görü, doğal dil işleme, IoT backend servisleri ve işletim sistemi seviyesinde geliştirdiğim uçtan uca yazılım projeleri.
+          </p>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all" data-i18n="filterAll">Tümü</button>
+          <button class="filter-btn" data-filter="ai" data-i18n="filterAi">Yapay Zeka & Görü</button>
+          <button class="filter-btn" data-filter="backend" data-i18n="filterBackend">Backend & Web</button>
+          <button class="filter-btn" data-filter="mobile" data-i18n="filterMobile">Mobil</button>
+        </div>
+
+        <div class="projects-grid" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         EXPERIENCE, EDUCATION & CERTIFICATES SECTION
+         ====================================================================== -->
+    <section id="experience">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" data-i18n="expBadge">KARİYER & AKADEMİK GEÇMİŞ</span>
+          <h2 class="section-title" data-i18n="expTitle">Deneyim, Eğitim ve Sertifikalar</h2>
+          <p class="section-subtitle" data-i18n="expSubtitle">
+            Endüstriyel Ar-Ge staj deneyimim, üniversite eğitimim ve tamamladığım teknik sertifikasyonlar.
+          </p>
+        </div>
+
+        <div class="exp-edu-grid">
+          <!-- Experience Column -->
+          <div>
+            <h3 class="timeline-column-title">
+              <span style="color:var(--accent-cyan);">💼</span>
+              <span data-i18n="tabExperience">İş & Staj Deneyimi</span>
+            </h3>
+            <div class="timeline" id="experience-timeline"></div>
+          </div>
+
+          <!-- Education Column -->
+          <div>
+            <h3 class="timeline-column-title">
+              <span style="color:var(--accent-indigo);">🎓</span>
+              <span data-i18n="tabEducation">Eğitim</span>
+            </h3>
+            <div class="timeline" id="education-timeline"></div>
+          </div>
+        </div>
+
+        <!-- Certificates Subsection -->
+        <div>
+          <h3 class="timeline-column-title" style="margin-bottom:20px;">
+            <span style="color:var(--accent-violet);">🏅</span>
+            <span data-i18n="certTitle">Sertifikalar & Başarılar</span>
+          </h3>
+          <div class="cert-grid" id="cert-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SKILLS & COMPETENCIES SECTION
+         ====================================================================== -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" data-i18n="skillsBadge">TEKNİK YETKİNLİKLER</span>
+          <h2 class="section-title" data-i18n="skillsTitle">Teknoloji Yığını & Yetenekler</h2>
+          <p class="section-subtitle" data-i18n="skillsSubtitle">
+            Yapay zeka boru hatlarından arka uç servislerine kadar aktif olarak kullandığım diller, kütüphaneler ve araçlar.
+          </p>
+        </div>
+
+        <div class="skills-grid" id="skills-grid"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CONTACT SECTION
+         ====================================================================== -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" data-i18n="contactBadge">İLETİŞİM & BAĞLANTILAR</span>
+          <h2 class="section-title" data-i18n="contactTitle">Birlikte Çalışalım</h2>
+          <p class="section-subtitle" data-i18n="contactSubtitle">
+            Staj, proje iş birlikleri, açık kaynak katkıları veya teknik konular üzerine konuşmak için bana doğrudan ulaşabilirsiniz.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Direct Contact Cards -->
+          <div class="contact-cards">
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">✉️</div>
+                <div>
+                  <span class="contact-label">Kişisel E-posta (Primary)</span>
+                  <a href="mailto:hasangurses55@hotmail.com" class="contact-value">hasangurses55@hotmail.com</a>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyToClipboard('hasangurses55@hotmail.com')" data-i18n="copyText">Kopyala</button>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">🎓</div>
+                <div>
+                  <span class="contact-label">Akademik E-posta (Gazi Üni.)</span>
+                  <a href="mailto:hasan.gurses@gazi.edu.tr" class="contact-value">hasan.gurses@gazi.edu.tr</a>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyToClipboard('hasan.gurses@gazi.edu.tr')" data-i18n="copyText">Kopyala</button>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">📞</div>
+                <div>
+                  <span class="contact-label">Telefon</span>
+                  <a href="tel:+905335269031" class="contact-value">0 (533) 526 90 31</a>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyToClipboard('+905335269031')" data-i18n="copyText">Kopyala</button>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">💼</div>
+                <div>
+                  <span class="contact-label">LinkedIn</span>
+                  <a href="https://linkedin.com/in/hasan-gurses" target="_blank" rel="noopener noreferrer" class="contact-value">linkedin.com/in/hasan-gurses</a>
+                </div>
+              </div>
+              <a href="https://linkedin.com/in/hasan-gurses" target="_blank" rel="noopener noreferrer" class="copy-btn" style="text-decoration:none;">Aç ↗</a>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">🐙</div>
+                <div>
+                  <span class="contact-label">GitHub</span>
+                  <a href="https://github.com/HasanG55" target="_blank" rel="noopener noreferrer" class="contact-value">github.com/HasanG55</a>
+                </div>
+              </div>
+              <a href="https://github.com/HasanG55" target="_blank" rel="noopener noreferrer" class="copy-btn" style="text-decoration:none;">Aç ↗</a>
+            </div>
+
+            <div class="contact-item-card">
+              <div class="contact-item-left">
+                <div class="contact-icon">📍</div>
+                <div>
+                  <span class="contact-label">Yazışma Adresi</span>
+                  <span class="contact-value" style="font-size:0.86rem;">Gazi Üniversitesi Mühendislik Fakültesi, Bilgisayar Mühendisliği Bölümü, Maltepe / ANKARA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Contact Form -->
+          <div class="contact-form-card">
+            <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:20px;">Hızlı Mesaj Gönder</h3>
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="sender-name" data-i18n="formName">Adınız Soyadınız</label>
+                <input type="text" id="sender-name" class="form-control" placeholder="Örn: Ahmet Yılmaz" required />
+              </div>
+              <div class="form-group">
+                <label for="sender-email" data-i18n="formEmail">E-posta Adresiniz</label>
+                <input type="email" id="sender-email" class="form-control" placeholder="ornek@sirket.com" required />
+              </div>
+              <div class="form-group">
+                <label for="sender-subject" data-i18n="formSubject">Konu</label>
+                <input type="text" id="sender-subject" class="form-control" placeholder="Proje / Staj / İş Birliği" required />
+              </div>
+              <div class="form-group">
+                <label for="sender-message" data-i18n="formMessage">Mesajınız</label>
+                <textarea id="sender-message" class="form-control" placeholder="Merhaba Hasan, ..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">
+                <span>📨</span>
+                <span data-i18n="formSubmit">E-posta Gönder</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Hasan GÜRSES</strong> • <span style="font-family:var(--font-mono); color:var(--accent-cyan);">hasangurses.com</span>
+      </div>
+      <div>
+        Gazi Üniversitesi Bilgisayar Mühendisliği • Maltepe / Ankara
+      </div>
+      <div style="display:flex; gap:14px;">
+        <a href="https://github.com/HasanG55" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary); text-decoration:none;">GitHub</a>
+        <a href="https://linkedin.com/in/hasan-gurses" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary); text-decoration:none;">LinkedIn</a>
+        <a href="javascript:void(0)" onclick="openCvModal()" style="color:var(--accent-cyan); text-decoration:none;">CV (PDF)</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALS: PROJECT ARCHITECTURE, OFFICIAL CV (PRINT PDF), COMMAND PALETTE
+       ======================================================================== -->
+
+  <!-- 1. Project Details Modal -->
+  <div class="modal-backdrop" id="project-modal">
+    <div class="modal-box" id="project-modal-content"></div>
+  </div>
+
+  <!-- 2. Official CV Preview & 1-Click PDF Print Modal -->
+  <div class="modal-backdrop" id="cv-modal">
+    <div class="modal-box cv-modal-box">
+      <div class="cv-modal-toolbar">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.2rem;">📄</span>
+          <strong data-i18n="cvModalTitle">Resmi Özgeçmiş (CV) Önizleme</strong>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" style="padding:9px 18px; font-size:0.86rem;" onclick="printOfficialCv()">
+            <span>🖨️</span>
+            <span data-i18n="cvPrintBtn">PDF Olarak İndir / Yazdır</span>
+          </button>
+          <button class="icon-btn" onclick="closeModal('cv-modal')" data-i18n="cvCloseBtn">Kapat ✕</button>
+        </div>
+      </div>
+      <div class="cv-sheet-Scroll" id="cv-paper-container"></div>
+    </div>
+  </div>
+
+  <!-- 3. Command Palette Modal (Ctrl+K) -->
+  <div class="modal-backdrop" id="cmd-modal">
+    <div class="modal-box cmd-box">
+      <input type="text" id="cmd-input" class="cmd-input" placeholder="Komut yazın veya bölüm arayın..." />
+      <ul class="cmd-list" id="cmd-list"></ul>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
