@@ -790,43 +790,365 @@ function applyTheme(theme) {
 }
 
 // ==========================================================================
-// 11. BM301 STAJ I SINAVI ÇALIŞMA MODÜLÜ & SİMÜLATÖR MOTORU
+// 11. BM301 STAJ I SINAVI 15 SORULUK TAM HAVUZ & SİMÜLATÖR MOTORU
 // ==========================================================================
-const stajScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+const stajScores = {};
 
-const STAJ_RUBRICS = {
-  1: [
-    { name: 'Kurum ve Konum (WellztechAI / ODTÜ Teknokent)', weight: 5, keywords: ['wellztech', 'teknokent', 'odtü'] },
-    { name: 'Faaliyet Alanı (Yapay Zeka / Görüntü İşleme / Hayvancılık-Tarım)', weight: 4, keywords: ['yapay zeka', 'görüntü', 'tarım', 'hayvancılık', 'süt', 'sağım', 'denetim', 'kamera'] },
-    { name: 'Departman & Ekip Yapısı (12 kişilik Ar-Ge / Yusuf Onat Yılmaz)', weight: 5, keywords: ['ar-ge', 'arge', 'departman', 'yusuf', 'onat', 'mentör', '12', 'ekip'] },
-    { name: 'Senin Görevin ve Proje (Milk AI / Model eğitimi / Veri ön işleme)', weight: 6, keywords: ['milk', 'model', 'eğitim', 'ön işleme', 'iskelet', 'normalizasyon', 'sorumlu', 'görev'] }
-  ],
-  2: [
-    { name: 'Yazılım Dili ve Kütüphaneler (Python, PyTorch, OpenCV, NumPy)', weight: 4, keywords: ['python', 'pytorch', 'opencv', 'numpy'] },
-    { name: 'Bulut ve Donanım Altyapısı (Lightning AI / NVIDIA L4 24GB GPU)', weight: 3, keywords: ['lightning', 'bulut', 'gpu', 'l4', 'nvidia', '24'] },
-    { name: '1. Aşama: RT-DETR ile İnsan Tespiti (Bounding Box)', weight: 5, keywords: ['rt-detr', 'rtdetr', 'insan tespiti', 'nesne', 'kutu', 'bounding'] },
-    { name: '2. Aşama: ViTPose ile 17 Eklem Noktası (İskelet Çıkarımı)', weight: 4, keywords: ['vitpose', '17', 'iskelet', 'eklem', 'anahtar nokta', 'keypoint'] },
-    { name: '3. Aşama: 60 Kare (2.4 sn) Kayar Pencere & Çift Yönlü GRU (Bi-GRU)', weight: 4, keywords: ['gru', 'bi-gru', '60 kare', '2.4', 'kayar pencere', 'sliding', 'sınıflandırma'] }
-  ],
-  3: [
-    { name: 'Problem Tanımı (Farklı kamerada düşüş / Overfitting / %71 F1)', weight: 4, keywords: ['overfitting', 'aşırı uyum', '71', 'farklı kamera', 'test', 'düş'] },
-    { name: 'Kök Neden 1: Etiket Sızıntısı (Label Leakage) / Ham Piksel / Konum Ezberi', weight: 5, keywords: ['etiket sızıntısı', 'label leakage', 'ham', 'piksel', 'ezber', 'konum', 'mesafe', 'uzaklık'] },
-    { name: 'Kök Neden 2 & Çözümü: Kapanma (Occlusion) / v<0.3 Enterpolasyon', weight: 4, keywords: ['kapanma', 'occlusion', 'arkasında', '0,0', 'enterpolasyon', 'önceki kare', '0.3', 'doldur'] },
-    { name: 'Ana Çözüm: Gövde Referanslı Normalizasyon (Kalça merkezi + Omuz-kalça boyu)', weight: 4, keywords: ['gövde', 'normalizasyon', 'kalça', 'pelvis', 'omuz', 'merkez', '0,1', 'oran', 'böl'] },
-    { name: 'Ölçülen Sonuç (F1 Skorunun %89.2 seviyesine yükselişi)', weight: 3, keywords: ['89', 'f1', 'yüksel', 'art'] }
-  ],
-  4: [
-    { name: 'Yazılım Metodolojisi (Agile / Scrum / Çevik yaklaşım)', weight: 6, keywords: ['agile', 'scrum', 'çevik'] },
-    { name: 'Planlama ve İletişim (1 Haftalık Sprint / Daily Stand-up toplantısı)', weight: 6, keywords: ['sprint', 'haftalık', 'stand-up', 'standup', 'günlük', 'toplantı'] },
-    { name: 'Sürüm Kontrolü ve Git Akışı (Git / GitHub / Feature Branch / PR / Code Review)', weight: 8, keywords: ['git', 'github', 'branch', 'dal', 'pull request', 'pr', 'review', 'inceleme', 'main'] }
-  ],
-  5: [
-    { name: 'İSG Önlemleri (Ofis ergonomisi/mola + Sahada çizme/tulum/ıslak zemin)', weight: 6, keywords: ['isg', 'ergonomi', 'mola', 'çizme', 'tulum', 'ıslak', 'saha', 'güvenlik'] },
-    { name: 'KVKK ve Veri Gizliliği (Çalışan yüzlerinin bulanıklaştırılması / Anonimleştirme)', weight: 5, keywords: ['kvkk', 'bulanık', 'anonim', 'yüz', 'kişisel veri'] },
-    { name: 'Ticari Gizlilik ve Lisanslar (NDA Sözleşmesi / MIT-Apache açık kaynak)', weight: 4, keywords: ['nda', 'gizlilik', 'ticari', 'lisans', 'açık kaynak', 'mit', 'apache'] },
-    { name: 'Mesleki Kazanımlar (Gerçek saha verisi, ön işleme önemi, ekip çalışması)', weight: 5, keywords: ['kazanım', 'gerçek', 'teori', 'pratik', 'takım', 'ekip', 'ön işleme', 'öğren'] }
-  ]
+const STAJ_15_QUESTIONS = [
+  {
+    num: 1,
+    cat: 'kurum',
+    isBanko: true,
+    badge: 'SORU 1 (ANA BANKO) • KURUM YAPISI VE MÜHENDİSİN ROLÜ',
+    title: 'Staj yaptığınız kurumun faaliyet alanını, departman/organizasyon yapısını ve bir bilgisayar mühendisi olarak bu kurumdaki görev ve sorumluluklarınızı açıklayınız.',
+    tips: [
+      'Sadece "Yazılım şirketinde staj yaptım" deme; <strong>ODTÜ Teknokent</strong>\'te bir <strong>Ar-Ge şirketi</strong> olduğunu mutlaka vurgula.',
+      'Şirketteki departmanları say (Ar-Ge, Yazılım, Saha Operasyonları) ve kendi bulunduğun <strong>12 kişilik Ar-Ge ekibini</strong> ve mentörün <strong>Yusuf Onat Yılmaz</strong>\'ı yaz.',
+      'Senin görevinin <strong>Milk AI</strong> projesinde veri ön işleme, iskelet normalizasyonu ve derin öğrenme model eğitimi olduğunu net söyle.'
+    ],
+    keywords: ['WellztechAI (ODTÜ Teknokent)', '12 Kişilik Ar-Ge Departmanı', 'Yusuf Onat Yılmaz', 'Milk AI Projesi', 'Veri Ön İşleme & Model Eğitimi'],
+    answer: '"Stajımı ODTÜ Teknokent\'te bulunan <strong>WellztechAI Teknoloji ve Yazılım A.Ş.</strong>\'de tamamladım. Şirket; tarım, hayvancılık ve endüstriyel tesisler için görüntü işleme ve yapay zeka tabanlı denetim sistemleri geliştiriyor. Kurumda Genel Müdürlük altında Ar-Ge, Yazılım Geliştirme, Saha Operasyonları ve İdari birimler yer alıyor. Ben 12 kişilik teknik <strong>Ar-Ge departmanında</strong>, Genel Müdür ve Kıdemli Mühendis <strong>Yusuf Onat Yılmaz</strong> mentörlüğünde çalıştım. Bir bilgisayar mühendisi olarak görevim; <strong>Milk AI</strong> projesinde sağımhane kameralarından sağım kurallarına uyulup uyulmadığını tespit eden derin öğrenme modellerini geliştirmek, veri ön işleme hattını kurmak ve model başarısını artırmaktı."',
+    rubrics: [
+      { name: 'Kurum ve Konum (WellztechAI / ODTÜ Teknokent)', weight: 5, kw: ['wellztech', 'teknokent', 'odtü'] },
+      { name: 'Faaliyet Alanı (Yapay Zeka / Görüntü İşleme / Hayvancılık-Tarım)', weight: 4, kw: ['yapay zeka', 'görüntü', 'tarım', 'hayvancılık', 'süt', 'sağım', 'denetim'] },
+      { name: 'Departman & Ekip Yapısı (12 kişilik Ar-Ge / Yusuf Onat Yılmaz)', weight: 5, kw: ['ar-ge', 'arge', 'departman', 'yusuf', 'onat', 'mentör', '12', 'ekip'] },
+      { name: 'Senin Görevin ve Proje (Milk AI / Model eğitimi / Ön işleme)', weight: 6, kw: ['milk', 'model', 'eğitim', 'ön işleme', 'iskelet', 'normalizasyon', 'görev', 'sorumlu'] }
+    ]
+  },
+  {
+    num: 2,
+    cat: 'teknoloji',
+    isBanko: true,
+    badge: 'SORU 2 (ANA BANKO) • KULLANILAN TEKNOLOJİLER VE NEDEN SEÇİLDİKLERİ',
+    title: 'Staj projenizde kullandığınız programlama dillerini, kütüphaneleri, çerçeveleri (framework) ve donanım altyapısını belirterek bu teknolojilerin neden tercih edildiğini açıklayınız.',
+    tips: [
+      'Teknolojileri sadece isim olarak sıralama; <strong>"Hangi teknolojiyi ne amaçla kullandığını"</strong> yanına 1 cümleyle yaz.',
+      'Hem yazılım araçlarını (<strong>Python, PyTorch, OpenCV, NumPy</strong>) hem de bulut GPU donanımını (<strong>Lightning AI, NVIDIA L4 24GB GPU</strong>) birlikte yaz.'
+    ],
+    keywords: ['Python 3.10 & PyTorch', 'OpenCV & NumPy', 'RT-DETR & ViTPose & Bi-GRU', 'Lightning AI Bulutu', 'NVIDIA L4 GPU (24 GB VRAM)'],
+    answer: '"Projede ana programlama dili olarak <strong>Python</strong> kullandık. Derin öğrenme modellerini (RT-DETR, ViTPose ve Bi-GRU) kurmak ve GPU üzerinde eğitmek için <strong>PyTorch</strong> kütüphanesini tercih ettik. Güvenlik kamerası (CCTV) videolarını karelere ayırmak ve görüntü kırpma işlemleri yapmak için <strong>OpenCV</strong>, iskelet koordinatlarının matris ve normalizasyon hesaplamaları için ise <strong>NumPy</strong> kullandık. Modellerin eğitimi yüksek işlem gücü gerektirdiği için yerel bilgisayarlar yerine <strong>Lightning AI</strong> bulut platformu üzerinde 24 GB VRAM kapasiteli <strong>NVIDIA L4 GPU</strong> donanımını kullandık."',
+    rubrics: [
+      { name: 'Dil ve Derin Öğrenme Çerçevesi (Python & PyTorch)', weight: 6, kw: ['python', 'pytorch'] },
+      { name: 'Görüntü İşleme ve Matematik (OpenCV & NumPy)', weight: 5, kw: ['opencv', 'numpy', 'video', 'kare', 'matris'] },
+      { name: 'Kullanılan Yapay Zeka Modelleri (RT-DETR, ViTPose, GRU)', weight: 5, kw: ['rt-detr', 'rtdetr', 'vitpose', 'gru'] },
+      { name: 'Bulut ve Donanım Altyapısı (Lightning AI & NVIDIA L4 24GB GPU)', weight: 4, kw: ['lightning', 'bulut', 'gpu', 'l4', 'nvidia', '24'] }
+    ]
+  },
+  {
+    num: 3,
+    cat: 'teknoloji',
+    isBanko: true,
+    badge: 'SORU 3 (ANA BANKO) • SİSTEM MİMARİSİ VE VERİ AKIŞ ADIMLARI',
+    title: 'Üzerinde çalıştığınız projenin çalışma mantığını ve uçtan uca sistem mimarisini (girdiden çıktıya veri akış adımlarını) blok diyagram çizerek açıklayınız.',
+    tips: [
+      'Kağıdın ortasına mutlaka <strong>CCTV Video ➔ RT-DETR ➔ ViTPose ➔ Gövde Normalizasyonu ➔ Bi-GRU</strong> kutularını alt alta çiz!',
+      'Her kutunun ne girdi alıp ne çıktı ürettiğini 1\'er cümleyle açıkla.'
+    ],
+    keywords: ['İki Aşamalı Mimari (Two-Stage)', '1. RT-DETR (İnsan Tespiti)', '2. ViTPose (17 Eklem Noktası)', '60 Kare (2.4 sn) Kayar Pencere', '3. Çift Yönlü GRU (Bi-GRU)'],
+    answer: '"Geliştirdiğimiz sistem güvenlik kamerası görüntülerini adım adım işleyen çok aşamalı bir boru hattından (pipeline) oluşuyor:<br><strong>1. İnsan Tespiti (RT-DETR):</strong> Kamera görüntüsündeki arka planı ve inekleri elemek için önce RT-DETR modeliyle sadece sağım çalışanını tespit edip kutu içine (bounding box) alıyoruz.<br><strong>2. İskelet Çıkarımı (ViTPose):</strong> Kırpılan kişi görüntüsünü ViTPose modeline vererek omuz, dirsek, bilek ve kalça gibi <strong>17 anahtar eklem noktasını</strong> çıkarıyoruz.<br><strong>3. Ön İşleme ve Kayar Pencere:</strong> Koordinatları gövdeye göre normalize edip <strong>2.4 saniyelik (60 karelik) kayar pencereler</strong> haline getiriyoruz.<br><strong>4. Eylem Sınıflandırma (Bi-GRU):</strong> Bu 60 karelik zaman serisini <strong>Çift Yönlü GRU (Bi-GRU)</strong> ağına vererek çalışanın meme temizliği mi, ön daldırma mı yoksa sağım başlığı takma işlemi mi yaptığını sınıflandırıyoruz."',
+    rubrics: [
+      { name: '1. Aşama: RT-DETR ile İnsan Tespiti (Bounding Box)', weight: 5, kw: ['rt-detr', 'rtdetr', 'insan tespiti', 'kutu', 'bounding'] },
+      { name: '2. Aşama: ViTPose ile 17 Eklem Noktası Çıkarımı', weight: 5, kw: ['vitpose', '17', 'iskelet', 'eklem', 'keypoint'] },
+      { name: 'Ön İşleme ve Zaman Penceresi (Normalizasyon + 60 Kare / 2.4 sn)', weight: 5, kw: ['60 kare', '2.4', 'kayar pencere', 'sliding', 'normalizasyon'] },
+      { name: '3. Aşama: Çift Yönlü GRU (Bi-GRU) ile Eylem Sınıflandırma', weight: 5, kw: ['gru', 'bi-gru', 'zaman serisi', 'sınıflandırma', 'eylem'] }
+    ]
+  },
+  {
+    num: 4,
+    cat: 'veri',
+    isBanko: true,
+    badge: 'SORU 4 (ANA BANKO • EN KRİTİK SORU) • KARŞILAŞILAN TEKNİK PROBLEM VE ÇÖZÜMÜ',
+    title: 'Staj süresince projenizde karşılaştığınız en önemli teknik problem neydi? Bu problemin kaynağını nasıl tespit ettiniz ve çözmek için nasıl bir mühendislik yöntemi uyguladınız?',
+    tips: [
+      'Bu soru stajı bizzat yaptığını kanıtlayan en önemli sorudur! <strong>"Sorun neydi ➔ Neden kaynaklandı ➔ Nasıl çözdük ➔ F1 skoru kaçtan kaça çıktı"</strong> sırasıyla yaz.',
+      '<strong>Etiket Sızıntısı (Label Leakage)</strong> kavramını ve <strong>F1 skorunun %71\'den %89.2\'ye çıktığını</strong> mutlaka belirt.'
+    ],
+    keywords: ['Overfitting (Farklı Kamerada Düşüş)', 'Etiket Sızıntısı (Label Leakage)', 'Gövde Referanslı Normalizasyon', 'Kalça Merkezi (0,0) + Omuz-Kalça Boyu', 'F1: %71 ➔ %89.2'],
+    answer: '"Karşılaştığımız en büyük sorun, hareket sınıflandıran modelin eğitim verisinde %95 doğruluk verirken, farklı kamera açısına sahip test videolarında <strong>F1 skorunun %71\'e düşmesiydi (overfitting)</strong>. Hatayı incelediğimizde kök nedenin modele doğrudan görüntüdeki <strong>ham piksel koordinatlarını (x, y)</strong> vermemiz olduğunu gördük. Model kişinin kol hareketini öğrenmek yerine, ekranda durduğu yeri ve kameraya uzaklığını ezberlemişti (<strong>Etiket Sızıntısı / Label Leakage</strong>). Ayrıca çalışanın eli ineğin arkasında kaldığında (<strong>kapanma / occlusion</strong>) koordinatların (0,0) olması modele ani sıçrama hatası yaptırıyordu.<br><strong>Çözüm olarak Gövde Referanslı Normalizasyon</strong> uyguladık: Kişinin kalça ortasını <code>(0,0)</code> başlangıç noktası kabul ettik ve tüm eklem noktalarını kişinin <strong>omuz-kalça boyuna</strong> bölerek <code>[0, 1]</code> aralığına ölçekledik. Görünürlük skoru düşük (<code>v &lt; 0.3</code>) olan kayıp noktaları da bir önceki karenin konumuyla doldurduk (enterpolasyon). Böylece F1 skorumuz <strong>%71\'den %89.2\'ye yükseldi</strong>."',
+    rubrics: [
+      { name: 'Problem Tanımı (Farklı kamerada düşüş / Overfitting / %71 F1)', weight: 4, kw: ['overfitting', 'aşırı uyum', '71', 'farklı kamera', 'test', 'düş'] },
+      { name: 'Kök Neden: Etiket Sızıntısı (Label Leakage) / Ham Piksel / Konum Ezberi', weight: 5, kw: ['etiket sızıntısı', 'label leakage', 'ham', 'piksel', 'ezber', 'konum', 'mesafe'] },
+      { name: 'Kapanma (Occlusion) Sorunu ve v<0.3 Enterpolasyonu', weight: 4, kw: ['kapanma', 'occlusion', 'arkasında', '0,0', 'enterpolasyon', 'önceki kare', '0.3', 'doldur'] },
+      { name: 'Ana Çözüm: Gövde Referanslı Normalizasyon (Kalça merkezi + Omuz-kalça boyu)', weight: 4, kw: ['gövde', 'normalizasyon', 'kalça', 'pelvis', 'omuz', 'merkez', '0,1', 'oran', 'böl'] },
+      { name: 'Ölçülen Sonuç (F1 Skorunun %89.2 seviyesine yükselişi)', weight: 3, kw: ['89', 'f1', 'yüksel', 'art'] }
+    ]
+  },
+  {
+    num: 5,
+    cat: 'kurum',
+    isBanko: true,
+    badge: 'SORU 5 (ANA BANKO) • YAZILIM METODOLOJİSİ, İSG, KVKK VE KAZANIMLAR',
+    title: 'Staj yaptığınız kurumda uygulanan yazılım geliştirme metodolojisini, İSG ve veri gizliliği (etik) kurallarını ve stajın size kattığı mesleki kazanımları açıklayınız.',
+    tips: [
+      'Süreç için <strong>Agile/Scrum, 1 haftalık Sprint, Daily Stand-up ve Git PR</strong> sürecini yaz.',
+      'Etik ve güvenlik için <strong>KVKK kapsamında çalışan yüzlerini bulanıklaştırma (anonimleştirme)</strong> ve <strong>NDA gizlilik sözleşmesi</strong> detayını ekle.'
+    ],
+    keywords: ['Agile / Scrum & 1 Haftalık Sprint', 'Git Feature Branch & PR', 'Ofis Ergonomisi & Saha İSG', 'KVKK Yüz Bulanıklaştırma', 'NDA Gizlilik Sözleşmesi'],
+    answer: '"<strong>Yazılım Süreci:</strong> Projeyi <strong>Agile / Scrum</strong> metodolojisiyle, <strong>1 haftalık Sprintler</strong> ve sabahları 15 dakikalık <strong>Daily Stand-up</strong> toplantılarıyla yürüttük. Kodları <strong>Git ve GitHub</strong> üzerinde <code>feature branch</code>, <strong>Pull Request (PR)</strong> ve <strong>Code Review</strong> adımlarıyla yönettik.<br><strong>İSG ve Etik (KVKK):</strong> Ofiste ergonomik çalışma düzenine, çiftlik sahasında ise kaymaz çizme ve koruyucu tulum kurallarına uyuldu. <strong>KVKK</strong> gereği kamera kayıtlarındaki çalışanların yüzleri otomatik bulanıklaştırılarak <strong>anonimleştirildi</strong> ve ticari veriler <strong>Gizlilik Sözleşmesi (NDA)</strong> ile korundu.<br><strong>Kazanım:</strong> Teorik yapay zeka modellerini gerçek saha verilerinde çalıştırmayı ve veri ön işlemenin model başarısındaki kritik rolünü öğrendim."',
+    rubrics: [
+      { name: 'Metodoloji ve Git Süreci (Agile/Scrum, Sprint, Git PR)', weight: 5, kw: ['agile', 'scrum', 'sprint', 'git', 'pull request', 'pr', 'branch'] },
+      { name: 'İSG Önlemleri (Ofis ergonomisi + Sahada çizme/tulum)', weight: 5, kw: ['isg', 'ergonomi', 'mola', 'çizme', 'tulum', 'ıslak', 'saha'] },
+      { name: 'KVKK ve Etik (Yüz bulanıklaştırma / Anonimleştirme / NDA)', weight: 5, kw: ['kvkk', 'bulanık', 'anonim', 'yüz', 'nda', 'gizlilik'] },
+      { name: 'Mesleki Kazanımlar (Gerçek saha verisi, ön işleme önemi)', weight: 5, kw: ['kazanım', 'gerçek', 'teori', 'pratik', 'ön işleme', 'öğren'] }
+    ]
+  },
+  {
+    num: 6,
+    cat: 'kurum',
+    isBanko: false,
+    badge: 'SORU 6 • SÜRÜM KONTROLÜ (GIT), DALLANMA STRATEJİSİ VE KOD KALİTESİ',
+    title: 'Projede ekip içi kod bütünlüğü, sürüm kontrolü (Git/GitHub), dallanma (branching) stratejisi ve kod inceleme (Code Review) süreçleri nasıl yürütülmüştür?',
+    tips: [
+      'Bazı hocalar doğrudan "Şirkette Git\'i nasıl kullandınız, çakışmaları (conflict) nasıl önlediniz?" diye sorar.',
+      'Doğrudan <code>main</code> dalına kod atmanın yasak olduğunu, <code>feature branch</code> açıp <strong>Pull Request (PR)</strong> ve <strong>Code Review</strong> yaptığınızı anlat.'
+    ],
+    keywords: ['Git & GitHub', 'Main Dalı Koruması', 'Feature Branch (Özellik Dalı)', 'Pull Request (PR)', 'Code Review (Kod İncelemesi)'],
+    answer: '"Ekip içinde kod karmaşasını ve çakışmaları (merge conflict) önlemek için <strong>Git ve GitHub</strong> üzerinde disiplinli bir dallanma (branching) stratejisi uyguladık. Çalışan ana kodu korumak amacıyla doğrudan <code>main</code> dalına kod gönderimi (push) kapalıydı. Geliştirdiğimiz her yeni özellik veya hata düzeltmesi için ayrı bir özellik dalı (örneğin <code>feature/body-normalization</code> veya <code>feature/gru-training</code>) açtık. Geliştirme ve yerel testler bittiğinde GitHub üzerinden <strong>Pull Request (PR)</strong> oluşturduk. Kıdemli mühendisler tarafından yapılan <strong>Code Review (kod incelemesi)</strong> sonrasında okunabilirlik ve performans onayı alan kodlar ana dala birleştirildi (merge edildi)."',
+    rubrics: [
+      { name: 'Git ve GitHub Kullanımı', weight: 5, kw: ['git', 'github', 'versiyon', 'sürüm'] },
+      { name: 'Main Dalı Koruması ve Feature Branch Stratejisi', weight: 7, kw: ['main', 'feature', 'branch', 'dal', 'ayrı'] },
+      { name: 'Pull Request (PR) ve Code Review Süreci', weight: 8, kw: ['pull request', 'pr', 'code review', 'inceleme', 'merge', 'birleştir'] }
+    ]
+  },
+  {
+    num: 7,
+    cat: 'veri',
+    isBanko: false,
+    badge: 'SORU 7 • VERİ ÖN İŞLEME (PREPROCESSING) VE VERİ TEMİZLEME ADIMLARI',
+    title: 'Projenizde kullanılan veriler nasıl elde edildi? Ham veriyi modele vermeden önce hangi veri temizleme, filtreleme ve ön işleme (preprocessing) adımlarını uyguladınız?',
+    tips: [
+      'Veri ön işleme senin raporunun en güçlü olduğu yer! <strong>1) Güven skoru filtreleme (v < 0.3), 2) Eksik veri enterpolasyonu (forward-fill), 3) Gövde referanslı normalizasyon ve 4) 60 karelik kayar pencereleme</strong> adımlarını maddeler halinde yaz.'
+    ],
+    keywords: ['CCTV Kamera Kayıtları', 'Güven Skoru Filtreleme (v < 0.3)', 'Forward-Fill Enterpolasyon', 'Gövde Referanslı Normalizasyon', '60 Kare Kayar Pencere'],
+    answer: '"Verilerimiz süt sağım tesislerindeki güvenlik kameralarından (1080p, 25 FPS) alınan gerçek sağım videolarından elde edildi. Ham veriyi doğrudan modele vermek yerine 4 aşamalı bir veri ön işleme hattı kurduk:<br><strong>1. Güven Skoru Filtreleme:</strong> ViTPose\'dan çıkan 17 eklem noktasından görünürlük güven skoru <code>v &lt; 0.3</code> olan gürültülü tahminleri tespit ettik.<br><strong>2. Eksik Veri Tamamlama (Enterpolasyon):</strong> İneğin arkasında kalarak kaybolan eklemleri (0,0) yapmak yerine, bir önceki geçerli karenin koordinatıyla doldurduk (forward-fill).<br><strong>3. Gövde Referanslı Normalizasyon:</strong> Kalça merkezini (0,0) orijin alıp tüm koordinatları omuz-kalça boyuna bölerek <code>[0,1]</code> aralığına ölçekledik.<br><strong>4. Pencereleme:</strong> Sürekli akışı <strong>2.4 saniyelik (60 kare) kayar pencerelere</strong> bölerek zaman serisi tensörleri haline getirdik."',
+    rubrics: [
+      { name: 'Veri Kaynağı (CCTV Kamera / 25 FPS Video)', weight: 4, kw: ['kamera', 'cctv', 'video', '25 fps', 'sağım'] },
+      { name: 'Görünürlük Skoru Filtreleme ve Enterpolasyon (v < 0.3)', weight: 6, kw: ['0.3', 'görünürlük', 'güven', 'enterpolasyon', 'önceki kare', 'doldur'] },
+      { name: 'Gövde Referanslı Normalizasyon (Kalça merkezi + Omuz-kalça boyu)', weight: 6, kw: ['gövde', 'normalizasyon', 'kalça', 'pelvis', 'omuz', '0,1'] },
+      { name: 'Kayar Pencereleme (60 Kare / 2.4 sn Sekans)', weight: 4, kw: ['60 kare', '2.4', 'pencere', 'sliding', 'tensör'] }
+    ]
+  },
+  {
+    num: 8,
+    cat: 'veri',
+    isBanko: false,
+    badge: 'SORU 8 • TEST SÜREÇLERİ, DOĞRULAMA VE PERFORMANS METRİKLERİ',
+    title: 'Geliştirdiğiniz yazılımın veya modelin başarısını nasıl test ettiniz? Hangi değerlendirme metriklerini (Precision, Recall, F1-Skoru, K-Fold vb.) neden kullandınız?',
+    tips: [
+      'Hocalar "Neden sadece Accuracy (Doğruluk) kullanmadınız da F1-Skoru kullandınız?" sorusunun cevabına bayılır!',
+      'Cevap: Sağım videolarında bazı hareketler kısa, bazıları uzun sürdüğü için <strong>sınıf dengesizliği (class imbalance)</strong> vardır; bu yüzden <strong>Precision, Recall ve F1-Skoru</strong> ile <strong>5-Katlı Çapraz Doğrulama (5-Fold Cross Validation)</strong> kullandık.'
+    ],
+    keywords: ['Sınıf Dengesizliği (Class Imbalance)', 'Precision (Kesinlik) & Recall (Duyarlılık)', 'Macro F1-Skoru (%89.2)', '5-Katlı Çapraz Doğrulama (5-Fold CV)', 'Confusion Matrix (Hata Matrisi)'],
+    answer: '"Gerçek sağım videolarında bazı işlemler (örneğin sağım başlığı takma veya meme temizliği) süre olarak birbirinden farklı olduğu için veri setinde <strong>sınıf dengesizliği (class imbalance)</strong> bulunuyordu. Bu nedenle tek başına Accuracy (doğruluk) metriği yanıltıcı olacağından; yanlış alarmları ölçen <strong>Precision (Kesinlik)</strong>, kaçırılan eylemleri ölçen <strong>Recall (Duyarlılık)</strong> ve ikisinin harmonik ortalaması olan <strong>F1-Skoru</strong> metriklerini kullandık. Ayrıca modelin ezber yapmadığından emin olmak için <strong>5-Katlı Çapraz Doğrulama (5-Fold Cross Validation)</strong> ve <strong>Hata Matrisi (Confusion Matrix)</strong> analizi uyguladık. Normalizasyon sonrasında test F1 skorumuzu <strong>%71\'den %89.2\'ye</strong> çıkardık."',
+    rubrics: [
+      { name: 'Sınıf Dengesizliği (Class Imbalance) Nedeniyle F1 Tercihi', weight: 6, kw: ['dengesiz', 'imbalance', 'yanıltıcı', 'f1'] },
+      { name: 'Precision (Kesinlik) ve Recall (Duyarlılık) Metrikleri', weight: 5, kw: ['precision', 'kesinlik', 'recall', 'duyarlılık'] },
+      { name: 'Çapraz Doğrulama (K-Fold / 5-Fold) ve Hata Matrisi (Confusion Matrix)', weight: 5, kw: ['fold', 'çapraz doğrulama', 'confusion', 'hata matrisi'] },
+      { name: 'Elde Edilen Sayısal Sonuç (%71 -> %89.2)', weight: 4, kw: ['89', '71'] }
+    ]
+  },
+  {
+    num: 9,
+    cat: 'teknoloji',
+    isBanko: false,
+    badge: 'SORU 9 • ALTERNATİF YÖNTEM KARŞILAŞTIRMASI VE TASARIM KARARLARI',
+    title: 'Projenizde kullandığınız mimari ve algoritmaları (İki aşamalı yapı, RT-DETR ve Bi-GRU) diğer alternatif yöntemlere (Tek aşamalı modeller, YOLO, LSTM vb.) göre neden tercih ettiniz?',
+    tips: [
+      'Mühendislikte "Neden X yerine Y seçtiniz?" sorusu çok sık sorulur. 3 net karşılaştırma yap:',
+      '1) <strong>Tek aşamalı yerine İki Aşamalı (Top-Down):</strong> Arka planı ve inekleri elemek için.',
+      '2) <strong>Klasik YOLO yerine RT-DETR:</strong> NMS gecikmesi olmadığı ve kalabalık/kapanmalı sahnede transformer dikkat mekanizması daha iyi çalıştığı için.',
+      '3) <strong>LSTM yerine Bi-GRU:</strong> %30 daha az parametreli olduğu, daha hızlı çalıştığı ve aşırı uyumu (overfitting) azalttığı için.'
+    ],
+    keywords: ['Top-Down (İki Aşamalı) vs Bottom-Up', 'RT-DETR vs YOLO (NMS Gecikmesi Yok)', 'Bi-GRU vs LSTM (%30 Daha Az Parametre)', 'Hız ve Doğruluk Dengesi'],
+    answer: '"Projemizde 3 önemli mühendislik tercihi yaptık:<br><strong>1. Tek aşamalı yerine İki Aşamalı (Top-Down) Mimari:</strong> Sağımhanede karmaşık ekipmanlar ve inekler bulunduğu için önce insanı bulup (RT-DETR) sonra sadece o kutu içinde iskelet çıkarmak (ViTPose) arka plan gürültüsünü tamamen kesti.<br><strong>2. Klasik YOLO yerine RT-DETR:</strong> RT-DETR, Hungarian matching kullandığı için NMS (Non-Maximum Suppression) son işleme gecikmesine ihtiyaç duymaz ve kısmi kapanmalarda (occlusion) daha kararlı kutular üretir.<br><strong>3. LSTM yerine Çift Yönlü GRU (Bi-GRU):</strong> GRU yapısı LSTM\'e göre yaklaşık <strong>%30 daha az parametreye</strong> sahiptir. Bu sayede 60 karelik pencerelerde hem daha hızlı çıkarım (inference) sağladı hem de aşırı uyum (overfitting) riskini azalttı."',
+    rubrics: [
+      { name: 'İki Aşamalı (Top-Down) Mimari Seçim Nedeni (Arka plan gürültüsünü eleme)', weight: 7, kw: ['iki aşamalı', 'top-down', 'arka plan', 'gürültü', 'kırp'] },
+      { name: 'RT-DETR Seçim Nedeni (NMS gecikmesi olmaması / Transformer)', weight: 6, kw: ['rt-detr', 'nms', 'hungarian', 'gecikme', 'yolo'] },
+      { name: 'Bi-GRU vs LSTM Karşılaştırması (%30 az parametre / Hız / Overfitting)', weight: 7, kw: ['gru', 'lstm', 'parametre', '30', 'hız'] }
+    ]
+  },
+  {
+    num: 10,
+    cat: 'veri',
+    isBanko: false,
+    badge: 'SORU 10 • VERİ YAPILARI, ALGORİTMALAR VE KARMAŞIKLIK / PERFORMANS',
+    title: 'Projenizde verileri işlerken hangi temel veri yapılarını ve algoritmaları kullandınız? Bellek ve çalışma süresi (performans) açısından nasıl bir yapı kurdunuz?',
+    tips: [
+      'Bilgisayar mühendisliği hocaları staj projende hangi veri yapılarını kullandığını sormayı sever.',
+      'Cevap olarak: <strong>Çok boyutlu tensörler/matrisler</strong> <code>(60, 17, 2)</code>, <strong>Kayar Pencere Kuyruğu (Sliding Window / FIFO Deque)</strong>, <strong>Hungarian Matching</strong> ve döngüler yerine <strong>NumPy Vektörizasyonu</strong> kullandığını söyle!'
+    ],
+    keywords: ['Çok Boyutlu Tensörler (60x34)', 'FIFO Kuyruk / Kayar Pencere (Deque)', 'NumPy Vektörizasyonu (O(1) Matris İşlemi)', 'Hungarian Matching Algoritması'],
+    answer: '"Projede gerçek zamanlı video akışını (25 FPS) gecikmesiz işleyebilmek için uygun veri yapıları seçtik. Her karede çıkarılan 17 eklem noktasını tutmak ve son 2.4 saniyeyi (60 kareyi) hafızada kaydırmak için <strong>FIFO (İlk Giren İlk Çıkar) mantığında çalışan Kayar Pencere Kuyruğu (Sliding Window / Deque)</strong> veri yapısını kullandık. Bu yapı sayesinde yeni kare geldiğinde eski kare <code>O(1)</code> zamanda atılarak <code>(Batch, 60, 34)</code> boyutlu <strong>3 boyutlu PyTorch tensörleri</strong> oluşturuldu. Ayrıca normalizasyon hesaplarında iç içe <code>for</code> döngüleri kullanmak yerine <strong>NumPy vektörizasyonu (broadcasting)</strong> kullanarak hesaplama süresini milisaniyelerin altına indirdik."',
+    rubrics: [
+      { name: 'Kayar Pencere / FIFO Kuyruk (Deque) Veri Yapısı', weight: 7, kw: ['kuyruk', 'fifo', 'deque', 'kayar pencere', 'sliding'] },
+      { name: 'Çok Boyutlu Tensör ve Matris Yapıları (60x34 / 17x2)', weight: 7, kw: ['tensör', 'matris', '60', '34', '17', 'boyut'] },
+      { name: 'NumPy Vektörizasyonu ve Performans Optimizasyonu', weight: 6, kw: ['vektör', 'numpy', 'döngü', 'o(1)', 'hız', 'performans'] }
+    ]
+  },
+  {
+    num: 11,
+    cat: 'teknoloji',
+    isBanko: false,
+    badge: 'SORU 11 • DONANIM KISITLARI, BULUT BİLİŞİM VE GPU KAYNAK YÖNETİMİ',
+    title: 'Staj projenizin donanım gereksinimleri nelerdi? Yerel bilgisayarlar yerine bulut altyapısı (Cloud GPU) kullanmanın avantajları ve kaynak yönetimi konusunda neler yaptınız?',
+    tips: [
+      'Derin öğrenme modelleri yerel standart bilgisayarlarda çok yavaş eğitilir. Bu yüzden <strong>Lightning AI</strong> bulut platformunda <strong>24 GB VRAM\'li NVIDIA L4 GPU</strong> kullandığınızı, bellek (VRAM) taşmasını önlemek için <strong>Batch Size</strong> ve <strong>Mixed Precision (FP16)</strong> optimizasyonu yaptığınızı anlat.'
+    ],
+    keywords: ['Lightning AI Bulut Platformu', 'NVIDIA L4 GPU (24 GB VRAM)', 'CUDA Hızlandırma', 'Batch Size & Bellek Yönetimi', 'Otomatik Kapanan Eğitim Betikleri'],
+    answer: '"Yüksek çözünürlüklü (1080p) videolar üzerinde RT-DETR ve ViTPose gibi Transformer tabanlı derin öğrenme modellerini çalıştırmak yüksek GPU belleği (VRAM) ve paralel işlem gücü gerektiriyordu. Yerel bilgisayarlarımız bu yük için yetersiz kaldığından <strong>Lightning AI</strong> bulut platformunu kullandık ve eğitimleri <strong>24 GB VRAM kapasiteli NVIDIA L4 GPU</strong> üzerinde <strong>CUDA</strong> hızlandırmasıyla gerçekleştirdik. Bulut kredi maliyetini ve bellek tüketimini optimize etmek için uygun <strong>Batch Size</strong> seçimi yaptık, çıkarılan iskelet özniteliklerini diske önbellekledik (caching) ve eğitim bittiğinde sunucuyu açık unutmayacak otomatik sonlanan betikler kullandık."',
+    rubrics: [
+      { name: 'Bulut Platformu ve GPU Modeli (Lightning AI / NVIDIA L4 24GB VRAM)', weight: 8, kw: ['lightning', 'l4', '24', 'vram', 'nvidia', 'bulut'] },
+      { name: 'Neden Bulut GPU Seçildi? (Yüksek çözünürlüklü video ve Transformer maliyeti)', weight: 6, kw: ['yerel', 'yetersiz', 'transformer', 'video', 'cuda', 'hız'] },
+      { name: 'Kaynak ve Bellek Optimizasyonu (Batch size, önbellekleme, maliyet kontrolü)', weight: 6, kw: ['batch', 'bellek', 'önbellek', 'cache', 'maliyet', 'betik'] }
+    ]
+  },
+  {
+    num: 12,
+    cat: 'veri',
+    isBanko: false,
+    badge: 'SORU 12 • GERÇEK DÜNYA KISITLARI VE UÇ DURUMLAR (EDGE CASES)',
+    title: 'Saha/gerçek ortam koşullarında (kamera açısı değişimi, düşük ışık, nesnelerin birbirini kapatması / occlusion vb.) sistemin hata yapmaması için hangi önlemleri aldınız?',
+    tips: [
+      'Sağımhane ortamı laboratuvar gibi temiz değildir! 3 gerçek dünya zorluğunu ve çözümünü yaz:',
+      '1) <strong>Farklı kamera açısı ve mesafe</strong> ➔ Gövde referanslı normalizasyon.',
+      '2) <strong>İneğin çalışanı kapatması (Occlusion)</strong> ➔ v < 0.3 filtreleme ve önceki kareyle enterpolasyon.',
+      '3) <strong>Anlık titreme ve gürültü</strong> ➔ 60 karelik (2.4 sn) zamansal pencere ile yumuşatma.'
+    ],
+    keywords: ['Kamera Açısı Değişimi ➔ Gövde Normalizasyonu', 'Kapanma (Occlusion) ➔ v<0.3 Enterpolasyon', 'Anlık Gürültü ➔ 60 Kare Pencere', 'Dayanıklılık (Robustness)'],
+    answer: '"Gerçek sağımhane ortamında buhar, ıslak zemin yansıması, farklı kamera montaj açıları ve ineklerin personeli kapatması gibi ciddi zorluklar vardı. Sistemi bu uç durumlara (edge cases) karşı dayanıklı hale getirmek için 3 önlem aldık:<br><strong>1. Kamera Açısı ve Mesafe Farkı:</strong> Kişinin kalça merkezini (0,0) alıp koordinatları omuz-kalça boyuna bölerek kameranın nereye takıldığından bağımsız bir yapı kurduk.<br><strong>2. Kısmi Kapanma (Occlusion):</strong> Sağımcının kolu ineğin veya sağım başlığının arkasında kaldığında üretilen düşük güvenli (<code>v &lt; 0.3</code>) koordinatları eleyip önceki geçerli kareyle tamamladık.<br><strong>3. Anlık Tahmin Titremeleri:</strong> Tek bir kareye bakıp karar vermek yerine <strong>60 karelik (2.4 sn)</strong> pencere üzerinden Bi-GRU ile zamansal karar vererek anlık gürültüleri engelledik."',
+    rubrics: [
+      { name: 'Kamera Açısı ve Mesafe Çözümü (Gövde Normalizasyonu)', weight: 7, kw: ['kamera açısı', 'mesafe', 'gövde', 'normalizasyon', 'kalça'] },
+      { name: 'Kapanma (Occlusion) Çözümü (v<0.3 Filtreleme ve Enterpolasyon)', weight: 7, kw: ['kapanma', 'occlusion', 'inek', '0.3', 'enterpolasyon', 'önceki kare'] },
+      { name: 'Zamansal Bütünlük (60 Kare / 2.4 sn Pencere ile Gürültü Önleme)', weight: 6, kw: ['60 kare', '2.4', 'zaman', 'pencere', 'gürültü', 'titreme'] }
+    ]
+  },
+  {
+    num: 13,
+    cat: 'kurum',
+    isBanko: false,
+    badge: 'SORU 13 • İŞ SAĞLIĞI VE GÜVENLİĞİ (İSG) ÖNLEMLERİ',
+    title: 'Staj yaptığınız ofis ortamında ve saha/tesis ziyaretlerinde karşılaşılabilecek İş Sağlığı ve Güvenliği (İSG) riskleri nelerdir ve bunlara karşı hangi tedbirler alınmıştır?',
+    tips: [
+      'İSG tek başına ayrı bir soru olarak gelirse <strong>ikiye ayırarak</strong> cevap ver: <strong>1) Ofis / Yazılım Ortamı İSG Kuralları</strong> ve <strong>2) Çiftlik / Saha Testi İSG Kuralları</strong>. Böylece çok dolgun ve tam puanlık bir cevabın olur!'
+    ],
+    keywords: ['Ofis Ergonomisi & Ekran Mesafesi', 'Göz Dinlendirme Molaları', 'Elektrik ve Kablo Güvenliği', 'Saha: Kaymaz Çizme & Tulum', 'Hayvan Güvenlik Mesafesi'],
+    answer: '"Staj süresince İSG kuralları hem ofis hem de saha ortamı için iki aşamada uygulandı:<br><strong>1. Ofis ve Laboratuvar Ortamında:</strong> Uzun süre bilgisayar başında çalışmaya bağlı kas-iskelet rahatsızlıklarını önlemek için ergonomik koltuk ve ekran yüksekliği ayarlandı, her saat başı kısa göz dinlendirme molaları verildi ve sunucu/güç kablolarının geçiş alanlarını kapatmayacak şekilde yalıtılmasına dikkat edildi.<br><strong>2. Çiftlik Saha Ziyaretlerinde:</strong> Sağımhanelerde zemin sürekli yıkandığı için kayma ve düşme riskine karşı <strong>kaymaz tabanlı çelik burunlu iş çizmesi</strong> giyildi, hijyen ve biyolojik risklere karşı <strong>koruyucu tek kullanımlık tulum ve eldiven</strong> kullanıldı ve büyükbaş hayvanların ani hareketlerine karşı güvenli mesafe korundu."',
+    rubrics: [
+      { name: 'Ofis İSG Önlemleri (Ergonomi, ekran molaları, elektrik/kablo güvenliği)', weight: 10, kw: ['ofis', 'ergonomi', 'ekran', 'mola', 'göz', 'kablo', 'elektrik'] },
+      { name: 'Saha / Tesis İSG Önlemleri (Islak zemin, kaymaz çizme, koruyucu tulum, hayvan mesafesi)', weight: 10, kw: ['saha', 'çiftlik', 'ıslak', 'kaymaz', 'çizme', 'tulum', 'hayvan'] }
+    ]
+  },
+  {
+    num: 14,
+    cat: 'kurum',
+    isBanko: false,
+    badge: 'SORU 14 • MÜHENDİSLİK ETİĞİ, VERİ GİZLİLİĞİ (KVKK) VE LİSANSLAR',
+    title: 'Projenizde mühendislik etiği, Kişisel Verilerin Korunması Kanunu (KVKK), kurumsal bilgi güvenliği (NDA) ve açık kaynak yazılım lisansları açısından hangi kurallara dikkat edildi?',
+    tips: [
+      'Bu soruda 3 madde yazacaksın: <strong>1) KVKK (Çalışan yüzlerinin bulanıklaştırılması), 2) NDA (Çiftlik ticari sırlarının korunması), 3) Açık Kaynak Lisansları (MIT / Apache 2.0 uyumu ve akademik dürüstlük)</strong>.'
+    ],
+    keywords: ['KVKK (Yüz Bulanıklaştırma / Anonimleştirme)', 'NDA (Gizlilik Sözleşmesi)', 'Açık Kaynak Lisansları (MIT, Apache 2.0)', 'Tarafsız Performans Raporlama'],
+    answer: '"Projemiz doğrudan kamera görüntüleri ve kurumsal saha verileri içerdiği için mühendislik etiğine ve yasal standartlara sıkı şekilde uyuldu:<br><strong>1. KVKK ve Kişisel Veri Gizliliği:</strong> Sağımhane kameralarındaki çalışanların kimliklerinin ifşa olmaması için yüz bölgeleri veri setine işlenmeden önce otomatik olarak <strong>bulanıklaştırıldı (anonimleştirildi)</strong> ve model yalnızca sayısal iskelet koordinatları üzerinde eğitildi.<br><strong>2. Ticari Sır ve NDA:</strong> Çiftliklerin isimleri, üretim kapasiteleri ve şirket içi algoritmalar <strong>Gizlilik Sözleşmesi (NDA)</strong> kapsamında korundu; veriler yetkisiz kişisel cihazlara aktarılmadı.<br><strong>3. Lisanslar ve Akademik Dürüstlük:</strong> Kullandığımız kütüphanelerin (PyTorch, OpenCV vb.) <strong>MIT ve Apache 2.0</strong> açık kaynak lisanslarına uyuldu ve model test sonuçları (F1 skorları) hiçbir çarpıtma olmadan şeffafça raporlandı."',
+    rubrics: [
+      { name: 'KVKK ve Kişisel Veri Gizliliği (Yüz bulanıklaştırma / Anonimleştirme)', weight: 8, kw: ['kvkk', 'yüz', 'bulanık', 'anonim', 'kişisel veri', 'kimlik'] },
+      { name: 'Ticari Gizlilik (NDA Gizlilik Sözleşmesi / Çiftlik bilgilerinin korunması)', weight: 6, kw: ['nda', 'gizlilik', 'ticari', 'çiftlik', 'sözleşme'] },
+      { name: 'Açık Kaynak Lisans Uyumu (MIT, Apache 2.0) ve Dürüst Raporlama', weight: 6, kw: ['lisans', 'açık kaynak', 'mit', 'apache', 'etik', 'şeffaf'] }
+    ]
+  },
+  {
+    num: 15,
+    cat: 'kurum',
+    isBanko: false,
+    badge: 'SORU 15 • TEORİ-PRATİK İLİŞKİSİ, MESLEKİ KAZANIMLAR VE GELECEK ÇALIŞMALAR',
+    title: 'Üniversitede aldığınız teorik derslerin stajınıza katkısı ne oldu? Stajın size kazandırdığı mesleki yetkinlikleri ve projenin gelecekte nasıl geliştirilebileceğini açıklayınız.',
+    tips: [
+      'Okuldaki derslerle bağlantı kurmak hocaların çok hoşuna gider! <strong>Doğrusal Cebir (matris/normalizasyon), Veri Yapıları (kayar pencere kuyruğu), Algoritmalar ve Yapay Zeka/Görüntü İşleme</strong> derslerini pratiğe döktüğünü söyle.',
+      'Gelecek çalışma olarak da modelin <strong>TensorRT / ONNX</strong> ile uç cihazlarda (Jetson vb.) anlık sesli uyarı verecek şekilde optimize edilebileceğini ekle.'
+    ],
+    keywords: ['Doğrusal Cebir & Veri Yapıları Dersleri', 'Görüntü İşleme & Yapay Zeka Teorisi', 'Kirli Saha Verisiyle Başa Çıkma', 'Gelecek: TensorRT / ONNX & Uç Cihaz (Edge AI)'],
+    answer: '"Üniversitede aldığım <strong>Doğrusal Cebir</strong> dersindeki koordinat dönüşümleri ve vektör uzayı bilgisi gövde referanslı normalizasyon algoritmasını kurmamda; <strong>Veri Yapıları ve Algoritmalar</strong> dersi ise kayar pencere (sliding window) ve tensör işlemlerini verimli yazmamda doğrudan temel oluşturdu.<br>Bu staj bana hazır ve temiz akademik veri setleriyle çalışmak yerine, gerçek dünyanın gürültülü ve kapanmalı kamera verilerinde mühendislik problemi çözmeyi, ayrıca <strong>Scrum ve Git</strong> ile bir Ar-Ge ekibinin parçası olmayı kazandırdı.<br><strong>Gelecek çalışma olarak:</strong> Geliştirdiğimiz boru hattının <strong>ONNX / TensorRT</strong> formatına dönüştürülerek çiftlikteki uç cihazlarda (Edge AI / NVIDIA Jetson) internet bağlantısına gerek kalmadan anlık sesli uyarı üretecek şekilde yaygınlaştırılması planlanmaktadır."',
+    rubrics: [
+      { name: 'Üniversite Dersleriyle İlişki (Doğrusal Cebir, Veri Yapıları, Görüntü İşleme)', weight: 7, kw: ['ders', 'doğrusal cebir', 'lineer', 'veri yapıları', 'algoritma', 'teori', 'okul'] },
+      { name: 'Mesleki Kazanımlar (Gerçek saha verisi, problem çözme, Scrum/Git ekip çalışması)', weight: 7, kw: ['kazanım', 'gerçek', 'saha', 'scrum', 'git', 'ekip', 'problem'] },
+      { name: 'Gelecek Çalışmalar ve İyileştirme Önerisi (ONNX, TensorRT, Edge AI / Jetson)', weight: 6, kw: ['gelecek', 'onnx', 'tensorrt', 'edge', 'jetson', 'uç cihaz', 'anlık'] }
+    ]
+  }
+];
+
+function renderStajModule() {
+  renderStajTuyolar('all');
+  renderStajSimulator();
+}
+
+window.filterStajQuestions = function(cat) {
+  ['all', 'banko', 'teknoloji', 'veri', 'kurum'].forEach(c => {
+    const btn = document.getElementById('stajCat-' + c);
+    if (btn) btn.classList.toggle('active', c === cat);
+  });
+  renderStajTuyolar(cat);
 };
+
+function renderStajTuyolar(filterCat) {
+  const container = document.getElementById('staj-tuyolar-list');
+  if (!container) return;
+
+  const filtered = STAJ_15_QUESTIONS.filter(q => {
+    if (filterCat === 'all') return true;
+    if (filterCat === 'banko') return q.isBanko;
+    return q.cat === filterCat;
+  });
+
+  container.innerHTML = filtered.map(q => `
+    <div class="staj-q-card ${q.isBanko ? 'staj-card-featured' : ''}">
+      <div class="staj-q-badge">${q.badge}</div>
+      <h3 class="staj-q-title">${q.num}. "${q.title}"</h3>
+
+      <div class="staj-tip-box">
+        <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+        <ul>
+          ${q.tips.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="staj-keywords">
+        <span>🔑 Anahtar Kelimeler:</span>
+        ${q.keywords.map(k => `<code>${k}</code>`).join('')}
+      </div>
+
+      <div class="staj-natural-answer">
+        <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+        <p>${q.answer}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderStajSimulator() {
+  const container = document.getElementById('staj-simulator-list');
+  if (!container) return;
+
+  container.innerHTML = STAJ_15_QUESTIONS.map(q => `
+    <div class="staj-q-card ${q.isBanko ? 'staj-card-featured' : ''}">
+      <div class="staj-sim-header">
+        <div>
+          <span class="staj-q-badge">${q.badge}</span>
+          <h3 class="staj-q-title">${q.num}. ${q.title}</h3>
+        </div>
+        <span class="staj-score-pill" id="stajPill-${q.num}">? / 20 Puan</span>
+      </div>
+      <textarea id="stajAns-${q.num}" class="staj-textarea" rows="4" placeholder="Cevabını sınav kağıdına yazar gibi buraya kendi cümlelerinle yaz... (Anahtar ipuçları: ${q.keywords.join(', ')})"></textarea>
+      <div class="staj-sim-actions">
+        <button class="btn btn-primary" onclick="gradeStajQuestion(${q.num})">✅ ${q.num}. Soruyu Kontrol Et & Puanla</button>
+        <button class="btn btn-secondary" onclick="toggleStajHint(${q.num})">👁️ Doğal Örnek Cevabı Göster / Gizle</button>
+      </div>
+      <div id="stajEval-${q.num}" class="staj-eval-box hidden"></div>
+      <div id="stajHint-${q.num}" class="staj-natural-answer hidden" style="margin-top:14px;">
+        <div class="staj-ans-header">✍️ Doğal Örnek Cevap:</div>
+        <p>${q.answer}</p>
+      </div>
+    </div>
+  `).join('');
+}
 
 window.switchStajTab = function(tabName) {
   ['tuyolar', 'teknolojiler', 'simulator'].forEach(name => {
@@ -840,7 +1162,7 @@ window.switchStajTab = function(tabName) {
 window.setStajFontSize = function(size, btn) {
   const area = document.getElementById('staj-readable-area');
   if (area) area.style.fontSize = size;
-  document.querySelectorAll('.staj-size-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.staj-font-controls .staj-size-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
 };
 
@@ -850,10 +1172,11 @@ window.toggleStajHint = function(qNum) {
 };
 
 window.gradeStajQuestion = function(qNum) {
+  const qObj = STAJ_15_QUESTIONS.find(x => x.num === qNum);
   const input = document.getElementById('stajAns-' + qNum);
   const evalBox = document.getElementById('stajEval-' + qNum);
   const pill = document.getElementById('stajPill-' + qNum);
-  if (!input || !evalBox || !pill) return;
+  if (!qObj || !input || !evalBox || !pill) return;
 
   const raw = input.value.trim();
   const text = raw.toLocaleLowerCase('tr-TR');
@@ -872,8 +1195,8 @@ window.gradeStajQuestion = function(qNum) {
   const hits = [];
   const misses = [];
 
-  STAJ_RUBRICS[qNum].forEach(r => {
-    const matched = r.keywords.some(k => text.includes(k));
+  qObj.rubrics.forEach(r => {
+    const matched = r.kw.some(k => text.includes(k));
     if (matched) {
       pts += r.weight;
       hits.push(r.name);
@@ -919,31 +1242,45 @@ window.gradeStajQuestion = function(qNum) {
 };
 
 window.gradeAllStajQuestions = function() {
-  for (let i = 1; i <= 5; i++) {
-    window.gradeStajQuestion(i);
-  }
+  STAJ_15_QUESTIONS.forEach(q => {
+    const val = (document.getElementById('stajAns-' + q.num)?.value || '').trim();
+    if (val.length > 0) {
+      window.gradeStajQuestion(q.num);
+    }
+  });
 };
 
 function updateStajTotal() {
-  const total = stajScores[1] + stajScores[2] + stajScores[3] + stajScores[4] + stajScores[5];
+  const answeredNums = Object.keys(stajScores).filter(k => stajScores[k] > 0);
+  const count = answeredNums.length;
+  const sum = answeredNums.reduce((acc, k) => acc + stajScores[k], 0);
+  const maxPossible = count * 20;
+  const pct = maxPossible > 0 ? Math.round((sum / maxPossible) * 100) : 0;
+
   const txt = document.getElementById('stajTotalScoreText');
   const bar = document.getElementById('stajTotalScoreBar');
-  if (txt) txt.textContent = total + ' / 100 Puan';
-  if (bar) bar.style.width = total + '%';
+  if (txt) txt.textContent = `${sum} / ${maxPossible || 100} Puan (${count} Soru Cevaplandı • Başarı: %${pct})`;
+  if (bar) bar.style.width = pct + '%';
 }
 
 window.copyStajAnswersForAI = function() {
-  let out = "Kral kişisel sitemdeki 5 açık uçlu staj sorusuna şu cevapları yazdım, tutarlılığını inceler misin:\n\n";
-  for (let i = 1; i <= 5; i++) {
-    const val = (document.getElementById('stajAns-' + i)?.value || '').trim() || '(Boş bırakıldı)';
-    out += `--- SORU ${i} CEVABIM ---\n${val}\n\n`;
-  }
+  let out = "Kral kişisel sitemdeki açık uçlu staj sorularına şu cevapları yazdım, tutarlılığını inceler misin:\n\n";
+  STAJ_15_QUESTIONS.forEach(q => {
+    const val = (document.getElementById('stajAns-' + q.num)?.value || '').trim();
+    if (val) {
+      out += `--- SORU ${q.num} (${q.badge}) ---\n${val}\n\n`;
+    }
+  });
   navigator.clipboard.writeText(out).then(() => {
     const alertBox = document.getElementById('stajCopyAlert');
     if (alertBox) {
       alertBox.classList.remove('hidden');
       setTimeout(() => alertBox.classList.add('hidden'), 6000);
     }
-    showToast('5 cevabın panoya kopyalandı!');
+    showToast('Yazdığın cevaplar panoya kopyalandı!');
   });
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderStajModule();
+});
