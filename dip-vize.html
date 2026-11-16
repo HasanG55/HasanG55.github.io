@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENG471 - Digital Image Processing Vize Çalışma Rehberi & Sınav Simülatörü</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- KaTeX for Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .gradient-border {
+            border-image: linear-gradient(to right, #6366f1, #a855f7, #ec4899) 1;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col selection:bg-purple-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i data-lucide="scan" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg bg-gradient-to-r from-white via-slate-200 to-purple-400 bg-clip-text text-transparent">DIP Vize Koçu</h1>
+                    <p class="text-xs text-slate-400">CENG471 - Sınav & Konu Platformu</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center gap-1">
+                <button onclick="switchTab('notes')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition text-indigo-400 bg-indigo-500/10 hover:bg-indigo-500/20" data-tab="notes">
+                    <i data-lucide="book-open" class="inline w-4 h-4 mr-1.5"></i>Ders Notları & Konular
+                </button>
+                <button onclick="switchTab('calculators')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800" data-tab="calculators">
+                    <i data-lucide="calculator" class="inline w-4 h-4 mr-1.5"></i>Hesaplayıcılar
+                </button>
+                <button onclick="switchTab('exam')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800" data-tab="exam">
+                    <i data-lucide="award" class="inline w-4 h-4 mr-1.5"></i>20 Soruluk Sınav Simülatörü
+                </button>
+            </nav>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    MATLAB Yok • Kodsuz Sınav
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Bar -->
+    <div class="md:hidden flex border-b border-slate-800 bg-slate-900 px-2 py-2 justify-around text-xs">
+        <button onclick="switchTab('notes')" class="p-2 text-indigo-400 font-semibold" data-tab="notes">Konular</button>
+        <button onclick="switchTab('calculators')" class="p-2 text-slate-400" data-tab="calculators">Hesaplayıcılar</button>
+        <button onclick="switchTab('exam')" class="p-2 text-slate-400" data-tab="exam">20 Soru Deneme</button>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ==================== TAB 1: DERS NOTLARI ==================== -->
+        <section id="tab-notes" class="space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border border-indigo-500/20 p-8 shadow-2xl">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider">
+                        Pazartesi Vize Hazırlık Kiti
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        W1'den W7'ye Dijital Görüntü İşleme Özeti
+                    </h2>
+                    <p class="text-slate-300 text-base leading-relaxed">
+                        Hocanın slaytlarındaki tüm teorik kavramlar, soru çıkacak püf noktalar ve sınavda beklenen hesaplamalar tek bir sayfada toplandı. Kod ve MATLAB bilgisi gerektirmez; tamamen sınav mantığına göredir.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <a href="#w1-w2" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">W1 & W2: Giriş & EM Spektrum</a>
+                        <a href="#w3" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">W3: Göz, Sampling & Boyut Hesabı</a>
+                        <a href="#w4" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">W4: Komşuluk, m-yolu & Uzaklıklar</a>
+                        <a href="#w5-w6" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">W5-W6: Yoğunluk Dönüşümleri & Gamma</a>
+                        <a href="#w7" class="px-3 py-1.5 rounded-lg bg-purple-900/50 hover:bg-purple-800/60 text-xs font-medium text-purple-200 border border-purple-500/40 transition">W7: Histogram Germe & Eşitleme (Önemli!)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 1 & 2 -->
+            <div id="w1-w2" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                    <span class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 font-bold flex items-center justify-center text-sm border border-blue-500/30">1-2</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">W1 & W2: Introduction, Levels & Electromagnetic Spectrum</h3>
+                        <p class="text-xs text-slate-400">Görüntü İşleme Seviyeleri, Bartlane Sistemi ve Görüntüleme Modaliteleri</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-indigo-400 flex items-center gap-2">
+                            <i data-lucide="layers" class="w-4 h-4"></i> DIP Seviyeleri (Levels)
+                        </h4>
+                        <ul class="text-xs space-y-2 text-slate-300">
+                            <li><strong class="text-white">Low-Level:</strong> Girdi <em>Görüntü</em> &rarr; Çıktı <em>Görüntü</em>. (Gürültü temizleme, kontrast artırma).</li>
+                            <li><strong class="text-white">Mid-Level:</strong> Girdi <em>Görüntü</em> &rarr; Çıktı <em>Öznitelik / Bölüt (Attributes)</em>. (Segmentasyon, kenar tespiti, nesne sınıflandırma).</li>
+                            <li><strong class="text-white">High-Level:</strong> Girdi öznitelikler &rarr; Çıktı <em>Anlamlandırma / Karar</em>. (Otonom sürüş kararı, sahne analizi).</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-purple-400 flex items-center gap-2">
+                            <i data-lucide="radio" class="w-4 h-4"></i> EM Spektrum & Modaliteler
+                        </h4>
+                        <ul class="text-xs space-y-1.5 text-slate-300">
+                            <li><strong class="text-white">Gamma-Ray:</strong> PET (Pozitron Emisyon Tomografi), SPECT, nükleer tıp.</li>
+                            <li><strong class="text-white">X-Ray:</strong> Klasik röntgen, CT (Bilgisayarlı Tomografi).</li>
+                            <li><strong class="text-white">Ultraviolet (UV):</strong> Floresan mikroskobu.</li>
+                            <li><strong class="text-white">Visible & IR:</strong> Optik kameralar, termal kameralar, Landsat.</li>
+                            <li><strong class="text-white">Microwaves:</strong> Radar (RADAR görüntüleme).</li>
+                            <li><strong class="text-white">Radio Waves:</strong> <span class="text-amber-400 font-semibold">MRI (Manyetik Rezonans)</span>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-emerald-400 flex items-center gap-2">
+                            <i data-lucide="info" class="w-4 h-4"></i> Tarihçe & Temel Adımlar
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            <strong class="text-white">Bartlane Sistemi (1921):</strong> Londra - New York arasındaki denizaltı telgraf kablosuyla taşınan ilk dijital görüntü sistemidir.
+                        </p>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            <strong class="text-white">Restoration vs. Enhancement:</strong><br>
+                            <em>Enhancement</em> sübjektiftir, insan gözüne güzel geleni amaçlar. <em>Restoration</em> ise matematiksel bir bozulma modelini tersine çevirmeye çalışan objektif bir süreçtir.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 3 -->
+            <div id="w3" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                    <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center text-sm border border-purple-500/30">3</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">W3: Elements of Visual Perception, Sampling & Quantization</h3>
+                        <p class="text-xs text-slate-400">Göz Anatomisi, Işık Modeli, Bellek Boyutu ve Çözünürlük Hataları</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-amber-400">Göz: Cones vs. Rods</h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p><strong class="text-white">Cones (Koniler):</strong> ~6-7 milyon. Fovea'da yoğunlaşır. <strong>Renk (Color)</strong> ve aydınlık/gündüz görüşü (<strong>Photopic vision</strong>) sağlar.</p>
+                            <p><strong class="text-white">Rods (Çomaklar):</strong> ~75-150 milyon. Retinaya yayılmıştır. Renksiz (siyah-beyaz), gece/alacakaranlık (<strong>Scotopic vision</strong>) sağlar.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-cyan-400">Görüntü Modeli $f = i \cdot r$</h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p class="font-mono text-indigo-300 text-center py-1 bg-slate-900 rounded">f(x,y) = i(x,y) · r(x,y)</p>
+                            <p><strong class="text-white">Illumination $i(x,y)$:</strong> Işık kaynağından gelen aydınlatma ($0 < i < \infty$).</p>
+                            <p><strong class="text-white">Reflectance $r(x,y)$:</strong> Nesnenin ışığı yansıtma oranı ($0 < r \le 1$).</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-rose-400">Sampling & Quantization</h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p><strong class="text-white">Sampling (Örnekleme):</strong> Uzamsal koordinatların ($x, y$) sayısallaştırılmasıdır.</p>
+                            <p><strong class="text-white">Quantization (Kuantalama):</strong> Genlik / Parlaklık ($f$) değerlerinin sayısallaştırılmasıdır.</p>
+                            <p><strong class="text-amber-300">False Contouring:</strong> Bit derinliği (gri seviyeler) çok düşürülürse oluşan sahte kontur dalgalanmasıdır.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-emerald-400">HESAPLAMA: Bellek Boyutu</h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p class="font-mono text-emerald-300 bg-slate-900 p-1.5 rounded text-center">b = M × N × k bit</p>
+                            <p><strong>Örnek Soru:</strong> $1024 \times 1024$ piksel, 256 seviye ($k=8$ bit) resim kaç MB'dir?</p>
+                            <p class="font-mono text-slate-400">$1024 \times 1024 \times 8\text{ bit} = 1024 \times 1024\text{ Byte} = \mathbf{1\text{ MB}}$</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 4 -->
+            <div id="w4" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                    <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-sm border border-indigo-500/30">4</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">W4: Pixel Relationships, Adjacency & Distance Measures</h3>
+                        <p class="text-xs text-slate-400">Komşuluk Tipleri, m-adjacency Kuralı, D4/D8 Uzaklık Hesapları ve Görüntü Aritmetiği</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-3">
+                        <h4 class="text-sm font-semibold text-sky-400 flex items-center gap-2">
+                            <i data-lucide="grid" class="w-4 h-4"></i> Komşuluk & m-adjacency
+                        </h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p><strong class="text-white">4-Neighbors $N_4(p)$:</strong> Yatay ve dikey komşular (4 adet).</p>
+                            <p><strong class="text-white">Diagonal $N_D(p)$:</strong> Çapraz komşular (4 adet).</p>
+                            <p><strong class="text-white">8-Neighbors $N_8(p)$:</strong> $N_4 \cup N_D$ (8 adet).</p>
+                            <div class="p-2.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-200">
+                                <strong>Neden m-adjacency?</strong><br>
+                                <em>"To eliminate multiple / ambiguous paths"</em> (8-bağlantılılıkta oluşan çakışan belirsiz yolları yok etmek için).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-3">
+                        <h4 class="text-sm font-semibold text-pink-400 flex items-center gap-2">
+                            <i data-lucide="ruler" class="w-4 h-4"></i> HESAPLAMA: Uzaklık Formülleri
+                        </h4>
+                        <div class="text-xs text-slate-300 space-y-2">
+                            <p>Noktalar: $p(x, y)$ ve $q(s, t)$</p>
+                            <p><strong class="text-white">Euclidean ($D_e$):</strong> $\sqrt{(x-s)^2 + (y-t)^2}$ (Düz çizgi).</p>
+                            <p><strong class="text-white">City-Block ($D_4$):</strong> $|x-s| + |y-t|$ (Farkları topla! Konturu <em>Elmas/Diamond</em> oluşturur).</p>
+                            <p><strong class="text-white">Chessboard ($D_8$):</strong> $\max(|x-s|, |y-t|)$ (Büyük olan farkı al! Konturu <em>Kare/Square</em> oluşturur).</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-3">
+                        <h4 class="text-sm font-semibold text-emerald-400 flex items-center gap-2">
+                            <i data-lucide="plus-minus" class="w-4 h-4"></i> Görüntü Aritmetiği Amacı
+                        </h4>
+                        <ul class="text-xs text-slate-300 space-y-2">
+                            <li><strong class="text-white">Toplama ($+$):</strong> Gürültü Azaltma (Noise Reduction). $K$ görüntü toplanırsa gürültü $\sqrt{K}$ kat azalır!</li>
+                            <li><strong class="text-white">Çıkarma ($-$):</strong> Mask Mode Radiography, hareketli nesne tespiti, arka planı çıkarma.</li>
+                            <li><strong class="text-white">Çarpma / Bölme ($\times, \div$):</strong> Shading correction (aydınlatma dengesizliğini giderme), maskeleme.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 5 & 6 -->
+            <div id="w5-w6" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                    <span class="w-8 h-8 rounded-lg bg-teal-500/20 text-teal-400 font-bold flex items-center justify-center text-sm border border-teal-500/30">5-6</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">W5 & W6: Intensity Transformations & Bit-plane Slicing</h3>
+                        <p class="text-xs text-slate-400">Noktasal Dönüşümler: Negatif, Logaritma, Gamma ve Bit Katmanları</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-indigo-400">Image Negative</h4>
+                        <p class="font-mono text-xs text-indigo-300 bg-slate-900 p-1 rounded text-center">s = L - 1 - r</p>
+                        <p class="text-xs text-slate-300">
+                            8-bit bir görüntüde ($L=256$): $s = 255 - r$.<br>
+                            Siyah pikseller beyaz, beyazlar siyah olur. Örneğin $r = 75 \rightarrow s = 255 - 75 = \mathbf{180}$.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-purple-400">Log Transform</h4>
+                        <p class="font-mono text-xs text-purple-300 bg-slate-900 p-1 rounded text-center">s = c · log(1 + r)</p>
+                        <p class="text-xs text-slate-300">
+                            Yüksek dinamik aralığı sıkıştırır. Özellikle <strong>Fourier dönüşüm spektrumunu</strong> ekranda görünür kılmak için karanlık değerleri açar.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-rose-400">Power-Law (Gamma)</h4>
+                        <p class="font-mono text-xs text-rose-300 bg-slate-900 p-1 rounded text-center">s = c · r<sup>γ</sup></p>
+                        <div class="text-xs text-slate-300 space-y-1">
+                            <p><strong class="text-white">γ < 1:</strong> Karanlık bölgeleri açar / aydınlatır.</p>
+                            <p><strong class="text-white">γ > 1:</strong> Parlak bölgeleri koyulaştırır.</p>
+                            <p>Monitör bozulmalarını düzeltmeye <strong>Gamma Correction</strong> denir.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-2">
+                        <h4 class="text-sm font-semibold text-emerald-400">Bit-plane Slicing</h4>
+                        <p class="text-xs text-slate-300">
+                            8-bitlik resim 8 adet 1-bit düzleme ayrılır:
+                        </p>
+                        <div class="text-xs text-slate-300 space-y-1 pt-1">
+                            <p><strong class="text-amber-400">Bit 0 (LSB):</strong> Neredeyse rastgele gürültüdür, görsel etkisi en azdır.</p>
+                            <p><strong class="text-emerald-400">Bit 7 (MSB):</strong> Görüntünün ana şekil ve anlam bilgisini taşır (en kritiktir).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 7 (EN ÖNEMLİ HESAPLAMA) -->
+            <div id="w7" class="bg-slate-900 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl shadow-purple-500/10">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-pink-500 text-white font-bold flex items-center justify-center text-sm shadow-md">7</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">W7: Histogram Stretching & Equalization (GARANTİ HESAPLAMA)</h3>
+                            <p class="text-xs text-purple-300">Hocanın Slaytındaki Birebir Formüller ve Hesaplama Adımları</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-semibold">Kesin Çıkar</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Histogram Stretching -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-base font-bold text-white flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 1. Histogram Germe (Stretching)
+                            </h4>
+                            <span class="text-xs text-slate-400">Kullanıcı girdisi ister</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Pikseller eski aralıktan $[EX_{min}, EX_{max}]$ yeni aralığa $[NEXT_{min}, NEXT_{max}]$ lineer oran-orantıyla gerilir:
+                        </p>
+                        <div class="p-3 bg-slate-900 rounded-lg text-center font-mono text-xs text-cyan-300">
+                            j = [ (NEXT<sub>max</sub> - NEXT<sub>min</sub>) / (EX<sub>max</sub> - EX<sub>min</sub>) ] · (i - EX<sub>min</sub>) + NEXT<sub>min</sub>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-1">
+                            <p class="font-semibold text-white">Slayttaki Örnek (Sayfa 8):</p>
+                            <p>Eski aralık: $5 - 9$, Yeni aralık: $2 - 14$. Orijinal piksel $i = 7$ ise:</p>
+                            <p class="font-mono text-cyan-400">j = [(14 - 2) / (9 - 5)] · (7 - 5) + 2 = (12/4) · 2 + 2 = 3 · 2 + 2 = <strong>8</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Histogram Equalization -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-base font-bold text-white flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-pink-400"></span> 2. Histogram Eşitleme (Equalization)
+                            </h4>
+                            <span class="text-xs text-emerald-400 font-medium">Otomatik Prosedür</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Kontrastı otomatik artırır. Formül:
+                        </p>
+                        <div class="p-3 bg-slate-900 rounded-lg text-center font-mono text-xs text-pink-300">
+                            s<sub>k</sub> = round [ (L - 1) · Σ p<sub>r</sub>(r<sub>j</sub>) ]
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-1">
+                            <p class="font-semibold text-white">Pratik Sınav Çözüm Adımları (3-bit resim, L=8):</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                                <li>Sorulan renge kadar pikselleri topla: <span class="font-mono text-purple-300">Σ n<sub>j</sub></span></li>
+                                <li>Toplam piksele böl: <span class="font-mono text-purple-300">(Σ n) / MN</span></li>
+                                <li><strong>7</strong> ile çarp ($L-1=7$) ve en yakın tam sayıya yuvarla!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Histogram Yorumlama Tablosu -->
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
+                    <h5 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Histogram Görünüşü & Görüntü Özelliği Eşleştirmesi</h5>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                        <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-center">
+                            <p class="text-amber-400 font-semibold">Dark Image</p>
+                            <p class="text-slate-400 text-[11px] mt-1">Sola yığılmış (lower end)</p>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-center">
+                            <p class="text-sky-400 font-semibold">Bright Image</p>
+                            <p class="text-slate-400 text-[11px] mt-1">Sağa yığılmış (upper end)</p>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-center">
+                            <p class="text-rose-400 font-semibold">Low Contrast</p>
+                            <p class="text-slate-400 text-[11px] mt-1">Dar bir alana sıkışmış</p>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-center">
+                            <p class="text-emerald-400 font-semibold">High / Good Contrast</p>
+                            <p class="text-slate-400 text-[11px] mt-1">Geniş ve dengeli dağılmış</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: HESAPLAYICILAR ==================== -->
+        <section id="tab-calculators" class="hidden space-y-8">
+            <div class="max-w-2xl">
+                <h2 class="text-2xl font-bold text-white">İnteraktif Sınav Hesaplayıcıları</h2>
+                <p class="text-sm text-slate-400 mt-1">Sınavdaki olası hesaplama sorularını burada değerleri değiştirerek deneyebilir, adım adım çözümünü görebilirsin.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- 1. Histogram Equalization Calculator -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5 text-purple-400"></i> Histogram Eşitleme Hesaplayıcı
+                        </h3>
+                        <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono">Formula Solver</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Bit Derinliği (Örn: 3 bit için L=8)</label>
+                            <input id="calc-he-bits" type="number" value="3" min="1" max="8" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:border-purple-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Toplam Piksel Sayısı (MN)</label>
+                            <input id="calc-he-total" type="number" value="100" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:border-purple-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Piksel Sayıları (Virgülle ayır: Seviye 0, 1, 2...)</label>
+                        <input id="calc-he-counts" type="text" value="10, 20, 30, 40" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-purple-500 outline-none">
+                        <p class="text-[11px] text-slate-500 mt-1">Örn: Seviye 0 için 10, Seviye 1 için 20, Seviye 2 için 30...</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Hangi seviyenin yeni değerini istiyorsun ($r_k$)?</label>
+                        <input id="calc-he-target" type="number" value="2" min="0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-purple-500 outline-none">
+                    </div>
+
+                    <button onclick="calculateHE()" class="w-full py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-xs rounded-lg transition shadow-lg shadow-purple-600/30">
+                        Adım Adım Hesapla
+                    </button>
+
+                    <!-- Output box -->
+                    <div id="calc-he-result" class="hidden bg-slate-950 border border-purple-500/30 rounded-xl p-4 text-xs space-y-2">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 2. Distance Calculator -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i data-lucide="navigation" class="w-5 h-5 text-indigo-400"></i> Piksel Uzaklık Hesaplayıcı (D4, D8, De)
+                        </h3>
+                        <span class="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Distance Solver</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                        <div class="space-y-2">
+                            <span class="text-slate-300 font-semibold block">Piksel p(x, y)</span>
+                            <div class="flex gap-2">
+                                <input id="dist-x1" type="number" value="1" placeholder="x1" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-indigo-500 outline-none">
+                                <input id="dist-y1" type="number" value="2" placeholder="y1" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-indigo-500 outline-none">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-slate-300 font-semibold block">Piksel q(s, t)</span>
+                            <div class="flex gap-2">
+                                <input id="dist-x2" type="number" value="4" placeholder="x2" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-indigo-500 outline-none">
+                                <input id="dist-y2" type="number" value="6" placeholder="y2" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs focus:border-indigo-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="calculateDistances()" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-sky-600 hover:from-indigo-500 hover:to-sky-500 text-white font-medium text-xs rounded-lg transition shadow-lg shadow-indigo-600/30">
+                        Uzaklıkları Hesapla
+                    </button>
+
+                    <!-- Output box -->
+                    <div id="calc-dist-result" class="hidden bg-slate-950 border border-indigo-500/30 rounded-xl p-4 text-xs space-y-3">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 3. Histogram Stretching Calculator -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i data-lucide="maximize-2" class="w-5 h-5 text-cyan-400"></i> Histogram Germe (Stretching) Hesaplayıcı
+                        </h3>
+                        <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono">Linear Map</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Eski Aralık [EXmin - EXmax]</label>
+                            <div class="flex gap-2">
+                                <input id="stretch-ex-min" type="number" value="5" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                                <input id="stretch-ex-max" type="number" value="9" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Yeni Aralık [NEXTmin - NEXTmax]</label>
+                            <div class="flex gap-2">
+                                <input id="stretch-next-min" type="number" value="2" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                                <input id="stretch-next-max" type="number" value="14" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Dönüştürülecek Orijinal Piksel Değeri (i)</label>
+                        <input id="stretch-val" type="number" value="7" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-xs outline-none">
+                    </div>
+
+                    <button onclick="calculateStretch()" class="w-full py-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-medium text-xs rounded-lg transition shadow-lg shadow-cyan-600/30">
+                        Lineer Değeri Hesapla
+                    </button>
+
+                    <div id="calc-stretch-result" class="hidden bg-slate-950 border border-cyan-500/30 rounded-xl p-4 text-xs space-y-2">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 4. Storage Memory Calculator -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i data-lucide="hard-drive" class="w-5 h-5 text-emerald-400"></i> Resim Bellek Boyutu Hesaplayıcı
+                        </h3>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">Memory Size</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Genişlik (M)</label>
+                            <input id="mem-m" type="number" value="1024" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Yükseklik (N)</label>
+                            <input id="mem-n" type="number" value="1024" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Bit (k) veya Seviye</label>
+                            <input id="mem-k" type="number" value="8" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                    </div>
+
+                    <button onclick="calculateMem()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-medium text-xs rounded-lg transition shadow-lg shadow-emerald-600/30">
+                        Boyutu Hesapla
+                    </button>
+
+                    <div id="calc-mem-result" class="hidden bg-slate-950 border border-emerald-500/30 rounded-xl p-4 text-xs space-y-2">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: 20 SORULUK SINAV SİMÜLATÖRÜ ==================== -->
+        <section id="tab-exam" class="hidden space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 mb-1">
+                        Pazartesi Vize Formatında
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">20 Soruluk Test Sınav Simülatörü</h2>
+                    <p class="text-xs text-slate-400 mt-1">Sorular İngilizce sorulmuştur; takıldığında "Türkçe İpucu & Çözüm" butonuna tıklayabilirsin.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 block">Puanın:</span>
+                        <span id="exam-score-display" class="text-2xl font-black text-purple-400">0 / 20</span>
+                    </div>
+                    <button onclick="resetExam()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Sıfırla
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Questions Container -->
+            <div id="quiz-container" class="space-y-6">
+                <!-- Injected via JavaScript -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+        <p>CENG471 Digital Image Processing Vize Çalışma Rehberi & Sınav Platformu</p>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('section[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('text-indigo-400', 'bg-indigo-500/10');
+                    btn.classList.remove('text-slate-400', 'hover:bg-slate-800');
+                } else {
+                    btn.classList.remove('text-indigo-400', 'bg-indigo-500/10');
+                    btn.classList.add('text-slate-400', 'hover:bg-slate-800');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ================= CALCULATORS LOGIC =================
+        function calculateHE() {
+            const bits = parseInt(document.getElementById('calc-he-bits').value);
+            const totalPixels = parseFloat(document.getElementById('calc-he-total').value);
+            const countsStr = document.getElementById('calc-he-counts').value;
+            const targetK = parseInt(document.getElementById('calc-he-target').value);
+
+            const counts = countsStr.split(',').map(s => parseFloat(s.trim()));
+            const L = Math.pow(2, bits);
+            const multiplier = L - 1;
+
+            if (targetK < 0 || targetK >= counts.length) {
+                alert("Hedef seviye piksel sayısı dizisinin aralığında olmalı!");
+                return;
+            }
+
+            let sumPixels = 0;
+            for (let i = 0; i <= targetK; i++) {
+                sumPixels += counts[i];
+            }
+
+            const cumulativeProb = sumPixels / totalPixels;
+            const rawValue = multiplier * cumulativeProb;
+            const roundedValue = Math.round(rawValue);
+
+            const resDiv = document.getElementById('calc-he-result');
+            resDiv.classList.remove('hidden');
+            resDiv.innerHTML = `
+                <div class="text-purple-300 font-semibold mb-2">Çözüm Adımları:</div>
+                <div class="space-y-1 text-slate-300">
+                    <p>1. <strong>Hedef Seviyeye ($r_{${targetK}}$) kadar pikselleri topla:</strong> ${counts.slice(0, targetK + 1).join(' + ')} = <span class="text-white font-mono font-bold">${sumPixels} piksel</span></p>
+                    <p>2. <strong>Toplam piksele (${totalPixels}) böl (Olasılık toplamı):</strong> ${sumPixels} / ${totalPixels} = <span class="text-white font-mono font-bold">${cumulativeProb.toFixed(4)}</span></p>
+                    <p>3. <strong>(L - 1) yani (${L} - 1 = ${multiplier}) ile çarp:</strong> ${multiplier} × ${cumulativeProb.toFixed(4)} = <span class="text-white font-mono font-bold">${rawValue.toFixed(2)}</span></p>
+                    <p>4. <strong>En yakın tam sayıya yuvarla:</strong> <span class="text-emerald-400 font-mono text-base font-bold">${roundedValue}</span></p>
+                </div>
+                <div class="mt-3 p-2 bg-purple-950/40 border border-purple-500/40 rounded text-purple-200">
+                    <strong>Sonuç:</strong> Orijinal değeri <strong>${targetK}</strong> olan pikselin yeni değeri <strong>${roundedValue}</strong> olur!
+                </div>
+            `;
+        }
+
+        function calculateDistances() {
+            const x1 = parseFloat(document.getElementById('dist-x1').value);
+            const y1 = parseFloat(document.getElementById('dist-y1').value);
+            const x2 = parseFloat(document.getElementById('dist-x2').value);
+            const y2 = parseFloat(document.getElementById('dist-y2').value);
+
+            const dx = Math.abs(x1 - x2);
+            const dy = Math.abs(y1 - y2);
+
+            const d4 = dx + dy;
+            const d8 = Math.max(dx, dy);
+            const de = Math.sqrt(dx * dx + dy * dy);
+
+            const resDiv = document.getElementById('calc-dist-result');
+            resDiv.classList.remove('hidden');
+            resDiv.innerHTML = `
+                <div class="text-indigo-300 font-semibold">Farklar: |x1 - x2| = ${dx}, |y1 - y2| = ${dy}</div>
+                <div class="grid grid-cols-3 gap-2 mt-2 text-center font-mono">
+                    <div class="p-2 bg-slate-900 border border-slate-800 rounded">
+                        <span class="text-slate-400 text-[10px] block">City-block (D4)</span>
+                        <span class="text-white font-bold text-sm">${d4}</span>
+                        <span class="text-[9px] text-slate-500 block">(${dx} + ${dy})</span>
+                    </div>
+                    <div class="p-2 bg-slate-900 border border-slate-800 rounded">
+                        <span class="text-slate-400 text-[10px] block">Chessboard (D8)</span>
+                        <span class="text-white font-bold text-sm">${d8}</span>
+                        <span class="text-[9px] text-slate-500 block">max(${dx}, ${dy})</span>
+                    </div>
+                    <div class="p-2 bg-slate-900 border border-slate-800 rounded">
+                        <span class="text-slate-400 text-[10px] block">Euclidean (De)</span>
+                        <span class="text-white font-bold text-sm">${de.toFixed(2)}</span>
+                        <span class="text-[9px] text-slate-500 block">sqrt(${dx*dx} + ${dy*dy})</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateStretch() {
+            const exMin = parseFloat(document.getElementById('stretch-ex-min').value);
+            const exMax = parseFloat(document.getElementById('stretch-ex-max').value);
+            const nextMin = parseFloat(document.getElementById('stretch-next-min').value);
+            const nextMax = parseFloat(document.getElementById('stretch-next-max').value);
+            const val = parseFloat(document.getElementById('stretch-val').value);
+
+            const slope = (nextMax - nextMin) / (exMax - exMin);
+            const res = slope * (val - exMin) + nextMin;
+
+            const resDiv = document.getElementById('calc-stretch-result');
+            resDiv.classList.remove('hidden');
+            resDiv.innerHTML = `
+                <p>Eğim = (${nextMax} - ${nextMin}) / (${exMax} - ${exMin}) = <strong>${slope}</strong></p>
+                <p>Formül: j = ${slope} × (${val} - ${exMin}) + ${nextMin}</p>
+                <p class="text-emerald-400 font-bold text-sm mt-1">Yeni Değer j = ${res.toFixed(2)} (Yuvarlanırsa: ${Math.round(res)})</p>
+            `;
+        }
+
+        function calculateMem() {
+            const m = parseFloat(document.getElementById('mem-m').value);
+            const n = parseFloat(document.getElementById('mem-n').value);
+            const k = parseFloat(document.getElementById('mem-k').value);
+
+            const bits = m * n * k;
+            const bytes = bits / 8;
+            const kb = bytes / 1024;
+            const mb = kb / 1024;
+
+            const resDiv = document.getElementById('calc-mem-result');
+            resDiv.classList.remove('hidden');
+            resDiv.innerHTML = `
+                <div class="grid grid-cols-2 gap-2 text-slate-300">
+                    <div>Toplam Bit: <span class="font-mono text-white">${bits.toLocaleString()} bit</span></div>
+                    <div>Toplam Byte: <span class="font-mono text-white">${bytes.toLocaleString()} B</span></div>
+                    <div>Kilobyte: <span class="font-mono text-white">${kb.toFixed(2)} KB</span></div>
+                    <div class="text-emerald-400 font-bold">Megabyte: <span class="font-mono">${mb.toFixed(2)} MB</span></div>
+                </div>
+            `;
+        }
+
+        // ================= 20 SORULUK SINAV VERİSİ =================
+        const questions = [
+            {
+                id: 1,
+                topic: "W1 & W2: DIP Levels",
+                text: "Which of the following tasks is considered a Mid-Level image processing operation?",
+                trText: "Aşağıdakilerden hangisi bir Orta Seviye (Mid-Level) görüntü işleme işlemidir?",
+                options: [
+                    "A) Increasing the brightness of an image",
+                    "B) Reducing image noise with an averaging filter",
+                    "C) Segmenting an image into objects and background",
+                    "D) Making a high-level autonomous driving decision"
+                ],
+                correct: 2,
+                explanation: "Mid-level işlemlerde girdi görüntü, çıktı ise nesnelerin sınırları veya öznitelikleridir (Segmentasyon, kenar çıkarma gibi). A ve B low-level, D ise high-level'dır."
+            },
+            {
+                id: 2,
+                topic: "W1 & W2: EM Spectrum",
+                text: "In medical imaging, which electromagnetic wave band is utilized in Magnetic Resonance Imaging (MRI)?",
+                trText: "Tıbbi görüntülemede Manyetik Rezonans Görüntüleme (MRI) hangi elektromanyetik dalga bandını kullanır?",
+                options: [
+                    "A) X-rays",
+                    "B) Gamma rays",
+                    "C) Radio waves",
+                    "D) Microwaves"
+                ],
+                correct: 2,
+                explanation: "MRI, radyo dalgaları (Radio waves) ve güçlü manyetik alan kullanarak çalışır. Röntgen ve Tomografi ise X-ışınlarını kullanır."
+            },
+            {
+                id: 3,
+                topic: "W1 & W2: History",
+                text: "What was the significance of the Bartlane cable picture transmission system introduced in 1921?",
+                trText: "1921'de tanıtılan Bartlane kablolu resim iletim sisteminin önemi nedir?",
+                options: [
+                    "A) It was the first color television broadcast system.",
+                    "B) It transmitted digital pictures across an Atlantic submarine cable between London and New York.",
+                    "C) It introduced the JPEG compression standard.",
+                    "D) It created the first digital sensor for satellites."
+                ],
+                correct: 1,
+                explanation: "Bartlane sistemi, Londra ile New York arasında denizaltı telgraf kablosuyla dijital görüntü iletimi yapan ilk sistemdir."
+            },
+            {
+                id: 4,
+                topic: "W3: Human Vision",
+                text: "Which receptor cells in the human retina are primarily responsible for daylight and color vision?",
+                trText: "İnsan retinasında gündüz ve renkli görmeden birincil olarak sorumlu olan reseptör hücreleri hangileridir?",
+                options: [
+                    "A) Rods",
+                    "B) Cones",
+                    "C) Fovea centralis",
+                    "D) Optic nerve fibers"
+                ],
+                correct: 1,
+                explanation: "Cones (Koniler) renkli ve gündüz (photopic) görüşünü sağlar ve foveada toplanmıştır. Rods (Çomaklar) ise gece/renksiz görüşü sağlar."
+            },
+            {
+                id: 5,
+                topic: "W3: Image Model",
+                text: "In the image formation model f(x, y) = i(x, y) · r(x, y), what does r(x, y) represent and what is its range?",
+                trText: "f(x, y) = i(x, y) · r(x, y) modelinde r(x, y) neyi temsil eder ve değer aralığı nedir?",
+                options: [
+                    "A) Illumination, ranging from 0 to infinity",
+                    "B) Reflectance, ranging from 0 to 1",
+                    "C) Radiance, ranging from -1 to 1",
+                    "D) Resolution, ranging from 0 to 255"
+                ],
+                correct: 1,
+                explanation: "r(x, y) yansıtma katsayısıdır (reflectance) ve 0 ile 1 arasındadır. i(x, y) ise aydınlatmadır (illumination, 0 ile sonsuz arası)."
+            },
+            {
+                id: 6,
+                topic: "W3: Sampling & Quantization",
+                text: "Digitizing coordinate values (x, y) of an image is called _______, while digitizing the amplitude values f(x, y) is called _______.",
+                trText: "Koordinat değerlerini sayısallaştırmaya _______, genlik/parlaklık değerlerini sayısallaştırmaya _______ denir.",
+                options: [
+                    "A) Quantization, Sampling",
+                    "B) Sampling, Quantization",
+                    "C) Interpolation, Equalization",
+                    "D) Smoothing, Sharpening"
+                ],
+                correct: 1,
+                explanation: "Koordinatların sayısallaştırılması Sampling (Örnekleme), parlaklık seviyelerinin sayısallaştırılması ise Quantization (Kuantalama)'dır."
+            },
+            {
+                id: 7,
+                topic: "W3: Storage Calculation",
+                text: "How much uncompressed memory (in Megabytes) is required to store a 1024 × 1024 grayscale image with 256 gray levels (8 bits)?",
+                trText: "256 gri seviyeli (8 bit) 1024 × 1024 boyutunda bir görüntüyü saklamak için kaç MB gerekir?",
+                options: [
+                    "A) 0.5 MB",
+                    "B) 1.0 MB",
+                    "C) 2.0 MB",
+                    "D) 8.0 MB"
+                ],
+                correct: 1,
+                explanation: "1024 × 1024 × 8 bit = 1024 × 1024 Byte = 1 MB (1024 Byte = 1 KB, 1024 KB = 1 MB)."
+            },
+            {
+                id: 8,
+                topic: "W3: Resolution Artifacts",
+                text: "What visual artifact occurs when the intensity resolution (number of gray levels) is reduced too much?",
+                trText: "Gri seviye sayısı (yoğunluk çözünürlüğü) çok fazla düşürüldüğünde görüntüde hangi yapay bozulma oluşur?",
+                options: [
+                    "A) Checkerboard effect",
+                    "B) False contouring",
+                    "C) Mach bands",
+                    "D) Motion blur"
+                ],
+                correct: 1,
+                explanation: "Gri seviye sayısı azaltıldığında pürüzsüz geçişler yerine sahte çizgiler/dalgalar oluşur, buna 'False contouring' denir. Piksel sayısı azaltıldığında ise 'Checkerboard effect' oluşur."
+            },
+            {
+                id: 9,
+                topic: "W4: Distance Measures",
+                text: "Given two pixels p(2, 3) and q(5, 7), what is the City-block distance D4(p, q)?",
+                trText: "p(2, 3) ve q(5, 7) pikselleri arasındaki City-block (D4) uzaklığı kaçtır?",
+                options: [
+                    "A) 5",
+                    "B) 7",
+                    "C) 4",
+                    "D) 12"
+                ],
+                correct: 1,
+                explanation: "D4 = |x1 - x2| + |y1 - y2| = |2 - 5| + |3 - 7| = 3 + 4 = 7."
+            },
+            {
+                id: 10,
+                topic: "W4: Distance Measures",
+                text: "Given two pixels p(2, 3) and q(5, 7), what is the Chessboard distance D8(p, q)?",
+                trText: "p(2, 3) ve q(5, 7) pikselleri arasındaki Chessboard (D8) uzaklığı kaçtır?",
+                options: [
+                    "A) 7",
+                    "B) 5",
+                    "C) 4",
+                    "D) 3"
+                ],
+                correct: 2,
+                explanation: "D8 = max(|x1 - x2|, |y1 - y2|) = max(3, 4) = 4."
+            },
+            {
+                id: 11,
+                topic: "W4: Adjacency",
+                text: "What is the primary motivation for defining m-adjacency (mixed adjacency) in digital image analysis?",
+                trText: "Görüntü analizinde m-adjacency tanımlanmasının temel sebebi nedir?",
+                options: [
+                    "A) To connect only diagonal pixels",
+                    "B) To eliminate ambiguous and multiple paths caused by 8-adjacency",
+                    "C) To increase the computing speed of distance functions",
+                    "D) To decrease pixel resolution"
+                ],
+                correct: 1,
+                explanation: "8-bağlantılılıkta iki piksel arasında birden fazla ve çakışan belirsiz yollar oluşabilir. m-adjacency bu çoklu yolları yok etmek (eliminate multiple/ambiguous paths) için kullanılır."
+            },
+            {
+                id: 12,
+                topic: "W4: Arithmetic Operations",
+                text: "In low-light astronomical imaging, multiple noisy images of the exact same scene are captured and averaged together. What is the effect of averaging K images?",
+                trText: "Aynı sahnenin K adet gürültülü görüntüsü toplanıp ortalaması alınırsa gürültü nasıl değişir?",
+                options: [
+                    "A) Noise standard deviation is reduced by a factor of sqrt(K)",
+                    "B) Noise increases by K times",
+                    "C) The image becomes completely binary",
+                    "D) The spatial resolution decreases"
+                ],
+                correct: 0,
+                explanation: "K adet görüntünün ortalaması alındığında gürültü varyansı 1/K katına, standart sapması ise 1/sqrt(K) katına iner (gürültü azalır)."
+            },
+            {
+                id: 13,
+                topic: "W4: Arithmetic Operations",
+                text: "Which arithmetic operation is commonly used in Mask Mode Radiography to highlight dynamic blood flow differences by subtracting background bone anatomy?",
+                trText: "Mask Mode Radiography'de arka plan kemiklerini yok edip kan akışını vurgulamak için hangi işlem kullanılır?",
+                options: [
+                    "A) Image Addition",
+                    "B) Image Subtraction",
+                    "C) Image Multiplication",
+                    "D) Image Dilation"
+                ],
+                correct: 1,
+                explanation: "İki resim arasındaki farkı bulmak ve sabit arka planı yok etmek için Görüntü Çıkarma (Image Subtraction) kullanılır."
+            },
+            {
+                id: 14,
+                topic: "W5 & W6: Image Negative",
+                text: "For an 8-bit image (L = 256), what is the output value after applying the negative transformation to a pixel with intensity r = 60?",
+                trText: "8-bit bir görüntüde r = 60 olan bir pikselin negatif dönüşüm sonrası değeri nedir?",
+                options: [
+                    "A) 195",
+                    "B) 196",
+                    "C) 205",
+                    "D) 60"
+                ],
+                correct: 0,
+                explanation: "Formül: s = L - 1 - r = 256 - 1 - 60 = 255 - 60 = 195."
+            },
+            {
+                id: 15,
+                topic: "W5 & W6: Power-Law (Gamma)",
+                text: "In power-law transformation (s = c · r^gamma), which gamma value should be chosen to expand and brighten dark regions of an image?",
+                trText: "Gamma dönüşümünde karanlık bölgeleri açmak ve aydınlatmak için gama (gamma) değeri nasıl seçilmelidir?",
+                options: [
+                    "A) gamma > 1",
+                    "B) gamma = 1",
+                    "C) gamma < 1",
+                    "D) gamma = 0"
+                ],
+                correct: 2,
+                explanation: "gamma < 1 değeri karanlık bölgelerdeki gri seviyeleri genişletir ve görüntüyü aydınlatır. gamma > 1 ise görüntüyü koyulaştırır."
+            },
+            {
+                id: 16,
+                topic: "W5 & W6: Bit-Plane Slicing",
+                text: "In an 8-bit grayscale image, which bit-plane contains the most visually significant structural information?",
+                trText: "8-bitlik bir görüntüde görsel açıdan en kritik yapısal bilgiyi hangi bit düzlemi taşır?",
+                options: [
+                    "A) Bit 0 (LSB)",
+                    "B) Bit 1",
+                    "C) Bit 4",
+                    "D) Bit 7 (MSB)"
+                ],
+                correct: 3,
+                explanation: "En yüksek anlamlı bit olan Bit 7 (MSB), görüntünün ana şekil ve parlaklık yapısını taşır. Bit 0 (LSB) ise çoğunlukla rastgele gürültüdür."
+            },
+            {
+                id: 17,
+                topic: "W7: Histogram Interpretation",
+                text: "If an image has poor/low contrast, how does its histogram appear?",
+                trText: "Düşük kontrastlı bir görüntünün histogramı nasıl görünür?",
+                options: [
+                    "A) Evenly distributed across all gray levels from 0 to 255",
+                    "B) Confined/stacked into a narrow region of the gray level range",
+                    "C) Concentrated exclusively at the maximum level (255)",
+                    "D) Completely flat with zero counts"
+                ],
+                correct: 1,
+                explanation: "Düşük kontrastlı görüntülerde pikseller tüm skalaya yayılmak yerine dar bir aralığa (narrow region) sıkışmıştır."
+            },
+            {
+                id: 18,
+                topic: "W7: Stretching vs. Equalization",
+                text: "What is the primary operational difference between histogram stretching and histogram equalization?",
+                trText: "Histogram germe ile histogram eşitleme arasındaki temel operasyonel fark nedir?",
+                options: [
+                    "A) Histogram stretching requires user input (limits), whereas histogram equalization is an automatic procedure.",
+                    "B) Histogram equalization requires manual limits, while stretching is automatic.",
+                    "C) Histogram stretching is nonlinear, equalization is always linear.",
+                    "D) Equalization can only be performed on 1-bit binary images."
+                ],
+                correct: 0,
+                explanation: "Histogram stretching kullanıcıdan alt-üst sınır girdisi (user input) ister; histogram equalization ise tamamen otomatik bir süreçtir."
+            },
+            {
+                id: 19,
+                topic: "W7: Histogram Stretching Calculation",
+                text: "Gray levels in the range [10, 20] are mapped to [0, 100] using linear histogram stretching. What is the new value for a pixel with original intensity i = 13?",
+                trText: "[10, 20] aralığındaki değerler [0, 100] aralığına gerilirse, i = 13 olan pikselin yeni değeri ne olur?",
+                options: [
+                    "A) 25",
+                    "B) 30",
+                    "C) 35",
+                    "D) 40"
+                ],
+                correct: 1,
+                explanation: "Eğim = (100 - 0) / (20 - 10) = 100 / 10 = 10. j = 10 × (13 - 10) + 0 = 10 × 3 = 30."
+            },
+            {
+                id: 20,
+                topic: "W7: Histogram Equalization Calculation",
+                text: "For a 3-bit image (L = 8, so multiplier = 7) with 100 total pixels, the cumulative pixel count up to gray level r1 is 40 pixels. What is the equalized gray level s1?",
+                trText: "3-bit (L=8, çarpan=7), 100 piksellik bir resimde r1 seviyesine kadarki kümülatif piksel sayısı 40'tır. Eşitlenmiş s1 değeri kaçtır?",
+                options: [
+                    "A) 2",
+                    "B) 3",
+                    "C) 4",
+                    "D) 5"
+                ],
+                correct: 1,
+                explanation: "Olasılık = 40 / 100 = 0.40. Çarpan: 7 × 0.40 = 2.80. En yakın tam sayıya yuvarlanırsa: 2.80 -> 3 (B şıkkı)."
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = questions.map((q, idx) => `
+                <div id="q-card-${q.id}" class="bg-slate-900 border border-slate-800 rounded-xl p-5 sm:p-6 space-y-4 shadow-md transition">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-2.5 py-1 bg-slate-800 text-indigo-400 font-mono rounded font-semibold">Soru ${idx + 1} / 20</span>
+                        <span class="text-slate-500 font-medium">${q.topic}</span>
+                    </div>
+
+                    <div>
+                        <p class="text-sm sm:text-base font-semibold text-white">${q.text}</p>
+                        <p class="text-xs text-slate-400 mt-1 italic">${q.trText}</p>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        ${q.options.map((opt, optIdx) => `
+                            <button onclick="selectOption(${q.id}, ${optIdx})" id="btn-${q.id}-${optIdx}" class="w-full text-left p-3 rounded-lg border border-slate-800 bg-slate-950/60 hover:bg-slate-800/60 text-xs sm:text-sm text-slate-300 transition flex items-center justify-between">
+                                <span>${opt}</span>
+                                <span class="indicator w-4 h-4 rounded-full border border-slate-700"></span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between border-t border-slate-800/80">
+                        <button onclick="toggleHint(${q.id})" class="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Türkçe Çözüm & İpucu Gör
+                        </button>
+                    </div>
+
+                    <div id="hint-${q.id}" class="hidden p-3 rounded-lg bg-indigo-950/40 border border-indigo-500/30 text-xs text-indigo-200 space-y-1">
+                        <p class="font-semibold text-white">Doğru Cevap: ${q.options[q.correct]}</p>
+                        <p>${q.explanation}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function selectOption(qId, optIdx) {
+            userAnswers[qId] = optIdx;
+            const q = questions.find(item => item.id === qId);
+
+            for (let i = 0; i < 4; i++) {
+                const btn = document.getElementById(`btn-${qId}-${i}`);
+                btn.className = "w-full text-left p-3 rounded-lg border border-slate-800 bg-slate-950/60 text-xs sm:text-sm text-slate-400 transition flex items-center justify-between";
+            }
+
+            const chosenBtn = document.getElementById(`btn-${qId}-${optIdx}`);
+            const card = document.getElementById(`q-card-${qId}`);
+
+            if (optIdx === q.correct) {
+                chosenBtn.className = "w-full text-left p-3 rounded-lg border border-emerald-500 bg-emerald-500/10 text-xs sm:text-sm text-emerald-300 font-semibold transition flex items-center justify-between";
+                card.classList.remove('border-rose-500/50');
+                card.classList.add('border-emerald-500/30');
+            } else {
+                chosenBtn.className = "w-full text-left p-3 rounded-lg border border-rose-500 bg-rose-500/10 text-xs sm:text-sm text-rose-300 font-semibold transition flex items-center justify-between";
+                // also highlight correct
+                const correctBtn = document.getElementById(`btn-${qId}-${q.correct}`);
+                correctBtn.className = "w-full text-left p-3 rounded-lg border border-emerald-500/50 bg-emerald-500/5 text-xs sm:text-sm text-emerald-400 transition flex items-center justify-between";
+                card.classList.remove('border-emerald-500/30');
+                card.classList.add('border-rose-500/30');
+            }
+
+            // Automatically reveal explanation
+            document.getElementById(`hint-${qId}`).classList.remove('hidden');
+
+            updateScore();
+        }
+
+        function toggleHint(qId) {
+            const h = document.getElementById(`hint-${qId}`);
+            h.classList.toggle('hidden');
+        }
+
+        function updateScore() {
+            let correctCount = 0;
+            questions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) correctCount++;
+            });
+            document.getElementById('exam-score-display').innerText = `${correctCount} / 20`;
+        }
+
+        function resetExam() {
+            userAnswers = {};
+            renderQuiz();
+            document.getElementById('exam-score-display').innerText = `0 / 20`;
+        }
+
+        // Initialize icons and quiz
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

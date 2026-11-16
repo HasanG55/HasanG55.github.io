@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIP Vize MASTER Notları (W1 - W7)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+            padding: 14px;
+            margin: 0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        h1 {
+            font-size: 19px;
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
+            padding-bottom: 6px;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 15px;
+            color: #c084fc;
+            background: #1e1b4b;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            border-left: 4px solid #a855f7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .box {
+            background-color: #161e2e;
+            border: 1px solid #273549;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            color: #facc15;
+            font-weight: 700;
+        }
+        .formula {
+            background: #030712;
+            color: #4ade80;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 13px;
+            display: block;
+            margin: 4px 0;
+            border: 1px solid #1f2937;
+        }
+        ul {
+            padding-left: 18px;
+            margin: 4px 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .tag {
+            display: inline-block;
+            background: #0284c7;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-bottom: 3px;
+        }
+        .badge {
+            background: #4338ca;
+            color: #c7d2fe;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 DIP VİZE MASTER HAP NOTU (W1 - W7)</h1>
+    <p style="color: #94a3b8; font-size: 12px; margin-top: -4px;">Slaytlardaki tüm formüller, terimler ve soru kalıpları.</p>
+
+    <!-- BÖLÜM 1: HESAPLAMALAR -->
+    <h2>🧮 1. KESİN ÇIKACAK HESAPLAMALAR</h2>
+
+    <div class="box">
+        <span class="tag">BANKO 1</span> <strong>Uzaklıklar (p ve q noktaları):</strong>
+        <span class="formula">D4 (City-block) = |x1 - x2| + |y1 - y2|  --> Farkları TOPLA (Elmas)</span>
+        <span class="formula">D8 (Chessboard) = max(|x1 - x2|, |y1 - y2|)  --> BÜYÜK olanı seç (Kare)</span>
+        <span class="formula">De (Euclidean) = sqrt((x1-x2)^2 + (y1-y2)^2)  --> Pisagor</span>
+    </div>
+
+    <div class="box">
+        <span class="tag">BANKO 2</span> <strong>Histogram Eşitleme (Equalization):</strong>
+        <span class="formula">Yeni Değer = Yuvarla[ (L - 1) × (Sorulan renge kadar toplam / Toplam piksel) ]</span>
+        <p style="font-size: 12px; color: #cbd5e1; margin: 2px 0;">3-bit derse <span class="highlight">L = 8, çarpan = 7</span>'dir. 0'dan o renge kadar topla &rarr; toplam piksele böl &rarr; 7 ile çarp &rarr; en yakın tam sayıya yuvarla (2.1 &rarr; 2, 2.6 &rarr; 3).</p>
+    </div>
+
+    <div class="box">
+        <span class="tag">BANKO 3</span> <strong>Histogram Germe (Stretching):</strong>
+        <span class="formula">j = [ (YeniMax - YeniMin) / (EskiMax - EskiMin) ] × (i - EskiMin) + YeniMin</span>
+        <p style="font-size: 12px; color: #cbd5e1; margin: 2px 0;">Bildiğin doğru denklemidir. Eski aralıktaki pikseli yeni aralığa taşır.</p>
+    </div>
+
+    <div class="box">
+        <span class="tag">HESAP 4</span> <strong>Bellek Boyutu (Storage):</strong>
+        <span class="formula">Boyut = M × N × k bit</span>
+        <p style="font-size: 12px; color: #cbd5e1; margin: 2px 0;">1024 × 1024 piksel, 256 seviye (8-bit) = <span class="highlight">1 MB</span> yer tutar.</p>
+    </div>
+
+    <div class="box">
+        <span class="tag">HESAP 5</span> <strong>Negatif Alma:</strong>
+        <span class="formula">s = 255 - r  (8-bit için)</span>
+        <p style="font-size: 12px; color: #cbd5e1; margin: 2px 0;">Örn: r = 60 ise s = 255 - 60 = <span class="highlight">195</span>.</p>
+    </div>
+
+    <!-- BÖLÜM 2: BANKO TEORİK KAVRAMLAR -->
+    <h2>🧠 2. EN ÇOK ÇIKAN TEORİK KAVRAMLAR</h2>
+
+    <div class="box">
+        <strong>m-adjacency (Mixed) Neden Kullanılır?</strong>
+        <p class="highlight" style="font-size: 14px; margin: 3px 0;">&rarr; "To eliminate multiple / ambiguous paths"</p>
+        <small style="color: #94a3b8;">8-adjacency'de oluşan çakışan belirsiz yolları yok eder.</small>
+    </div>
+
+    <div class="box">
+        <strong>Histogram Yorumlama:</strong>
+        <ul>
+            <li><span class="highlight">Low / Poor Contrast:</span> Dar alana sıkışmış (<em>"narrow / confined to a small region"</em>).</li>
+            <li><span class="highlight">High Contrast:</span> Bütün skalaya dengeli ve geniş yayılmış (<em>"evenly and widely distributed"</em>).</li>
+            <li><span class="highlight">Dark Image:</span> Sola / düşük seviyelere yığılmış (<em>"lower end"</em>).</li>
+            <li><span class="highlight">Bright Image:</span> Sağa / yüksek seviyelere yığılmış (<em>"upper end"</em>).</li>
+            <li><strong>Stretching:</strong> Kullanıcı girdisi ister (<em>"requires user input"</em>).</li>
+            <li><strong>Equalization:</strong> Tamamen otomatiktir (<em>"automatic procedure"</em>).</li>
+            <li><strong>Local Equalization:</strong> Küçük pencereler gezdirerek gizli yerel detayları ortaya çıkarır.</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>Göz: Cones vs. Rods:</strong>
+        <ul>
+            <li><span class="highlight">Cones (Koniler):</span> Foveada toplanmıştır. <strong>Renk (Color)</strong> ve gündüz görüşü (<strong>Photopic</strong>) sağlar. (~6-7 milyon).</li>
+            <li><span class="highlight">Rods (Çomaklar):</span> Retinaya yayılmıştır. <strong>Siyah-beyaz</strong> ve gece görüşü (<strong>Scotopic</strong>) sağlar. (~100 milyon).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>Sampling vs. Quantization:</strong>
+        <ul>
+            <li>Koordinatları (x, y) sayısallaştırmak &rarr; <span class="highlight">Sampling</span></li>
+            <li>Genlik / Parlaklığı (f) sayısallaştırmak &rarr; <span class="highlight">Quantization</span></li>
+            <li>Gri seviye (bit derinliği) çok düşerse &rarr; <span class="highlight">False Contouring</span></li>
+            <li>Piksel sayısı (çözünürlük) çok düşerse &rarr; <span class="highlight">Checkerboard Effect</span></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>Işık Modeli f(x, y) = i(x, y) · r(x, y):</strong>
+        <ul>
+            <li><strong>i (Illumination):</strong> Işık kaynağından gelen ışıktır. (0 ile &infin; arası).</li>
+            <li><strong>r (Reflectance):</strong> Nesnenin yansıtma oranıdır. (0 ile 1 arası).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>DIP Seviyeleri (Levels):</strong>
+        <ul>
+            <li><strong>Low-Level:</strong> Girdi Görüntü &rarr; Çıktı Görüntü (Gürültü silme, kontrast artırma).</li>
+            <li><strong>Mid-Level:</strong> Girdi Görüntü &rarr; Çıktı Nitelikler / Ayrılmış Nesneler (Segmentasyon, kenar tespiti).</li>
+            <li><strong>High-Level:</strong> Çıktı Anlamlandırma / Karar (Otonom sürüş kararı).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>Görüntü Aritmetiği:</strong>
+        <ul>
+            <li><strong>Toplama (+):</strong> Gürültü azaltma (Noise reduction). K görüntü ortalanırsa gürültü &radic;K kat azalır!</li>
+            <li><strong>Çıkarma (-):</strong> Mask Mode Radiography, hareketli nesne farkı bulma.</li>
+            <li><strong>Çarpma/Bölme (&times;, &divide;):</strong> Shading correction (aydınlatma dengesizliğini düzeltme).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>Dönüşüm Tipleri & Bit Katmanları:</strong>
+        <ul>
+            <li><span class="highlight">&gamma; &lt; 1</span>: Karanlık yerleri açar / aydınlatır.</li>
+            <li><span class="highlight">&gamma; &gt; 1</span>: Parlak yerleri koyulaştırır.</li>
+            <li><strong>Log Transform:</strong> Fourier spektrumunu görünür kılmak için dinamik aralığı sıkıştırır.</li>
+            <li><strong>Thresholding:</strong> Contrast stretching'de r1=r2 yapılırsa resim ikiliye (binary 0-1) dönüşür.</li>
+            <li><strong>Bit 7 (MSB):</strong> En önemli görsel bilgiyi taşır.</li>
+            <li><strong>Bit 0 (LSB):</strong> Rastgele gürültüdür.</li>
+        </ul>
+    </div>
+
+    <!-- BÖLÜM 3: SLAYTLARDAKİ DİĞER TÜM DETAYLAR -->
+    <h2>🔍 3. SLAYTLARDAKİ DİĞER KRİTİK DETAYLAR</h2>
+
+    <div class="box">
+        <strong>W1: Computer Vision Zorlukları (Challenges):</strong>
+        <ul>
+            <li><strong>Viewpoint variation:</strong> Bakış açısı değiştikçe piksellerin tamamen değişmesi.</li>
+            <li><strong>Illumination:</strong> Işık yönü ve şiddetinin değişmesi.</li>
+            <li><strong>Occlusion:</strong> Nesnenin bir kısmının arkada kalıp kapanması.</li>
+            <li><strong>Background clutter:</strong> Karmaşık ve kalabalık arka plan.</li>
+            <li><strong>Intra-class variation:</strong> Aynı sınıftaki nesnelerin farklı şekillerde olması (örn: farklı sandalye tipleri).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>W1: Algı İpuçları (Cues & Gestalt):</strong>
+        <ul>
+            <li><strong>Linear perspective:</strong> Paralel çizgilerin ufukta tek noktada birleşmesi (derinlik ipucu).</li>
+            <li><strong>Aerial perspective:</strong> Uzaktaki cisimlerin puslu/mavi görünmesi.</li>
+            <li><strong>Texture gradient:</strong> Uzaklaştıkça doku sıklığının artması.</li>
+            <li><strong>Common fate:</strong> Birlikte aynı yöne hareket edenlerin tek grup algılanması (kuş sürüsü).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>W2: DIP'in 10 Temel Adımı (Sırasıyla):</strong>
+        <p style="font-size: 11px; color: #cbd5e1;">
+            1. Acquisition &rarr; 2. Enhancement (subjektif) &rarr; 3. Restoration (objektif) &rarr; 4. Color &rarr; 5. Wavelets &rarr; 6. Compression &rarr; 7. Morphological &rarr; 8. Segmentation &rarr; 9. Representation &rarr; 10. Recognition.
+        </p>
+    </div>
+
+    <div class="box">
+        <strong>W3: Işık & Algı Ölçümleri:</strong>
+        <ul>
+            <li><strong>Radiance:</strong> Kaynaktan çıkan fiziksel enerji (Watt).</li>
+            <li><strong>Luminance:</strong> Gözün algıladığı ışık enerjisi (Lümen).</li>
+            <li><strong>Brightness:</strong> Sübjektif parlaklık hissi (ölçülemez).</li>
+            <li><strong>Dynamic Range:</strong> Maksimum seviyenin minimuma oranı (I<sub>max</sub> / I<sub>min</sub>).</li>
+            <li><strong>Weber Oranı (&Delta;I / I):</strong> Parlaklık ayırt etme oranı. Küçükse göz daha hassastır.</li>
+            <li><strong>Interpolasyon:</strong> Nearest Neighbor (en hızlı, mozaik yapar), Bilinear (4 komşu, pürüzsüz), Bicubic (16 komşu, en kaliteli).</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <strong>W4: Yol (Path) & Geometrik Dönüşümler:</strong>
+        <ul>
+            <li><strong>Closed Path:</strong> Başlangıç ve bitiş noktası aynı olan yol dizisi.</li>
+            <li><strong>Lineer Operatör:</strong> Ortalama alma (Mean / Averaging) lineerdir. Median non-lineerdir.</li>
+            <li><strong>Affine Dönüşümler:</strong> Translation (öteleme), Scaling (ölçekleme), Rotation (döndürme), Shearing (eğme/kaykıltma).</li>
+            <li><strong>Kümeler:</strong> Complement (negatifi), Union (OR / birleşim), Intersection (AND / kesişim).</li>
+        </ul>
+    </div>
+
+    <p style="text-align: center; color: #4ade80; font-weight: bold; margin-top: 25px; font-size: 15px;">
+        💯 7 Slaytın %100'ü Bu Sayfada. Kendine Güven Kral, Sınav Sende!
+    </p>
+
+</body>
+</html>
