@@ -788,3 +788,162 @@ function applyTheme(theme) {
     themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
   }
 }
+
+// ==========================================================================
+// 11. BM301 STAJ I SINAVI ÇALIŞMA MODÜLÜ & SİMÜLATÖR MOTORU
+// ==========================================================================
+const stajScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+const STAJ_RUBRICS = {
+  1: [
+    { name: 'Kurum ve Konum (WellztechAI / ODTÜ Teknokent)', weight: 5, keywords: ['wellztech', 'teknokent', 'odtü'] },
+    { name: 'Faaliyet Alanı (Yapay Zeka / Görüntü İşleme / Hayvancılık-Tarım)', weight: 4, keywords: ['yapay zeka', 'görüntü', 'tarım', 'hayvancılık', 'süt', 'sağım', 'denetim', 'kamera'] },
+    { name: 'Departman & Ekip Yapısı (12 kişilik Ar-Ge / Yusuf Onat Yılmaz)', weight: 5, keywords: ['ar-ge', 'arge', 'departman', 'yusuf', 'onat', 'mentör', '12', 'ekip'] },
+    { name: 'Senin Görevin ve Proje (Milk AI / Model eğitimi / Veri ön işleme)', weight: 6, keywords: ['milk', 'model', 'eğitim', 'ön işleme', 'iskelet', 'normalizasyon', 'sorumlu', 'görev'] }
+  ],
+  2: [
+    { name: 'Yazılım Dili ve Kütüphaneler (Python, PyTorch, OpenCV, NumPy)', weight: 4, keywords: ['python', 'pytorch', 'opencv', 'numpy'] },
+    { name: 'Bulut ve Donanım Altyapısı (Lightning AI / NVIDIA L4 24GB GPU)', weight: 3, keywords: ['lightning', 'bulut', 'gpu', 'l4', 'nvidia', '24'] },
+    { name: '1. Aşama: RT-DETR ile İnsan Tespiti (Bounding Box)', weight: 5, keywords: ['rt-detr', 'rtdetr', 'insan tespiti', 'nesne', 'kutu', 'bounding'] },
+    { name: '2. Aşama: ViTPose ile 17 Eklem Noktası (İskelet Çıkarımı)', weight: 4, keywords: ['vitpose', '17', 'iskelet', 'eklem', 'anahtar nokta', 'keypoint'] },
+    { name: '3. Aşama: 60 Kare (2.4 sn) Kayar Pencere & Çift Yönlü GRU (Bi-GRU)', weight: 4, keywords: ['gru', 'bi-gru', '60 kare', '2.4', 'kayar pencere', 'sliding', 'sınıflandırma'] }
+  ],
+  3: [
+    { name: 'Problem Tanımı (Farklı kamerada düşüş / Overfitting / %71 F1)', weight: 4, keywords: ['overfitting', 'aşırı uyum', '71', 'farklı kamera', 'test', 'düş'] },
+    { name: 'Kök Neden 1: Etiket Sızıntısı (Label Leakage) / Ham Piksel / Konum Ezberi', weight: 5, keywords: ['etiket sızıntısı', 'label leakage', 'ham', 'piksel', 'ezber', 'konum', 'mesafe', 'uzaklık'] },
+    { name: 'Kök Neden 2 & Çözümü: Kapanma (Occlusion) / v<0.3 Enterpolasyon', weight: 4, keywords: ['kapanma', 'occlusion', 'arkasında', '0,0', 'enterpolasyon', 'önceki kare', '0.3', 'doldur'] },
+    { name: 'Ana Çözüm: Gövde Referanslı Normalizasyon (Kalça merkezi + Omuz-kalça boyu)', weight: 4, keywords: ['gövde', 'normalizasyon', 'kalça', 'pelvis', 'omuz', 'merkez', '0,1', 'oran', 'böl'] },
+    { name: 'Ölçülen Sonuç (F1 Skorunun %89.2 seviyesine yükselişi)', weight: 3, keywords: ['89', 'f1', 'yüksel', 'art'] }
+  ],
+  4: [
+    { name: 'Yazılım Metodolojisi (Agile / Scrum / Çevik yaklaşım)', weight: 6, keywords: ['agile', 'scrum', 'çevik'] },
+    { name: 'Planlama ve İletişim (1 Haftalık Sprint / Daily Stand-up toplantısı)', weight: 6, keywords: ['sprint', 'haftalık', 'stand-up', 'standup', 'günlük', 'toplantı'] },
+    { name: 'Sürüm Kontrolü ve Git Akışı (Git / GitHub / Feature Branch / PR / Code Review)', weight: 8, keywords: ['git', 'github', 'branch', 'dal', 'pull request', 'pr', 'review', 'inceleme', 'main'] }
+  ],
+  5: [
+    { name: 'İSG Önlemleri (Ofis ergonomisi/mola + Sahada çizme/tulum/ıslak zemin)', weight: 6, keywords: ['isg', 'ergonomi', 'mola', 'çizme', 'tulum', 'ıslak', 'saha', 'güvenlik'] },
+    { name: 'KVKK ve Veri Gizliliği (Çalışan yüzlerinin bulanıklaştırılması / Anonimleştirme)', weight: 5, keywords: ['kvkk', 'bulanık', 'anonim', 'yüz', 'kişisel veri'] },
+    { name: 'Ticari Gizlilik ve Lisanslar (NDA Sözleşmesi / MIT-Apache açık kaynak)', weight: 4, keywords: ['nda', 'gizlilik', 'ticari', 'lisans', 'açık kaynak', 'mit', 'apache'] },
+    { name: 'Mesleki Kazanımlar (Gerçek saha verisi, ön işleme önemi, ekip çalışması)', weight: 5, keywords: ['kazanım', 'gerçek', 'teori', 'pratik', 'takım', 'ekip', 'ön işleme', 'öğren'] }
+  ]
+};
+
+window.switchStajTab = function(tabName) {
+  ['tuyolar', 'teknolojiler', 'simulator'].forEach(name => {
+    const panel = document.getElementById('stajPanel-' + name);
+    const btn = document.getElementById('stajBtn-' + name);
+    if (panel) panel.classList.toggle('hidden', name !== tabName);
+    if (btn) btn.classList.toggle('active', name === tabName);
+  });
+};
+
+window.setStajFontSize = function(size, btn) {
+  const area = document.getElementById('staj-readable-area');
+  if (area) area.style.fontSize = size;
+  document.querySelectorAll('.staj-size-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+};
+
+window.toggleStajHint = function(qNum) {
+  const box = document.getElementById('stajHint-' + qNum);
+  if (box) box.classList.toggle('hidden');
+};
+
+window.gradeStajQuestion = function(qNum) {
+  const input = document.getElementById('stajAns-' + qNum);
+  const evalBox = document.getElementById('stajEval-' + qNum);
+  const pill = document.getElementById('stajPill-' + qNum);
+  if (!input || !evalBox || !pill) return;
+
+  const raw = input.value.trim();
+  const text = raw.toLocaleLowerCase('tr-TR');
+  const words = raw.split(/\s+/).filter(Boolean).length;
+
+  if (words < 5) {
+    evalBox.classList.remove('hidden');
+    evalBox.innerHTML = `<div style="color:#f59e0b; font-weight:700;">⚠️ Henüz çok kısa yazdın. Lütfen birkaç doğal cümleyle cevabını yazıp tekrar puanla.</div>`;
+    stajScores[qNum] = 0;
+    pill.textContent = '0 / 20 Puan';
+    updateStajTotal();
+    return;
+  }
+
+  let pts = 0;
+  const hits = [];
+  const misses = [];
+
+  STAJ_RUBRICS[qNum].forEach(r => {
+    const matched = r.keywords.some(k => text.includes(k));
+    if (matched) {
+      pts += r.weight;
+      hits.push(r.name);
+    } else {
+      misses.push(r.name);
+    }
+  });
+
+  let note = '';
+  if (words < 16 && pts > 12) {
+    pts = 12;
+    note = `<div style="color:#f59e0b; font-weight:700; margin-bottom:10px;">⚠️ Anahtar kelimeleri yazmışsın ama cümlelerin biraz kısa. Sınavda tam puan için 3-4 tam cümle kurmalısın.</div>`;
+  } else if (words >= 24 && pts >= 14 && pts < 20) {
+    pts = Math.min(20, pts + 2);
+  }
+
+  stajScores[qNum] = pts;
+  pill.textContent = pts + ' / 20 Puan';
+
+  let status = '';
+  if (pts >= 17) status = '🌟 Harika! Çok tutarlı, doğal ve tam puanlık bir cevap.';
+  else if (pts >= 12) status = '👍 Güzel gidiyorsun! Ana mantık doğru, aşağıdaki 1-2 detayı da eklersen 20/20 olur.';
+  else status = '🔧 Geliştirilmeli: Cevabın genel kalmış, aşağıdaki teknik detayları cümlene ekle.';
+
+  let html = `
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:12px;">
+      <strong>${status}</strong>
+      <strong style="color:var(--accent-cyan); font-size:1.15em;">${pts} / 20 Puan</strong>
+    </div>
+    ${note}
+  `;
+
+  if (hits.length > 0) {
+    html += `<div style="margin-bottom:10px;"><strong style="color:var(--accent-emerald);">✅ Yakaladığın Güçlü Noktalar:</strong><ul style="padding-left:22px; margin-top:6px;">${hits.map(h => `<li>${h}</li>`).join('')}</ul></div>`;
+  }
+  if (misses.length > 0) {
+    html += `<div><strong style="color:#f59e0b;">💡 Tam Puan İçin Ekleyebileceğin Tüyolar:</strong><ul style="padding-left:22px; margin-top:6px;">${misses.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
+  }
+
+  evalBox.innerHTML = html;
+  evalBox.classList.remove('hidden');
+  updateStajTotal();
+};
+
+window.gradeAllStajQuestions = function() {
+  for (let i = 1; i <= 5; i++) {
+    window.gradeStajQuestion(i);
+  }
+};
+
+function updateStajTotal() {
+  const total = stajScores[1] + stajScores[2] + stajScores[3] + stajScores[4] + stajScores[5];
+  const txt = document.getElementById('stajTotalScoreText');
+  const bar = document.getElementById('stajTotalScoreBar');
+  if (txt) txt.textContent = total + ' / 100 Puan';
+  if (bar) bar.style.width = total + '%';
+}
+
+window.copyStajAnswersForAI = function() {
+  let out = "Kral kişisel sitemdeki 5 açık uçlu staj sorusuna şu cevapları yazdım, tutarlılığını inceler misin:\n\n";
+  for (let i = 1; i <= 5; i++) {
+    const val = (document.getElementById('stajAns-' + i)?.value || '').trim() || '(Boş bırakıldı)';
+    out += `--- SORU ${i} CEVABIM ---\n${val}\n\n`;
+  }
+  navigator.clipboard.writeText(out).then(() => {
+    const alertBox = document.getElementById('stajCopyAlert');
+    if (alertBox) {
+      alertBox.classList.remove('hidden');
+      setTimeout(() => alertBox.classList.add('hidden'), 6000);
+    }
+    showToast('5 cevabın panoya kopyalandı!');
+  });
+};

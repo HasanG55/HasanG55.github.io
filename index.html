@@ -48,6 +48,7 @@
 
       <ul class="nav-links" id="nav-links">
         <li><a href="#about" class="active" data-i18n="navAbout">Hakkımda</a></li>
+        <li><a href="#staj-sinavi" style="color:var(--accent-cyan); font-weight:800;">🎓 Staj Sınavı (BM301)</a></li>
         <li><a href="#projects" data-i18n="navProjects">Projeler</a></li>
         <li><a href="#experience" data-i18n="navExperience">Deneyim & Eğitim</a></li>
         <li><a href="#skills" data-i18n="navSkills">Yetenekler</a></li>
@@ -99,7 +100,11 @@
           </p>
 
           <div class="hero-cta-group">
-            <a href="#projects" class="btn btn-primary">
+            <a href="#staj-sinavi" class="btn btn-primary" style="background:linear-gradient(135deg, #10b981, #06b6d4);">
+              <span>🎓</span>
+              <span>BM301 Staj Sınavı Çalışma Sekmesi</span>
+            </a>
+            <a href="#projects" class="btn btn-secondary">
               <span>🚀</span>
               <span data-i18n="heroPrimaryBtn">Projelerimi Keşfet</span>
             </a>
@@ -107,10 +112,6 @@
               <span>📄</span>
               <span data-i18n="heroSecondaryBtn">İnteraktif CV & PDF</span>
             </button>
-            <a href="#contact" class="btn btn-secondary">
-              <span>✉️</span>
-              <span data-i18n="heroContactBtn">İletişime Geç</span>
-            </a>
           </div>
 
           <div class="hero-stats" id="hero-stats"></div>
@@ -145,6 +146,467 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BM301 STAJ I SINAVI ÇALIŞMA & SİMÜLASYON SEKMESİ
+         ====================================================================== -->
+    <section id="staj-sinavi" class="staj-exam-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🎓 GAZİ ÜNİVERSİTESİ • BM301 STAJ I KLASİK SINAV HAZIRLIK MODÜLÜ</span>
+          <h2 class="section-title">5 Genel Açık Uçlu Soru — Tüyolar, Teknolojiler & Yazılı Simülatör</h2>
+          <p class="section-subtitle" style="max-width: 860px;">
+            Sınavda herkese ortak sorulacak <strong>5 açık uçlu genel soru</strong> için araştırmaya dayalı soru tahminleri, hocaların puan verdiği tüyolar, kullanılan teknolojiler tablosu ve yazarak kendini puanlayabileceğin simülatör.
+          </p>
+        </div>
+
+        <!-- ÜST KONTROL ÇUBUĞU: YAZI BOYUTU & ALT SEKMELER -->
+        <div class="staj-toolbar">
+          <div class="staj-subtabs">
+            <button class="staj-tab-btn active" id="stajBtn-tuyolar" onclick="switchStajTab('tuyolar')">
+              💡 1. 5 Soru & Cevap Tüyoları
+            </button>
+            <button class="staj-tab-btn" id="stajBtn-teknolojiler" onclick="switchStajTab('teknolojiler')">
+              🛠️ 2. Kullanılan Teknolojiler & Şema
+            </button>
+            <button class="staj-tab-btn" id="stajBtn-simulator" onclick="switchStajTab('simulator')">
+              ✍️ 3. Yazarak Cevapla & Puanlandır (100 Puan)
+            </button>
+          </div>
+
+          <div class="staj-font-controls">
+            <span>🔍 Okuma Boyutu:</span>
+            <button onclick="setStajFontSize('18px', this)" class="staj-size-btn">Normal</button>
+            <button onclick="setStajFontSize('20px', this)" class="staj-size-btn active">Büyük (20px)</button>
+            <button onclick="setStajFontSize('23px', this)" class="staj-size-btn">Çok Büyük (23px)</button>
+          </div>
+        </div>
+
+        <!-- ANA İÇERİK KAPSAYICISI (BÜYÜK OKUNAKLI YAZI ALANI) -->
+        <div id="staj-readable-area" class="staj-readable-area" style="font-size: 20px;">
+
+          <!-- ================================================================
+               ALT SEKME 1: 5 SORU TAHMİNİ, HOCA TÜYOLARI & DOĞAL CEVAPLAR
+               ================================================================ -->
+          <div id="stajPanel-tuyolar" class="staj-panel">
+
+            <!-- GENEL STRATEJİ KUTUSU -->
+            <div class="staj-strategy-banner">
+              <h3>🎯 Araştırma Özeti: Gazi ve Mühendislik Fakültelerinde "5 Ortak Klasik Soru" Nasıl Sorulur?</h3>
+              <p>
+                Sınıftaki herkes farklı yerlerde (kimi web, kimi mobil, kimi siber güvenlik, sen ise yapay zeka/görüntü işleme) staj yaptığı için hocalar <strong>"Herkesin kendi projesine uyarlayabileceği 5 ortak mühendislik sorusu"</strong> sorar. Tam tahmin ettiğin gibi <strong>1 soru doğrudan "Kullanılan Teknolojiler ve Sistem Mimarisi"</strong> olur! İşte çıkacak 5 soru ve her birinin puan alma şifresi:
+              </p>
+            </div>
+
+            <!-- SORU 1 REHBERİ -->
+            <div class="staj-q-card">
+              <div class="staj-q-badge">1. SORU TAHMİNİ • KURUM YAPISI VE MÜHENDİSİN ROLÜ (20 Puan)</div>
+              <h3 class="staj-q-title">
+                "Staj yaptığınız kurumun faaliyet alanını, organizasyon/departman yapısını ve bir bilgisayar mühendisi olarak bu kurumdaki görev ve sorumluluklarınızı açıklayınız."
+              </h3>
+
+              <div class="staj-tip-box">
+                <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+                <ul>
+                  <li>Sadece "Yazılım şirketinde staj yaptım" deme; <strong>ODTÜ Teknokent</strong>'te bir <strong>Ar-Ge şirketi</strong> olduğunu mutlaka vurgula.</li>
+                  <li>Şirketteki departmanları say (Ar-Ge, Yazılım, Saha Operasyonları) ve kendi bulunduğun <strong>12 kişilik Ar-Ge ekibini</strong> ve mentörün <strong>Yusuf Onat Yılmaz</strong>'ı yaz.</li>
+                  <li>Senin görevinin sadece izlemek değil; <strong>Milk AI</strong> projesinde veri ön işleme, iskelet normalizasyonu ve model eğitimi yapmak olduğunu net söyle.</li>
+                </ul>
+              </div>
+
+              <div class="staj-keywords">
+                <span>🔑 Anahtar Kelimeler:</span>
+                <code>WellztechAI (ODTÜ Teknokent)</code>
+                <code>12 Kişilik Ar-Ge Departmanı</code>
+                <code>Yusuf Onat Yılmaz</code>
+                <code>Milk AI Projesi</code>
+                <code>Veri Ön İşleme & Model Eğitimi</code>
+              </div>
+
+              <div class="staj-natural-answer">
+                <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+                <p>
+                  "Stajımı ODTÜ Teknokent'te bulunan <strong>WellztechAI Teknoloji ve Yazılım A.Ş.</strong>'de tamamladım. Şirket; tarım, hayvancılık ve endüstriyel tesisler için görüntü işleme ve yapay zeka tabanlı denetim sistemleri geliştiriyor. Kurumda Genel Müdürlük altında Ar-Ge, Yazılım Geliştirme, Saha Operasyonları ve İdari birimler yer alıyor. Ben 12 kişilik teknik <strong>Ar-Ge departmanında</strong>, Genel Müdür ve Kıdemli Mühendis <strong>Yusuf Onat Yılmaz</strong> mentörlüğünde çalıştım. Bir bilgisayar mühendisi olarak görevim; <strong>Milk AI</strong> projesinde sağımhane kameralarından sağım kurallarına uyulup uyulmadığını tespit eden derin öğrenme modellerini geliştirmek, veri ön işleme hattını kurmak ve model başarısını artırmaktı."
+                </p>
+              </div>
+            </div>
+
+            <!-- SORU 2 REHBERİ (KULLANILAN TEKNOLOJİLER VE MİMARİ) -->
+            <div class="staj-q-card staj-card-featured">
+              <div class="staj-q-badge">2. SORU TAHMİNİ (SENİN DEDİĞİN BANKO SORU!) • KULLANILAN TEKNOLOJİLER VE MİMARİ (20 Puan)</div>
+              <h3 class="staj-q-title">
+                "Staj projenizde kullandığınız programlama dillerini, kütüphaneleri, donanım/yazılım teknolojilerini ve geliştirdiğiniz sistemin çalışma mimarisini (tercihen şema çizerek) açıklayınız."
+              </h3>
+
+              <div class="staj-tip-box">
+                <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+                <ul>
+                  <li>Teknolojileri sadece isim olarak sıralama; <strong>"Hangi teknolojiyi ne amaçla kullandığını"</strong> yanına 1 cümleyle yaz (Örn: <em>Python ve PyTorch derin öğrenme için, OpenCV video karelerini işlemek için, Lightning AI L4 GPU bulutta eğitim için</em>).</li>
+                  <li>Sistemin çalışma sırasını <strong>3 adım halinde (İnsan Tespiti ➔ İskelet Çıkarımı ➔ Hareket Sınıflandırma)</strong> anlat ve kağıdın kenarına küçük bir kutucuklu akış şeması çiz!</li>
+                </ul>
+              </div>
+
+              <div class="staj-keywords">
+                <span>🔑 Anahtar Kelimeler:</span>
+                <code>Python & PyTorch</code>
+                <code>OpenCV & NumPy</code>
+                <code>RT-DETR (İnsan Tespiti)</code>
+                <code>ViTPose (17 Eklem Noktası)</code>
+                <code>Bi-GRU (60 Kare / 2.4 sn)</code>
+                <code>Lightning AI (NVIDIA L4 24GB GPU)</code>
+              </div>
+
+              <div class="staj-natural-answer">
+                <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+                <p>
+                  "Projede yazılım dili olarak <strong>Python</strong>, derin öğrenme modelleri için <strong>PyTorch</strong>, kamera videolarını karelere ayırmak ve işlemek için <strong>OpenCV</strong>, matris hesaplamaları için ise <strong>NumPy</strong> kullandık. Donanım tarafında eğitimleri <strong>Lightning AI</strong> bulut platformunda 24 GB VRAM'li <strong>NVIDIA L4 GPU</strong> üzerinde gerçekleştirdik.<br><br>
+                  Sistemin çalışma mimarisi 3 aşamalı bir boru hattından (pipeline) oluşuyor:<br>
+                  <strong>1. İnsan Tespiti (RT-DETR):</strong> İlk olarak güvenlik kamerası görüntüsünden arka planı ve inekleri elemek için RT-DETR modeliyle sadece sağım çalışanını tespit edip kutu içine (bounding box) alıyoruz.<br>
+                  <strong>2. İskelet Çıkarımı (ViTPose):</strong> Tespit edilen kişinin görüntüsünü ViTPose modeline vererek omuz, dirsek, bilek ve kalça gibi <strong>17 anahtar eklem noktasını</strong> çıkarıyoruz.<br>
+                  <strong>3. Eylem Sınıflandırma (Bi-GRU):</strong> Çıkan eklem noktalarını gövdeye göre normalize edip <strong>2.4 saniyelik (60 karelik) kayar pencereler</strong> halinde Çift Yönlü GRU (Bi-GRU) modeline veriyoruz ve çalışanın o an meme temizliği mi, ön daldırma mı yoksa başlık takma işlemi mi yaptığını sınıflandırıyoruz."
+                </p>
+              </div>
+            </div>
+
+            <!-- SORU 3 REHBERİ -->
+            <div class="staj-q-card staj-card-featured">
+              <div class="staj-q-badge">3. SORU TAHMİNİ • KARŞILAŞILAN TEKNİK PROBLEM VE ÇÖZÜMÜ (20 Puan)</div>
+              <h3 class="staj-q-title">
+                "Staj süresince projenizde karşılaştığınız en önemli teknik problem neydi? Bu problemin kaynağını nasıl tespit ettiniz ve çözmek için nasıl bir mühendislik yöntemi uyguladınız?"
+              </h3>
+
+              <div class="staj-tip-box">
+                <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+                <ul>
+                  <li>Bu soru stajı gerçekten yapıp yapmadığını ölçen en kritik sorudur! <strong>"Önce ne sorun vardı ➔ Neden kaynaklanıyordu ➔ Nasıl çözdük ➔ Sonuç kaçtan kaça çıktı"</strong> sırasıyla yaz.</li>
+                  <li>Rakam vermeyi unutma: <strong>F1 skorunun %71'den %89.2'ye yükseldiğini</strong> yazdığında tam puan garanti olur.</li>
+                </ul>
+              </div>
+
+              <div class="staj-keywords">
+                <span>🔑 Anahtar Kelimeler:</span>
+                <code>Overfitting (Farklı Kamerada Düşüş)</code>
+                <code>Etiket Sızıntısı (Label Leakage)</code>
+                <code>Gövde Referanslı Normalizasyon</code>
+                <code>Kalça Merkezi (0,0) + Omuz-Kalça Boyu</code>
+                <code>Kapanma (Occlusion v&lt;0.3)</code>
+                <code>F1: %71 ➔ %89.2</code>
+              </div>
+
+              <div class="staj-natural-answer">
+                <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+                <p>
+                  "Karşılaştığımız en büyük teknik sorun, hareket sınıflandıran modelin eğitim verisinde %95 doğruluk verirken, farklı kamera açısına sahip test videolarında <strong>F1 skorunun %71'e düşmesiydi (aşırı uyum / overfitting)</strong>.<br>
+                  <strong>Kök Neden:</strong> Hatayı incelediğimizde modele doğrudan görüntüdeki <strong>ham piksel koordinatlarını (x, y)</strong> verdiğimizi gördük. Model kişinin kol hareketini öğrenmek yerine, ekranda durduğu yeri ve kameraya uzaklığını ezberlemişti (<strong>Etiket Sızıntısı / Label Leakage</strong>). Ayrıca çalışanın eli ineğin arkasında kaldığında (<strong>kapanma / occlusion</strong>) koordinatların (0,0) olması modele ani sıçrama hatası yaptırıyordu.<br>
+                  <strong>Mühendislik Çözümümüz:</strong> <strong>Gövde Referanslı Normalizasyon</strong> uyguladık. Kişinin kalça ortasını <code>(0,0)</code> başlangıç noktası kabul ettik ve tüm eklem noktalarını kişinin <strong>omuz-kalça boyuna</strong> bölerek <code>[0, 1]</code> aralığına ölçekledik. Görünürlük skoru düşük (<code>v &lt; 0.3</code>) olan kayıp noktaları da sıfırlamak yerine bir önceki karenin konumuyla doldurduk (enterpolasyon). Böylece model kamera açısından bağımsız hale geldi ve test <strong>F1 skorumuz %71'den %89.2'ye yükseldi</strong>."
+                </p>
+              </div>
+            </div>
+
+            <!-- SORU 4 REHBERİ -->
+            <div class="staj-q-card">
+              <div class="staj-q-badge">4. SORU TAHMİNİ • YAZILIM GELİŞTİRME METODOLOJİSİ VE EKİP ÇALIŞMASI (20 Puan)</div>
+              <h3 class="staj-q-title">
+                "Staj yaptığınız kurumda proje yönetimi, görev dağılımı, yazılım geliştirme metodolojisi ve sürüm kontrol süreçleri nasıl yürütülmektedir?"
+              </h3>
+
+              <div class="staj-tip-box">
+                <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+                <ul>
+                  <li>Şirkette rastgele kod yazılmadığını, <strong>Agile / Scrum</strong> disipliniyle <strong>1 haftalık Sprintler</strong> halinde çalışıldığını belirt.</li>
+                  <li><strong>Git ve GitHub</strong> kullanımında <code>main</code> dalının korunduğunu, <code>feature branch</code> açıp <strong>Pull Request (PR)</strong> ve <strong>Code Review</strong> ile kod birleştirildiğini yaz.</li>
+                </ul>
+              </div>
+
+              <div class="staj-keywords">
+                <span>🔑 Anahtar Kelimeler:</span>
+                <code>Agile / Scrum</code>
+                <code>1 Haftalık Sprint</code>
+                <code>Daily Stand-up (15 dk)</code>
+                <code>Git & GitHub</code>
+                <code>Feature Branch</code>
+                <code>Pull Request (PR) & Code Review</code>
+              </div>
+
+              <div class="staj-natural-answer">
+                <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+                <p>
+                  "Projede hızlı geri bildirim alabilmek ve saha verilerine uyum sağlamak için <strong>Agile / Scrum</strong> metodolojisini uyguladık. Görevleri <strong>1 haftalık Sprint</strong> planlarına böldük ve her sabah 15 dakikalık <strong>Daily Stand-up</strong> toplantıları yaparak bir önceki gün yapılanları ve o günkü hedefleri konuştuk. Sürüm kontrolü için <strong>Git ve GitHub</strong> kullandık. Ana kodu korumak adına doğrudan <code>main</code> dalına kod atılmıyordu; her yeni özellik için ayrı bir <code>feature branch</code> açtık, kodumuzu tamamlayınca <strong>Pull Request (PR)</strong> gönderdik ve kıdemli mühendislerin <strong>Code Review</strong> (kod incelemesi) onayından sonra ana dala birleştirdik."
+                </p>
+              </div>
+            </div>
+
+            <!-- SORU 5 REHBERİ -->
+            <div class="staj-q-card">
+              <div class="staj-q-badge">5. SORU TAHMİNİ • İSG, MÜHENDİSLİK ETİĞİ / KVKK VE MESLEKİ KAZANIMLAR (20 Puan)</div>
+              <h3 class="staj-q-title">
+                "Staj süresince dikkat edilen İş Sağlığı ve Güvenliği (İSG) önlemleri, mühendislik etiği / veri güvenliği ilkeleri ve bu stajın size kattığı mesleki kazanımlar nelerdir?"
+              </h3>
+
+              <div class="staj-tip-box">
+                <strong>💡 Cevap Tüyosu (Hoca Neye Puan Verir?):</strong>
+                <ul>
+                  <li>MÜDEK akreditasyonu gereği her staj sınavında <strong>İSG ve Mühendislik Etiği</strong> mutlaka sorulur.</li>
+                  <li>Kamera görüntüsü işlediğiniz için <strong>KVKK kapsamında çalışanların yüzlerini bulanıklaştırdığınızı (anonimleştirme)</strong> ve çiftlik verileri için <strong>Gizlilik Sözleşmesi (NDA)</strong> olduğunu yazman hocadan tam puan alır!</li>
+                </ul>
+              </div>
+
+              <div class="staj-keywords">
+                <span>🔑 Anahtar Kelimeler:</span>
+                <code>Ofis Ergonomisi & Saha İSG</code>
+                <code>KVKK (Yüz Bulanıklaştırma / Anonimleştirme)</code>
+                <code>NDA (Gizlilik Sözleşmesi)</code>
+                <code>Açık Kaynak Lisansları (MIT / Apache 2.0)</code>
+                <code>Teoriden Pratiğe Geçiş</code>
+              </div>
+
+              <div class="staj-natural-answer">
+                <div class="staj-ans-header">✍️ Sınavda Kağıda Rahatça Yazabileceğin Doğal Cevap:</div>
+                <p>
+                  "<strong>İSG açısından:</strong> Ofiste uzun süre bilgisayar başında çalışırken ergonomik oturma düzenine, düzenli göz molalarına ve elektrik güvenliğine dikkat edildi. Çiftlik saha ziyaretlerinde ise ıslak zemine karşı kaymaz çizme, koruyucu tulum ve hayvanlarla güvenli mesafe kurallarına uyuldu.<br>
+                  <strong>Mühendislik etiği ve veri güvenliği açısından:</strong> Kamera kayıtlarındaki çalışanların yüzleri <strong>KVKK</strong> gereği veri setine girmeden önce otomatik olarak bulanıklaştırıldı (anonimleştirildi). Ayrıca çiftliklerin ticari bilgileri <strong>Gizlilik Sözleşmesi (NDA)</strong> ile korundu ve açık kaynak kütüphaneler (MIT, Apache 2.0) lisanslarına uygun kullanıldı.<br>
+                  <strong>Mesleki kazanım olarak:</strong> Okulda öğrendiğim teorik yapay zeka modellerini gerçek hayatın zorlu verilerinde (farklı kamera açısı, kapanma, gürültü) çalıştırmayı, doğru veri ön işlemenin model başarısını nasıl doğrudan değiştirdiğini ve Scrum/Git ile profesyonel bir ekipte çalışmayı öğrendim."
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================================================================
+               ALT SEKME 2: KULLANILAN TEKNOLOJİLER TABLOSU & MİMARİ ŞEMA
+               ================================================================ -->
+          <div id="stajPanel-teknolojiler" class="staj-panel hidden">
+
+            <div class="staj-q-card">
+              <div class="staj-q-badge">TEKNOLOJİ REHBERİ • HANGİ TEKNOLOJİYİ NEDEN KULLANDIK?</div>
+              <h3 class="staj-q-title">🛠️ Sınavda "Kullanılan Teknolojiler" Sorulursa Yazacağın Tam Liste</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 18px;">
+                Sınavda kullanılan teknolojileri sorarlarsa bu tablodaki 7 kalemi ve yanındaki "Neden Kullandık?" açıklamasını yazman seni sınıfta en üst sıraya taşır:
+              </p>
+
+              <div style="overflow-x: auto;">
+                <table class="staj-tech-table">
+                  <thead>
+                    <tr>
+                      <th>Teknoloji / Araç</th>
+                      <th>Kategorisi</th>
+                      <th>Projede Ne İşe Yaradı & Neden Seçildi? (Sınavda Yazacağın Açıklama)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Python 3.10 & PyTorch</strong></td>
+                      <td>Dil & Derin Öğrenme</td>
+                      <td>Tüm yapay zeka modellerinin (RT-DETR, ViTPose, Bi-GRU) eğitimi, tensör işlemleri ve GPU hızlandırması için kullanıldı.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>OpenCV & NumPy</strong></td>
+                      <td>Görüntü İşleme & Matematik</td>
+                      <td>Kamera (CCTV) videolarını karelere (frame) ayırmak, kırpmak ve iskelet koordinatlarının matris/normalizasyon hesaplarını yapmak için kullanıldı.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>RT-DETR</strong></td>
+                      <td>1. Aşama: Nesne Tespiti</td>
+                      <td>Sağımhanedeki insanları gerçek zamanlı tespit etmek için kullanıldı. Klasik YOLO'daki NMS gecikmesi olmadığı için hızlı ve kararlı çalıştı.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>ViTPose</strong></td>
+                      <td>2. Aşama: İskelet Tahmini</td>
+                      <td>Tespit edilen çalışanın omuz, dirsek, bilek ve kalça gibi <strong>17 anatomik eklem noktasını</strong> çıkarmak için kullanıldı.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Çift Yönlü GRU (Bi-GRU)</strong></td>
+                      <td>3. Aşama: Zaman Serisi</td>
+                      <td><strong>60 karelik (2.4 sn) kayar pencerelerdeki</strong> eklem hareketlerinden sağım adımını sınıflandırmak için kullanıldı. LSTM'e göre %30 daha az parametreli ve hızlı olduğu için seçildi.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Lightning AI & NVIDIA L4 GPU</strong></td>
+                      <td>Bulut & Donanım</td>
+                      <td>Modellerin eğitimi yüksek işlem gücü gerektirdiği için <strong>24 GB VRAM</strong> kapasiteli L4 GPU sunucuları bulut üzerinden kullanıldı.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Git, GitHub & Scrum</strong></td>
+                      <td>Sürüm Kontrol & Süreç</td>
+                      <td>1 haftalık sprintlerle görev takibi yapıldı; kodlar <code>feature branch</code>, <strong>Pull Request (PR)</strong> ve <strong>Code Review</strong> ile yönetildi.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="staj-q-card">
+              <div class="staj-q-badge">KAĞIDA ÇİZİLECEK ŞEMA • SİSTEM MİMARİSİ BLOK DİYAGRAMI</div>
+              <h3 class="staj-q-title">📐 Sınav Kağıdının Ortasına Çizeceğin 5 Kutulu Akış Şeması</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                Teknoloji veya mimari sorusunda açıklamaya başlamadan önce kağıda şu 5 kutuyu alt alta çizip oklarla bağla:
+              </p>
+
+              <div class="staj-diagram-wrap">
+                <div class="staj-diagram-box">
+                  <span class="step-num">ADIM 1</span>
+                  <strong>📹 CCTV Kamera Video Akışı (1080p, 25 FPS)</strong>
+                  <span>Sağımhane kameralarından gelen ham görüntü kareleri (OpenCV ile okunur)</span>
+                </div>
+                <div class="staj-diagram-arrow">⬇️</div>
+                <div class="staj-diagram-box">
+                  <span class="step-num">ADIM 2</span>
+                  <strong>🎯 RT-DETR (Gerçek Zamanlı İnsan Tespiti)</strong>
+                  <span>Arka plan ve inekler elenir, sadece sağım personeli kutu (Bounding Box) içine alınır</span>
+                </div>
+                <div class="staj-diagram-arrow">⬇️</div>
+                <div class="staj-diagram-box">
+                  <span class="step-num">ADIM 3</span>
+                  <strong>🦴 ViTPose (17 Anahtar Eklem Noktası Çıkarımı)</strong>
+                  <span>Kırpılan personel görüntüsünden omuz, dirsek, bilek, kalça koordinatları (x, y, v) çıkarılır</span>
+                </div>
+                <div class="staj-diagram-arrow">⬇️</div>
+                <div class="staj-diagram-box featured">
+                  <span class="step-num">ADIM 4 (KRİTİK MÜHENDİSLİK ÇÖZÜMÜ)</span>
+                  <strong>📐 Gövde Referanslı Normalizasyon & 60 Kare (2.4 sn) Kayar Pencere</strong>
+                  <span>Kalça merkezi (0,0) alınır, omuz-kalça boyuna bölünür, v&lt;0.3 kayıp noktalar enterpole edilir</span>
+                </div>
+                <div class="staj-diagram-arrow">⬇️</div>
+                <div class="staj-diagram-box">
+                  <span class="step-num">ADIM 5</span>
+                  <strong>🧠 Çift Yönlü GRU (Bi-GRU) Eylem Sınıflandırma</strong>
+                  <span>Çıktı: Meme Temizliği / Ön Daldırma / Başlık Takma / Sağım Protokol İhlali Tespiti</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================================================================
+               ALT SEKME 3: 5 AÇIK UÇLU SORU YAZILI SİMÜLATÖRÜ (100 PUAN)
+               ================================================================ -->
+          <div id="stajPanel-simulator" class="staj-panel hidden">
+
+            <!-- TOPLAM PUAN PANELİ -->
+            <div class="staj-score-banner">
+              <div style="flex: 1; min-width: 280px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <strong>🏆 Yazılı Sınav Simülasyonu Toplam Puanın:</strong>
+                  <span id="stajTotalScoreText" style="font-size:1.3em; font-weight:800; color:var(--accent-cyan);">0 / 100 Puan</span>
+                </div>
+                <div class="staj-prog-bg">
+                  <div id="stajTotalScoreBar" class="staj-prog-fill" style="width:0%;"></div>
+                </div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <button class="btn btn-primary" onclick="gradeAllStajQuestions()">🎯 Tüm Sınavı Puanla (100 Üzerinden)</button>
+                <button class="btn btn-secondary" onclick="copyStajAnswersForAI()">📋 Cevaplarımı Kopyala</button>
+              </div>
+            </div>
+
+            <div id="stajCopyAlert" class="hidden" style="margin-bottom:20px; padding:14px 18px; border-radius:12px; background:rgba(16,185,129,0.18); border:1px solid var(--accent-emerald); font-weight:700;">
+              ✅ Yazdığın 5 cevap panoya kopyalandı! Sohbete yapıştırıp bana da gönderebilirsin.
+            </div>
+
+            <!-- SİMÜLATÖR SORU 1 -->
+            <div class="staj-q-card">
+              <div class="staj-sim-header">
+                <div>
+                  <span class="staj-q-badge">SORU 1 (20 PUAN) • KURUM VE MÜHENDİSİN ROLÜ</span>
+                  <h3 class="staj-q-title">1. Staj yaptığınız kurumun faaliyet alanını, departman yapısını ve bir bilgisayar mühendisi olarak bu kurumdaki görevlerinizi açıklayınız.</h3>
+                </div>
+                <span class="staj-score-pill" id="stajPill-1">? / 20 Puan</span>
+              </div>
+              <textarea id="stajAns-1" class="staj-textarea" rows="4" placeholder="Cevabını sınav kağıdına yazar gibi buraya yaz... (İpucu: WellztechAI, ODTÜ Teknokent, 12 kişilik Ar-Ge, Yusuf Onat Yılmaz, Milk AI projesi)"></textarea>
+              <div class="staj-sim-actions">
+                <button class="btn btn-primary" onclick="gradeStajQuestion(1)">✅ 1. Soruyu Puanla</button>
+                <button class="btn btn-secondary" onclick="toggleStajHint(1)">👁️ Örnek Cevabı Göster / Gizle</button>
+              </div>
+              <div id="stajEval-1" class="staj-eval-box hidden"></div>
+              <div id="stajHint-1" class="staj-natural-answer hidden" style="margin-top:14px;">
+                "Stajımı ODTÜ Teknokent'te bulunan <strong>WellztechAI Teknoloji ve Yazılım A.Ş.</strong>'de tamamladım. Şirket tarım ve hayvancılık tesisleri için görüntü işleme ve yapay zeka tabanlı denetim sistemleri geliştiriyor. Ben 12 kişilik <strong>Ar-Ge departmanında</strong>, Genel Müdür ve Kıdemli Mühendis <strong>Yusuf Onat Yılmaz</strong> mentörlüğünde görev aldım. Sorumluluğum; <strong>Milk AI</strong> projesinde sağımhane kameralarından sağım kurallarına uyulup uyulmadığını tespit eden derin öğrenme modellerini eğitmek ve veri ön işleme hattını kurmaktı."
+              </div>
+            </div>
+
+            <!-- SİMÜLATÖR SORU 2 -->
+            <div class="staj-q-card">
+              <div class="staj-sim-header">
+                <div>
+                  <span class="staj-q-badge">SORU 2 (20 PUAN) • KULLANILAN TEKNOLOJİLER VE SİSTEM MİMARİSİ</span>
+                  <h3 class="staj-q-title">2. Staj projenizde kullandığınız yazılım/donanım teknolojilerini ve geliştirdiğiniz sistemin çalışma mimarisini (veri akış adımlarını) açıklayınız.</h3>
+                </div>
+                <span class="staj-score-pill" id="stajPill-2">? / 20 Puan</span>
+              </div>
+              <textarea id="stajAns-2" class="staj-textarea" rows="5" placeholder="Cevabını buraya yaz... (İpucu: Python, PyTorch, OpenCV, Lightning AI L4 GPU + 1. Aşama RT-DETR insan tespiti, 2. Aşama ViTPose 17 eklem noktası, 60 kare / 2.4 sn pencere ve Bi-GRU sınıflandırma)"></textarea>
+              <div class="staj-sim-actions">
+                <button class="btn btn-primary" onclick="gradeStajQuestion(2)">✅ 2. Soruyu Puanla</button>
+                <button class="btn btn-secondary" onclick="toggleStajHint(2)">👁️ Örnek Cevabı Göster / Gizle</button>
+              </div>
+              <div id="stajEval-2" class="staj-eval-box hidden"></div>
+              <div id="stajHint-2" class="staj-natural-answer hidden" style="margin-top:14px;">
+                "Projede <strong>Python, PyTorch, OpenCV ve NumPy</strong> kullandık; modelleri <strong>Lightning AI</strong> bulut platformunda 24 GB VRAM'li <strong>NVIDIA L4 GPU</strong> üzerinde eğittik. Sistemimiz 3 aşamalı çalışıyor: Önce kamera görüntüsünden <strong>RT-DETR</strong> ile sağım çalışanını tespit edip kutu içine alıyoruz. Sonra kırpılan görüntüyü <strong>ViTPose</strong> modeline vererek <strong>17 eklem noktasını</strong> çıkarıyoruz. Bu noktaları gövdeye göre normalize edip <strong>2.4 saniyelik (60 kare) kayar pencereler</strong> halinde <strong>Çift Yönlü GRU (Bi-GRU)</strong> ağına vererek sağım hareketini sınıflandırıyoruz."
+              </div>
+            </div>
+
+            <!-- SİMÜLATÖR SORU 3 -->
+            <div class="staj-q-card staj-card-featured">
+              <div class="staj-sim-header">
+                <div>
+                  <span class="staj-q-badge">SORU 3 (20 PUAN) • KARŞILAŞILAN TEKNİK PROBLEM VE ÇÖZÜM</span>
+                  <h3 class="staj-q-title">3. Staj süresince karşılaştığınız en önemli teknik problemi, kaynağını ve uyguladığınız mühendislik çözümünü sonuçlarıyla anlatınız.</h3>
+                </div>
+                <span class="staj-score-pill" id="stajPill-3">? / 20 Puan</span>
+              </div>
+              <textarea id="stajAns-3" class="staj-textarea" rows="5" placeholder="Cevabını buraya yaz... (İpucu: Farklı kamera açısında F1'in %71'e düşmesi, ham piksel koordinatı yüzünden konumu ezberleme / Etiket Sızıntısı, kalça merkezli Gövde Normalizasyonu, v<0.3 enterpolasyonu ve F1'in %89.2'ye çıkışı)"></textarea>
+              <div class="staj-sim-actions">
+                <button class="btn btn-primary" onclick="gradeStajQuestion(3)">✅ 3. Soruyu Puanla</button>
+                <button class="btn btn-secondary" onclick="toggleStajHint(3)">👁️ Örnek Cevabı Göster / Gizle</button>
+              </div>
+              <div id="stajEval-3" class="staj-eval-box hidden"></div>
+              <div id="stajHint-3" class="staj-natural-answer hidden" style="margin-top:14px;">
+                "En büyük problemimiz, modelin eğitimde %95 başarılı olup farklı kamera açılarında <strong>F1 skorunun %71'e düşmesiydi (overfitting)</strong>. İncelediğimizde modelin <strong>ham piksel koordinatları</strong> yüzünden kol hareketini değil, kişinin ekrandaki yerini ve kameraya uzaklığını ezberlediğini (<strong>Etiket Sızıntısı / Label Leakage</strong>) gördük. Ayrıca el ineğin arkasında kalınca (<strong>kapanma / occlusion</strong>) (0,0) üretilmesi hataya yol açıyordu. Çözüm olarak <strong>Gövde Referanslı Normalizasyon</strong> yaptık: Kalça ortasını <code>(0,0)</code> merkezi aldık ve tüm noktaları <strong>omuz-kalça boyuna</strong> bölerek <code>[0,1]</code> aralığına çektik. Kayıp noktaları da (<code>v &lt; 0.3</code>) bir önceki kareyle doldurduk. Böylece F1 skoru <strong>%71'den %89.2'ye</strong> yükseldi."
+              </div>
+            </div>
+
+            <!-- SİMÜLATÖR SORU 4 -->
+            <div class="staj-q-card">
+              <div class="staj-sim-header">
+                <div>
+                  <span class="staj-q-badge">SORU 4 (20 PUAN) • YAZILIM SÜREÇLERİ VE METODOLOJİ</span>
+                  <h3 class="staj-q-title">4. Kurumda uygulanan yazılım geliştirme metodolojisini, ekip içi planlamayı ve sürüm kontrol süreçlerini açıklayınız.</h3>
+                </div>
+                <span class="staj-score-pill" id="stajPill-4">? / 20 Puan</span>
+              </div>
+              <textarea id="stajAns-4" class="staj-textarea" rows="4" placeholder="Cevabını buraya yaz... (İpucu: Agile/Scrum, 1 haftalık Sprint, sabahları 15 dk Daily Stand-up, Git/GitHub, feature branch, Pull Request ve Code Review)"></textarea>
+              <div class="staj-sim-actions">
+                <button class="btn btn-primary" onclick="gradeStajQuestion(4)">✅ 4. Soruyu Puanla</button>
+                <button class="btn btn-secondary" onclick="toggleStajHint(4)">👁️ Örnek Cevabı Göster / Gizle</button>
+              </div>
+              <div id="stajEval-4" class="staj-eval-box hidden"></div>
+              <div id="stajHint-4" class="staj-natural-answer hidden" style="margin-top:14px;">
+                "Projeyi <strong>Agile / Scrum</strong> metodolojisiyle yürüttük. Çalışmaları <strong>1 haftalık Sprint</strong> planlarına böldük ve her sabah 15 dakikalık <strong>Daily Stand-up</strong> toplantıları yaptık. Kodları <strong>Git ve GitHub</strong> üzerinde versiyonladık; doğrudan <code>main</code> dalına kod atılmadı, her geliştirme için ayrı bir <code>feature branch</code> açıldı ve <strong>Pull Request (PR)</strong> ile kıdemli mühendislerin <strong>Code Review</strong> onayından sonra birleştirildi."
+              </div>
+            </div>
+
+            <!-- SİMÜLATÖR SORU 5 -->
+            <div class="staj-q-card">
+              <div class="staj-sim-header">
+                <div>
+                  <span class="staj-q-badge">SORU 5 (20 PUAN) • İSG, MÜHENDİSLİK ETİĞİ VE KAZANIMLAR</span>
+                  <h3 class="staj-q-title">5. Staj süresince dikkat edilen İSG önlemleri, veri gizliliği / etik kurallar ve bu stajın size kattığı mesleki kazanımlar nelerdir?</h3>
+                </div>
+                <span class="staj-score-pill" id="stajPill-5">? / 20 Puan</span>
+              </div>
+              <textarea id="stajAns-5" class="staj-textarea" rows="4" placeholder="Cevabını buraya yaz... (İpucu: Ofiste ergonomi/mola ve sahada kaymaz çizme/tulum, KVKK kapsamında çalışan yüzlerini bulanıklaştırma, NDA gizlilik sözleşmesi ve gerçek saha verisi tecrübesi)"></textarea>
+              <div class="staj-sim-actions">
+                <button class="btn btn-primary" onclick="gradeStajQuestion(5)">✅ 5. Soruyu Puanla</button>
+                <button class="btn btn-secondary" onclick="toggleStajHint(5)">👁️ Örnek Cevabı Göster / Gizle</button>
+              </div>
+              <div id="stajEval-5" class="staj-eval-box hidden"></div>
+              <div id="stajHint-5" class="staj-natural-answer hidden" style="margin-top:14px;">
+                "Ofiste ergonomik çalışma düzenine ve ekran molalarına, çiftlik sahasında ise ıslak zemine karşı kaymaz çizme ve koruyucu tulum kurallarına uyuldu. Etik ve <strong>KVKK</strong> kapsamında kamera görüntülerindeki çalışanların yüzleri otomatik bulanıklaştırılarak <strong>anonimleştirildi</strong>, ticari veriler <strong>Gizlilik Sözleşmesi (NDA)</strong> ile korundu ve açık kaynak lisanslarına (MIT, Apache 2.0) uyuldu. Bu staj sayesinde teorik modelleri gerçek dünya verilerinde çalıştırmayı ve veri ön işlemenin önemini öğrendim."
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </section>
