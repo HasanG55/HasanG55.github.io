@@ -545,10 +545,15 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
                 <div>
                     <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 mb-1">
-                        Pazartesi Vize Formatında
+                        Pazartesi Vize Formatında • 3 Farklı Deneme (Toplam 60 Soru)
                     </div>
-                    <h2 class="text-2xl font-bold text-white">20 Soruluk Test Sınav Simülatörü</h2>
-                    <p class="text-xs text-slate-400 mt-1">Sorular İngilizce sorulmuştur; takıldığında "Türkçe İpucu & Çözüm" butonuna tıklayabilirsin.</p>
+                    <h2 class="text-2xl font-bold text-white">Vize Test Sınav Simülatörü</h2>
+                    <p class="text-xs text-slate-400 mt-1">Her biri 20 sorudan oluşan 3 farklı deneme sınavı. İstediğin testi seçip çözebilirsin!</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <button onclick="switchTest(1)" data-test="1" class="test-tab-btn px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-bold shadow-lg shadow-purple-600/30 transition">Deneme 1 (Klasik)</button>
+                        <button onclick="switchTest(2)" data-test="2" class="test-tab-btn px-4 py-2 bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-semibold transition">Deneme 2 (Hesap & Kavram)</button>
+                        <button onclick="switchTest(3)" data-test="3" class="test-tab-btn px-4 py-2 bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-semibold transition">Deneme 3 (Full Prova)</button>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right">
@@ -713,290 +718,27 @@
         }
 
         // ================= 20 SORULUK SINAV VERİSİ =================
-        const questions = [
-            {
-                id: 1,
-                topic: "W1 & W2: DIP Levels",
-                text: "Which of the following tasks is considered a Mid-Level image processing operation?",
-                trText: "Aşağıdakilerden hangisi bir Orta Seviye (Mid-Level) görüntü işleme işlemidir?",
-                options: [
-                    "A) Increasing the brightness of an image",
-                    "B) Reducing image noise with an averaging filter",
-                    "C) Segmenting an image into objects and background",
-                    "D) Making a high-level autonomous driving decision"
-                ],
-                correct: 2,
-                explanation: "Mid-level işlemlerde girdi görüntü, çıktı ise nesnelerin sınırları veya öznitelikleridir (Segmentasyon, kenar çıkarma gibi). A ve B low-level, D ise high-level'dır."
-            },
-            {
-                id: 2,
-                topic: "W1 & W2: EM Spectrum",
-                text: "In medical imaging, which electromagnetic wave band is utilized in Magnetic Resonance Imaging (MRI)?",
-                trText: "Tıbbi görüntülemede Manyetik Rezonans Görüntüleme (MRI) hangi elektromanyetik dalga bandını kullanır?",
-                options: [
-                    "A) X-rays",
-                    "B) Gamma rays",
-                    "C) Radio waves",
-                    "D) Microwaves"
-                ],
-                correct: 2,
-                explanation: "MRI, radyo dalgaları (Radio waves) ve güçlü manyetik alan kullanarak çalışır. Röntgen ve Tomografi ise X-ışınlarını kullanır."
-            },
-            {
-                id: 3,
-                topic: "W1 & W2: History",
-                text: "What was the significance of the Bartlane cable picture transmission system introduced in 1921?",
-                trText: "1921'de tanıtılan Bartlane kablolu resim iletim sisteminin önemi nedir?",
-                options: [
-                    "A) It was the first color television broadcast system.",
-                    "B) It transmitted digital pictures across an Atlantic submarine cable between London and New York.",
-                    "C) It introduced the JPEG compression standard.",
-                    "D) It created the first digital sensor for satellites."
-                ],
-                correct: 1,
-                explanation: "Bartlane sistemi, Londra ile New York arasında denizaltı telgraf kablosuyla dijital görüntü iletimi yapan ilk sistemdir."
-            },
-            {
-                id: 4,
-                topic: "W3: Human Vision",
-                text: "Which receptor cells in the human retina are primarily responsible for daylight and color vision?",
-                trText: "İnsan retinasında gündüz ve renkli görmeden birincil olarak sorumlu olan reseptör hücreleri hangileridir?",
-                options: [
-                    "A) Rods",
-                    "B) Cones",
-                    "C) Fovea centralis",
-                    "D) Optic nerve fibers"
-                ],
-                correct: 1,
-                explanation: "Cones (Koniler) renkli ve gündüz (photopic) görüşünü sağlar ve foveada toplanmıştır. Rods (Çomaklar) ise gece/renksiz görüşü sağlar."
-            },
-            {
-                id: 5,
-                topic: "W3: Image Model",
-                text: "In the image formation model f(x, y) = i(x, y) · r(x, y), what does r(x, y) represent and what is its range?",
-                trText: "f(x, y) = i(x, y) · r(x, y) modelinde r(x, y) neyi temsil eder ve değer aralığı nedir?",
-                options: [
-                    "A) Illumination, ranging from 0 to infinity",
-                    "B) Reflectance, ranging from 0 to 1",
-                    "C) Radiance, ranging from -1 to 1",
-                    "D) Resolution, ranging from 0 to 255"
-                ],
-                correct: 1,
-                explanation: "r(x, y) yansıtma katsayısıdır (reflectance) ve 0 ile 1 arasındadır. i(x, y) ise aydınlatmadır (illumination, 0 ile sonsuz arası)."
-            },
-            {
-                id: 6,
-                topic: "W3: Sampling & Quantization",
-                text: "Digitizing coordinate values (x, y) of an image is called _______, while digitizing the amplitude values f(x, y) is called _______.",
-                trText: "Koordinat değerlerini sayısallaştırmaya _______, genlik/parlaklık değerlerini sayısallaştırmaya _______ denir.",
-                options: [
-                    "A) Quantization, Sampling",
-                    "B) Sampling, Quantization",
-                    "C) Interpolation, Equalization",
-                    "D) Smoothing, Sharpening"
-                ],
-                correct: 1,
-                explanation: "Koordinatların sayısallaştırılması Sampling (Örnekleme), parlaklık seviyelerinin sayısallaştırılması ise Quantization (Kuantalama)'dır."
-            },
-            {
-                id: 7,
-                topic: "W3: Storage Calculation",
-                text: "How much uncompressed memory (in Megabytes) is required to store a 1024 × 1024 grayscale image with 256 gray levels (8 bits)?",
-                trText: "256 gri seviyeli (8 bit) 1024 × 1024 boyutunda bir görüntüyü saklamak için kaç MB gerekir?",
-                options: [
-                    "A) 0.5 MB",
-                    "B) 1.0 MB",
-                    "C) 2.0 MB",
-                    "D) 8.0 MB"
-                ],
-                correct: 1,
-                explanation: "1024 × 1024 × 8 bit = 1024 × 1024 Byte = 1 MB (1024 Byte = 1 KB, 1024 KB = 1 MB)."
-            },
-            {
-                id: 8,
-                topic: "W3: Resolution Artifacts",
-                text: "What visual artifact occurs when the intensity resolution (number of gray levels) is reduced too much?",
-                trText: "Gri seviye sayısı (yoğunluk çözünürlüğü) çok fazla düşürüldüğünde görüntüde hangi yapay bozulma oluşur?",
-                options: [
-                    "A) Checkerboard effect",
-                    "B) False contouring",
-                    "C) Mach bands",
-                    "D) Motion blur"
-                ],
-                correct: 1,
-                explanation: "Gri seviye sayısı azaltıldığında pürüzsüz geçişler yerine sahte çizgiler/dalgalar oluşur, buna 'False contouring' denir. Piksel sayısı azaltıldığında ise 'Checkerboard effect' oluşur."
-            },
-            {
-                id: 9,
-                topic: "W4: Distance Measures",
-                text: "Given two pixels p(2, 3) and q(5, 7), what is the City-block distance D4(p, q)?",
-                trText: "p(2, 3) ve q(5, 7) pikselleri arasındaki City-block (D4) uzaklığı kaçtır?",
-                options: [
-                    "A) 5",
-                    "B) 7",
-                    "C) 4",
-                    "D) 12"
-                ],
-                correct: 1,
-                explanation: "D4 = |x1 - x2| + |y1 - y2| = |2 - 5| + |3 - 7| = 3 + 4 = 7."
-            },
-            {
-                id: 10,
-                topic: "W4: Distance Measures",
-                text: "Given two pixels p(2, 3) and q(5, 7), what is the Chessboard distance D8(p, q)?",
-                trText: "p(2, 3) ve q(5, 7) pikselleri arasındaki Chessboard (D8) uzaklığı kaçtır?",
-                options: [
-                    "A) 7",
-                    "B) 5",
-                    "C) 4",
-                    "D) 3"
-                ],
-                correct: 2,
-                explanation: "D8 = max(|x1 - x2|, |y1 - y2|) = max(3, 4) = 4."
-            },
-            {
-                id: 11,
-                topic: "W4: Adjacency",
-                text: "What is the primary motivation for defining m-adjacency (mixed adjacency) in digital image analysis?",
-                trText: "Görüntü analizinde m-adjacency tanımlanmasının temel sebebi nedir?",
-                options: [
-                    "A) To connect only diagonal pixels",
-                    "B) To eliminate ambiguous and multiple paths caused by 8-adjacency",
-                    "C) To increase the computing speed of distance functions",
-                    "D) To decrease pixel resolution"
-                ],
-                correct: 1,
-                explanation: "8-bağlantılılıkta iki piksel arasında birden fazla ve çakışan belirsiz yollar oluşabilir. m-adjacency bu çoklu yolları yok etmek (eliminate multiple/ambiguous paths) için kullanılır."
-            },
-            {
-                id: 12,
-                topic: "W4: Arithmetic Operations",
-                text: "In low-light astronomical imaging, multiple noisy images of the exact same scene are captured and averaged together. What is the effect of averaging K images?",
-                trText: "Aynı sahnenin K adet gürültülü görüntüsü toplanıp ortalaması alınırsa gürültü nasıl değişir?",
-                options: [
-                    "A) Noise standard deviation is reduced by a factor of sqrt(K)",
-                    "B) Noise increases by K times",
-                    "C) The image becomes completely binary",
-                    "D) The spatial resolution decreases"
-                ],
-                correct: 0,
-                explanation: "K adet görüntünün ortalaması alındığında gürültü varyansı 1/K katına, standart sapması ise 1/sqrt(K) katına iner (gürültü azalır)."
-            },
-            {
-                id: 13,
-                topic: "W4: Arithmetic Operations",
-                text: "Which arithmetic operation is commonly used in Mask Mode Radiography to highlight dynamic blood flow differences by subtracting background bone anatomy?",
-                trText: "Mask Mode Radiography'de arka plan kemiklerini yok edip kan akışını vurgulamak için hangi işlem kullanılır?",
-                options: [
-                    "A) Image Addition",
-                    "B) Image Subtraction",
-                    "C) Image Multiplication",
-                    "D) Image Dilation"
-                ],
-                correct: 1,
-                explanation: "İki resim arasındaki farkı bulmak ve sabit arka planı yok etmek için Görüntü Çıkarma (Image Subtraction) kullanılır."
-            },
-            {
-                id: 14,
-                topic: "W5 & W6: Image Negative",
-                text: "For an 8-bit image (L = 256), what is the output value after applying the negative transformation to a pixel with intensity r = 60?",
-                trText: "8-bit bir görüntüde r = 60 olan bir pikselin negatif dönüşüm sonrası değeri nedir?",
-                options: [
-                    "A) 195",
-                    "B) 196",
-                    "C) 205",
-                    "D) 60"
-                ],
-                correct: 0,
-                explanation: "Formül: s = L - 1 - r = 256 - 1 - 60 = 255 - 60 = 195."
-            },
-            {
-                id: 15,
-                topic: "W5 & W6: Power-Law (Gamma)",
-                text: "In power-law transformation (s = c · r^gamma), which gamma value should be chosen to expand and brighten dark regions of an image?",
-                trText: "Gamma dönüşümünde karanlık bölgeleri açmak ve aydınlatmak için gama (gamma) değeri nasıl seçilmelidir?",
-                options: [
-                    "A) gamma > 1",
-                    "B) gamma = 1",
-                    "C) gamma < 1",
-                    "D) gamma = 0"
-                ],
-                correct: 2,
-                explanation: "gamma < 1 değeri karanlık bölgelerdeki gri seviyeleri genişletir ve görüntüyü aydınlatır. gamma > 1 ise görüntüyü koyulaştırır."
-            },
-            {
-                id: 16,
-                topic: "W5 & W6: Bit-Plane Slicing",
-                text: "In an 8-bit grayscale image, which bit-plane contains the most visually significant structural information?",
-                trText: "8-bitlik bir görüntüde görsel açıdan en kritik yapısal bilgiyi hangi bit düzlemi taşır?",
-                options: [
-                    "A) Bit 0 (LSB)",
-                    "B) Bit 1",
-                    "C) Bit 4",
-                    "D) Bit 7 (MSB)"
-                ],
-                correct: 3,
-                explanation: "En yüksek anlamlı bit olan Bit 7 (MSB), görüntünün ana şekil ve parlaklık yapısını taşır. Bit 0 (LSB) ise çoğunlukla rastgele gürültüdür."
-            },
-            {
-                id: 17,
-                topic: "W7: Histogram Interpretation",
-                text: "If an image has poor/low contrast, how does its histogram appear?",
-                trText: "Düşük kontrastlı bir görüntünün histogramı nasıl görünür?",
-                options: [
-                    "A) Evenly distributed across all gray levels from 0 to 255",
-                    "B) Confined/stacked into a narrow region of the gray level range",
-                    "C) Concentrated exclusively at the maximum level (255)",
-                    "D) Completely flat with zero counts"
-                ],
-                correct: 1,
-                explanation: "Düşük kontrastlı görüntülerde pikseller tüm skalaya yayılmak yerine dar bir aralığa (narrow region) sıkışmıştır."
-            },
-            {
-                id: 18,
-                topic: "W7: Stretching vs. Equalization",
-                text: "What is the primary operational difference between histogram stretching and histogram equalization?",
-                trText: "Histogram germe ile histogram eşitleme arasındaki temel operasyonel fark nedir?",
-                options: [
-                    "A) Histogram stretching requires user input (limits), whereas histogram equalization is an automatic procedure.",
-                    "B) Histogram equalization requires manual limits, while stretching is automatic.",
-                    "C) Histogram stretching is nonlinear, equalization is always linear.",
-                    "D) Equalization can only be performed on 1-bit binary images."
-                ],
-                correct: 0,
-                explanation: "Histogram stretching kullanıcıdan alt-üst sınır girdisi (user input) ister; histogram equalization ise tamamen otomatik bir süreçtir."
-            },
-            {
-                id: 19,
-                topic: "W7: Histogram Stretching Calculation",
-                text: "Gray levels in the range [10, 20] are mapped to [0, 100] using linear histogram stretching. What is the new value for a pixel with original intensity i = 13?",
-                trText: "[10, 20] aralığındaki değerler [0, 100] aralığına gerilirse, i = 13 olan pikselin yeni değeri ne olur?",
-                options: [
-                    "A) 25",
-                    "B) 30",
-                    "C) 35",
-                    "D) 40"
-                ],
-                correct: 1,
-                explanation: "Eğim = (100 - 0) / (20 - 10) = 100 / 10 = 10. j = 10 × (13 - 10) + 0 = 10 × 3 = 30."
-            },
-            {
-                id: 20,
-                topic: "W7: Histogram Equalization Calculation",
-                text: "For a 3-bit image (L = 8, so multiplier = 7) with 100 total pixels, the cumulative pixel count up to gray level r1 is 40 pixels. What is the equalized gray level s1?",
-                trText: "3-bit (L=8, çarpan=7), 100 piksellik bir resimde r1 seviyesine kadarki kümülatif piksel sayısı 40'tır. Eşitlenmiş s1 değeri kaçtır?",
-                options: [
-                    "A) 2",
-                    "B) 3",
-                    "C) 4",
-                    "D) 5"
-                ],
-                correct: 1,
-                explanation: "Olasılık = 40 / 100 = 0.40. Çarpan: 7 × 0.40 = 2.80. En yakın tam sayıya yuvarlanırsa: 2.80 -> 3 (B şıkkı)."
-            }
-        ];
-
+        
+        const allTests = {"1": [{"id": 1, "topic": "W1 & W2: DIP Levels", "text": "Which of the following tasks is considered a Mid-Level image processing operation?", "trText": "Aşağıdakilerden hangisi bir Orta Seviye (Mid-Level) görüntü işleme işlemidir?", "options": ["A) Increasing the brightness of an image", "B) Reducing image noise with an averaging filter", "C) Segmenting an image into objects and background", "D) Making a high-level autonomous driving decision"], "correct": 2, "explanation": "Mid-level işlemlerde girdi görüntü, çıktı ise nesnelerin sınırları veya öznitelikleridir (Segmentasyon gibi)."}, {"id": 2, "topic": "W1 & W2: EM Spectrum", "text": "In medical imaging, which electromagnetic wave band is utilized in Magnetic Resonance Imaging (MRI)?", "trText": "Tıbbi görüntülemede Manyetik Rezonans Görüntüleme (MRI) hangi dalga bandını kullanır?", "options": ["A) X-rays", "B) Gamma rays", "C) Radio waves", "D) Microwaves"], "correct": 2, "explanation": "MRI radyo dalgaları (Radio waves) ve güçlü manyetik alan kullanarak çalışır."}, {"id": 3, "topic": "W1 & W2: History", "text": "What was the significance of the Bartlane cable picture transmission system introduced in 1921?", "trText": "1921 Bartlane sisteminin önemi nedir?", "options": ["A) It was the first color television broadcast.", "B) It transmitted digital pictures across an Atlantic submarine cable between London and New York.", "C) It introduced the JPEG compression standard.", "D) It created the first digital sensor."], "correct": 1, "explanation": "Londra ile New York arasında denizaltı telgraf kablosuyla dijital görüntü ileten ilk sistemdir."}, {"id": 4, "topic": "W3: Human Vision", "text": "Which receptor cells in the human retina are primarily responsible for daylight and color vision?", "trText": "Retinada gündüz ve renkli görmeden sorumlu reseptör hücreleri hangileridir?", "options": ["A) Rods", "B) Cones", "C) Fovea centralis", "D) Optic nerve fibers"], "correct": 1, "explanation": "Cones (Koniler) renkli ve gündüz (photopic) görüşünü sağlar."}, {"id": 5, "topic": "W3: Image Model", "text": "In the image formation model f(x, y) = i(x, y) · r(x, y), what does r(x, y) represent and what is its range?", "trText": "f(x, y) = i(x, y) · r(x, y) modelinde r(x, y) neyi temsil eder ve aralığı nedir?", "options": ["A) Illumination, ranging from 0 to infinity", "B) Reflectance, ranging from 0 to 1", "C) Radiance, ranging from -1 to 1", "D) Resolution, ranging from 0 to 255"], "correct": 1, "explanation": "r(x, y) yansıtma (reflectance) katsayısıdır ve 0 ile 1 arasındadır."}, {"id": 6, "topic": "W3: Sampling & Quantization", "text": "Digitizing coordinate values (x, y) is called _______, while digitizing amplitude values f(x, y) is called _______.", "trText": "Koordinatları sayısallaştırmaya _______, genlik/parlaklığı sayısallaştırmaya _______ denir.", "options": ["A) Quantization, Sampling", "B) Sampling, Quantization", "C) Interpolation, Equalization", "D) Smoothing, Sharpening"], "correct": 1, "explanation": "Koordinatlar Sampling (Örnekleme), parlaklık seviyeleri Quantization (Kuantalama) ile sayısallaştırılır."}, {"id": 7, "topic": "W3: Storage Calculation", "text": "How much uncompressed memory (in Megabytes) is required to store a 1024 × 1024 grayscale image with 256 gray levels (8 bits)?", "trText": "256 gri seviyeli (8 bit) 1024 × 1024 boyutunda bir görüntü kaç MB yer kaplar?", "options": ["A) 0.5 MB", "B) 1.0 MB", "C) 2.0 MB", "D) 8.0 MB"], "correct": 1, "explanation": "1024 × 1024 × 8 bit = 1024 × 1024 Byte = 1 MB."}, {"id": 8, "topic": "W3: Resolution Artifacts", "text": "What visual artifact occurs when the intensity resolution (number of gray levels) is reduced too much?", "trText": "Gri seviye sayısı çok fazla düşürüldüğünde görüntüde hangi hata oluşur?", "options": ["A) Checkerboard effect", "B) False contouring", "C) Mach bands", "D) Motion blur"], "correct": 1, "explanation": "Gri seviyeler düşürülünce False Contouring (sahte kontur dalgaları) oluşur."}, {"id": 9, "topic": "W4: Distance Measures", "text": "Given two pixels p(2, 3) and q(5, 7), what is the City-block distance D4(p, q)?", "trText": "p(2, 3) ve q(5, 7) arasındaki City-block (D4) uzaklığı kaçtır?", "options": ["A) 5", "B) 7", "C) 4", "D) 12"], "correct": 1, "explanation": "D4 = |2-5| + |3-7| = 3 + 4 = 7."}, {"id": 10, "topic": "W4: Distance Measures", "text": "Given two pixels p(2, 3) and q(5, 7), what is the Chessboard distance D8(p, q)?", "trText": "p(2, 3) ve q(5, 7) arasındaki Chessboard (D8) uzaklığı kaçtır?", "options": ["A) 7", "B) 5", "C) 4", "D) 3"], "correct": 2, "explanation": "D8 = max(|2-5|, |3-7|) = max(3, 4) = 4."}, {"id": 11, "topic": "W4: Adjacency", "text": "What is the primary motivation for defining m-adjacency (mixed adjacency)?", "trText": "m-adjacency tanımlanmasının temel amacı nedir?", "options": ["A) To connect only diagonal pixels", "B) To eliminate ambiguous and multiple paths caused by 8-adjacency", "C) To increase computing speed", "D) To decrease pixel resolution"], "correct": 1, "explanation": "8-bağlantılılıkta oluşan çakışan belirsiz yolları yok etmek (eliminate multiple/ambiguous paths) için kullanılır."}, {"id": 12, "topic": "W4: Arithmetic Operations", "text": "What is the effect of averaging K noisy images of the exact same scene?", "trText": "Aynı sahnenin K adet gürültülü görüntüsü ortalanırsa gürültü nasıl değişir?", "options": ["A) Noise standard deviation is reduced by a factor of sqrt(K)", "B) Noise increases by K times", "C) The image becomes completely binary", "D) Spatial resolution decreases"], "correct": 0, "explanation": "Gürültü standart sapması sqrt(K) kat azalır."}, {"id": 13, "topic": "W4: Arithmetic Operations", "text": "Which arithmetic operation is commonly used in Mask Mode Radiography to subtract background anatomy?", "trText": "Mask Mode Radiography arka planı yok etmek için hangi işlemi kullanır?", "options": ["A) Image Addition", "B) Image Subtraction", "C) Image Multiplication", "D) Image Dilation"], "correct": 1, "explanation": "İki resim arasındaki farkı bulmak için Image Subtraction (Çıkarma) kullanılır."}, {"id": 14, "topic": "W5 & W6: Image Negative", "text": "For an 8-bit image (L = 256), what is the output value after applying the negative transformation to r = 60?", "trText": "8-bit görüntüde r = 60 pikselinin negatif dönüşüm sonrası değeri nedir?", "options": ["A) 195", "B) 196", "C) 205", "D) 60"], "correct": 0, "explanation": "s = 255 - 60 = 195."}, {"id": 15, "topic": "W5 & W6: Power-Law (Gamma)", "text": "In power-law transformation (s = c · r^gamma), which gamma value brightens dark regions?", "trText": "Gamma dönüşümünde karanlık bölgeleri aydınlatmak için gama nasıl seçilmelidir?", "options": ["A) gamma > 1", "B) gamma = 1", "C) gamma < 1", "D) gamma = 0"], "correct": 2, "explanation": "gamma < 1 karanlık yerleri açar ve aydınlatır."}, {"id": 16, "topic": "W5 & W6: Bit-Plane Slicing", "text": "In an 8-bit grayscale image, which bit-plane contains the most visually significant structural information?", "trText": "8-bitlik bir görüntüde görsel açıdan en kritik bilgiyi hangi bit düzlemi taşır?", "options": ["A) Bit 0 (LSB)", "B) Bit 1", "C) Bit 4", "D) Bit 7 (MSB)"], "correct": 3, "explanation": "Bit 7 (MSB) ana şekli taşır, Bit 0 (LSB) ise gürültüdür."}, {"id": 17, "topic": "W7: Histogram Interpretation", "text": "If an image has poor/low contrast, how does its histogram appear?", "trText": "Düşük kontrastlı bir görüntünün histogramı nasıl görünür?", "options": ["A) Evenly distributed across all gray levels", "B) Confined/stacked into a narrow region", "C) Concentrated exclusively at 255", "D) Flat with zero counts"], "correct": 1, "explanation": "Düşük kontrastlı resimlerde pikseller dar bir bölgeye (narrow region) sıkışmıştır."}, {"id": 18, "topic": "W7: Stretching vs. Equalization", "text": "What is the primary operational difference between histogram stretching and histogram equalization?", "trText": "Histogram germe ile eşitleme arasındaki temel fark nedir?", "options": ["A) Stretching requires user input (limits), whereas equalization is automatic.", "B) Equalization requires user input, stretching is automatic.", "C) Stretching is nonlinear, equalization is linear.", "D) Equalization works only on binary images."], "correct": 0, "explanation": "Histogram stretching kullanıcı girdisi (user input) ister, equalization otomatiktir."}, {"id": 19, "topic": "W7: Histogram Stretching Calculation", "text": "Gray levels in range [10, 20] are mapped to [0, 100]. What is the new value for original intensity i = 13?", "trText": "[10, 20] aralığı [0, 100] aralığına gerilirse, i = 13 olan pikselin yeni değeri ne olur?", "options": ["A) 25", "B) 30", "C) 35", "D) 40"], "correct": 1, "explanation": "Eğim = (100 - 0) / (20 - 10) = 10. j = 10 × (13 - 10) + 0 = 30."}, {"id": 20, "topic": "W7: Histogram Equalization Calculation", "text": "For a 3-bit image (L = 8, multiplier = 7) with 100 total pixels, cumulative count up to r1 is 40. What is equalized s1?", "trText": "3-bit (L=8, çarpan=7), 100 piksellik resimde r1 seviyesine kadar kümülatif piksel 40 ise s1 kaçtır?", "options": ["A) 2", "B) 3", "C) 4", "D) 5"], "correct": 1, "explanation": "40 / 100 = 0.40. 7 × 0.40 = 2.80 -> Yuvarlanırsa 3."}], "2": [{"id": 1, "topic": "W1: Gestalt Principles", "text": "According to Gestalt principles, when objects are placed close to each other, humans perceive them as belonging together. What is this cue called?", "trText": "Nesneler birbirine yakın yerleştirildiğinde bir grup olarak algılanması ilkesi hangisidir?", "options": ["A) Common Fate", "B) Proximity", "C) Similarity", "D) Linear Perspective"], "correct": 1, "explanation": "Proximity (Yakınlık) ilkesi birbirine yakın nesneleri bir grup olarak algılatır."}, {"id": 2, "topic": "W1: Depth Cues", "text": "As a textured surface recedes into the distance, the perceived density of its elements increases. Which depth cue is this?", "trText": "Dokulu bir yüzey uzaklaştıkça elemanların yoğunluğunun artması hangi derinlik ipucudur?", "options": ["A) Texture Gradient", "B) Shading", "C) Occlusion", "D) Aerial Perspective"], "correct": 0, "explanation": "Texture Gradient (Doku Eğimi) uzaklaştıkça doku sıklığının artmasıdır."}, {"id": 3, "topic": "W2: EM Spectrum", "text": "Which electromagnetic wave band is commonly used in Fluorescence Microscopy?", "trText": "Floresan Mikroskobunda hangi elektromanyetik dalga bandı kullanılır?", "options": ["A) Radio waves", "B) Ultraviolet (UV)", "C) Microwaves", "D) Infrared"], "correct": 1, "explanation": "Floresan mikroskobu Ultraviyole (UV) ışık kullanır."}, {"id": 4, "topic": "W2: DIP Steps", "text": "Which fundamental step in digital image processing partitions an input image into its constituent parts or objects?", "trText": "Görüntüyü bileşenlerine veya nesnelere ayıran temel adım hangisidir?", "options": ["A) Image Acquisition", "B) Image Enhancement", "C) Image Segmentation", "D) Image Compression"], "correct": 2, "explanation": "Segmentation (Bölütleme) görüntüyü nesnelere ve bölgelere ayırır."}, {"id": 5, "topic": "W2: DIP Levels", "text": "Which level of image processing involves cognitive functions and scene understanding (e.g. autonomous vehicle navigation)?", "trText": "Bilişsel fonksiyonları ve sahne anlamlandırmayı içeren seviye hangisidir?", "options": ["A) Low-level", "B) Mid-level", "C) High-level", "D) Primitive level"], "correct": 2, "explanation": "High-level (Yüksek seviye) anlamlandırma ve karar vermedir."}, {"id": 6, "topic": "W3: Dynamic Range", "text": "The ratio of the maximum measurable intensity level to the minimum detectable intensity level in an imaging system is known as:", "trText": "Sistemdeki maksimum ölçülebilir yoğunluğun minimum tespit edilebilir yoğunluğa oranına ne denir?", "options": ["A) Contrast Ratio", "B) Dynamic Range", "C) Weber Ratio", "D) Aspect Ratio"], "correct": 1, "explanation": "Maksimum / minimum yoğunluk oranına Dynamic Range (Dinamik Aralık) denir."}, {"id": 7, "topic": "W3: Human Vision", "text": "Which type of human vision is active under low illumination conditions (night vision) and provides no color perception?", "trText": "Düşük ışıkta (gece) aktif olan ve renk algısı sunmayan görme tipi hangisidir?", "options": ["A) Photopic vision", "B) Scotopic vision", "C) Mesopic vision", "D) Trichromatic vision"], "correct": 1, "explanation": "Scotopic vision çomaklar (rods) tarafından sağlanan gece görmesidir."}, {"id": 8, "topic": "W3: Image Model", "text": "In the image formation model f(x, y) = i(x, y) · r(x, y), what are the theoretical bounds for illumination i(x, y)?", "trText": "Aydınlatma i(x, y) için teorik sınırlar nedir?", "options": ["A) 0 < i(x, y) <= 1", "B) 0 < i(x, y) < infinity", "C) -1 <= i(x, y) <= 1", "D) 0 <= i(x, y) <= 255"], "correct": 1, "explanation": "Illumination 0 ile sonsuz arasındadır (0 < i < infinity)."}, {"id": 9, "topic": "W3: Storage Calculation", "text": "How many bytes of uncompressed memory are needed to store an image of size 512 × 512 with 64 gray levels (6 bits)?", "trText": "512 × 512 boyutunda, 64 gri seviyeli (6-bit) bir resim kaç Byte yer tutar?", "options": ["A) 196,608 Bytes", "B) 262,144 Bytes", "C) 1,572,864 Bytes", "D) 32,768 Bytes"], "correct": 0, "explanation": "512 × 512 × 6 bit = 1,572,864 bit. Byte için 8 e böl: 1,572,864 / 8 = 196,608 Bytes."}, {"id": 10, "topic": "W3: Spatial Resolution", "text": "Spatial resolution in digital imaging is most commonly specified in terms of:", "trText": "Uzamsal çözünürlük yaygın olarak hangi birimle ifade edilir?", "options": ["A) Bits per pixel", "B) Dots (pixels) per inch (dpi)", "C) Megahertz", "D) Lumens per watt"], "correct": 1, "explanation": "Uzamsal çözünürlük dpi (dots per inch) veya birim uzunluktaki çizgi çifti ile ölçülür."}, {"id": 11, "topic": "W4: Distance Calculation", "text": "Given two pixels p(4, 2) and q(1, 6): What are the City-block distance D4 and Euclidean distance De?", "trText": "p(4, 2) ve q(1, 6) arasındaki D4 ve De uzaklıkları kaçtır?", "options": ["A) D4 = 7, De = 5", "B) D4 = 5, De = 7", "C) D4 = 7, De = 25", "D) D4 = 4, De = 5"], "correct": 0, "explanation": "dx = |4-1| = 3, dy = |2-6| = 4. D4 = 3 + 4 = 7. De = sqrt(3^2 + 4^2) = 5."}, {"id": 12, "topic": "W4: Neighbors", "text": "For a pixel p at coordinates (x, y), which of the following is NOT in the 4-neighbors set N4(p)?", "trText": "p(x, y) pikseli için hangisi 4-komşuluk (N4) kümesinde DEĞİLDİR?", "options": ["A) (x+1, y)", "B) (x-1, y)", "C) (x, y+1)", "D) (x+1, y+1)"], "correct": 3, "explanation": "(x+1, y+1) çapraz komşudur (ND), N4 de yer almaz."}, {"id": 13, "topic": "W4: Adjacency", "text": "Two pixels p and q are 4-adjacent if and only if:", "trText": "İki piksel hangi durumda 4-adjacent (4-bağlantılı) kabul edilir?", "options": ["A) q is in ND(p) and has the same value", "B) q is in N4(p) and both have values from set V", "C) D8(p, q) = 1", "D) They share a diagonal boundary"], "correct": 1, "explanation": "Değerleri V kümesinde olmalı ve q, p nin 4-komşusu (N4) olmalıdır."}, {"id": 14, "topic": "W4: Image Arithmetic", "text": "Which arithmetic operation is commonly used for shading correction to compensate for nonuniform sensor illumination?", "trText": "Dengesiz sensör aydınlatmasını (shading) düzeltmek için hangi aritmetik işlem kullanılır?", "options": ["A) Division or Multiplication", "B) Addition only", "C) Subtraction only", "D) Median filtering"], "correct": 0, "explanation": "Aydınlatma dengesizliğini gidermek (shading correction) için bölme veya çarpma kullanılır."}, {"id": 15, "topic": "W4: Image Averaging", "text": "If 25 noisy images of the exact same scene are averaged, by what factor is the noise standard deviation reduced?", "trText": "25 adet gürültülü görüntü ortalanırsa gürültü standart sapması kaç kat azalır?", "options": ["A) 25 times", "B) 5 times", "C) 12.5 times", "D) 2 times"], "correct": 1, "explanation": "sqrt(K) = sqrt(25) = 5 kat azalır."}, {"id": 16, "topic": "W5: Image Negative", "text": "In an 8-bit image, what is the negative transformed value of a pixel with intensity r = 100?", "trText": "8-bit resimde r = 100 pikselinin negatif dönüşüm değeri nedir?", "options": ["A) 155", "B) 156", "C) 100", "D) 255"], "correct": 0, "explanation": "s = 255 - 100 = 155."}, {"id": 17, "topic": "W5: Power-Law", "text": "In a Power-law transformation s = c · r^gamma, what is the visual effect when gamma > 1?", "trText": "Power-law dönüşümünde gamma > 1 olduğunda görsel etki ne olur?", "options": ["A) Expands and brightens dark regions", "B) Compresses bright regions and darkens the image", "C) Converts image to binary", "D) Inverts black and white"], "correct": 1, "explanation": "gamma > 1 görüntüyü koyulaştırır (parlak değerleri bastırır)."}, {"id": 18, "topic": "W5: Bit-Plane", "text": "Which bit-plane in an 8-bit image contains the least significant visual information and appears mostly as random noise?", "trText": "8-bit görüntüde en önemsiz ve rastgele gürültü gibi görünen bit düzlemi hangisidir?", "options": ["A) Bit 7", "B) Bit 4", "C) Bit 1", "D) Bit 0 (LSB)"], "correct": 3, "explanation": "Bit 0 (LSB - Least Significant Bit) en önemsizdir."}, {"id": 19, "topic": "W7: Histogram Stretching", "text": "Gray levels in range [2, 6] are stretched to [0, 8]. What is the new value for a pixel with original intensity i = 4?", "trText": "[2, 6] aralığı [0, 8] aralığına gerilirse, i = 4 pikselinin yeni değeri kaç olur?", "options": ["A) 2", "B) 4", "C) 6", "D) 8"], "correct": 1, "explanation": "Eğim = (8-0)/(6-2) = 8/4 = 2. j = 2 × (4 - 2) + 0 = 4."}, {"id": 20, "topic": "W7: Histogram Equalization", "text": "For a 3-bit image (L = 8, multiplier = 7), the cumulative probability up to r1 is 0.20. What is the equalized level s1?", "trText": "3-bit (L=8, çarpan=7) resimde r1 seviyesine kadar kümülatif olasılık 0.20 ise yeni s1 kaçtır?", "options": ["A) 1", "B) 2", "C) 3", "D) 0"], "correct": 0, "explanation": "7 × 0.20 = 1.40. En yakın tam sayıya yuvarlanırsa 1.40 -> 1."}], "3": [{"id": 1, "topic": "W1: CV Challenges", "text": "When an object of interest is partially hidden behind another object in the scene, which vision challenge occurs?", "trText": "Bir nesne başka bir nesnenin arkasında kısmen kaldığında hangi zorluk oluşur?", "options": ["A) Deformation", "B) Occlusion", "C) Scale variation", "D) Viewpoint variation"], "correct": 1, "explanation": "Occlusion (Tıkanma / Kapanma) bir nesnenin diğerinin arkasında kalmasıdır."}, {"id": 2, "topic": "W1: CV Challenges", "text": "Images of the exact same chair look drastically different when taken from the top vs. from the front. This is an example of:", "trText": "Aynı sandalyenin üstten ve önden tamamen farklı görünmesi neye örnektir?", "options": ["A) Viewpoint variation", "B) Illumination", "C) Intra-class variation", "D) Background clutter"], "correct": 0, "explanation": "Kamera açısının değişmesi Viewpoint variation dır."}, {"id": 3, "topic": "W2: Imaging Modalities", "text": "Which of the following medical imaging modalities relies on acoustic / sound waves rather than the electromagnetic spectrum?", "trText": "Elektromanyetik spektrum yerine ses dalgalarını kullanan tıbbi görüntüleme hangisidir?", "options": ["A) Computed Tomography (CT)", "B) Positron Emission Tomography (PET)", "C) Ultrasound Imaging", "D) X-ray radiography"], "correct": 2, "explanation": "Ultrasound (Ultrason) ses dalgalarını kullanır, EM spektrum değildir."}, {"id": 4, "topic": "W2: History", "text": "The Bartlane cable transmission system reduced the transportation time of a picture across the Atlantic from over a week to:", "trText": "Bartlane sistemi bir resmin Atlantik aşırı iletim süresini bir haftadan kaça düşürmüştür?", "options": ["A) Less than 3 hours", "B) Exactly 1 minute", "C) 24 hours", "D) 3 days"], "correct": 0, "explanation": "Slayt 6: İletim süresi 1 haftadan 3 saatin altına (less than 3 hours) inmiştir."}, {"id": 5, "topic": "W2: Restoration vs. Enhancement", "text": "Image restoration is primarily considered an _______ process based on mathematical degradation models, while enhancement is largely _______.", "trText": "Image restoration _______ bir süreç iken, enhancement çoğunlukla _______ bir süreçtir.", "options": ["A) Objective, Subjective", "B) Subjective, Objective", "C) Hardware, Software", "D) Linear, Nonlinear"], "correct": 0, "explanation": "Restoration nesnel/matematikseldir (objective), Enhancement insan gözü zevkine göredir (subjective)."}, {"id": 6, "topic": "W3: Eye Anatomy", "text": "In the human eye, cone receptors are densely concentrated in a tiny circular area of the retina called the:", "trText": "İnsan gözünde koni reseptörleri retinanın hangi küçük dairesel merkezinde yoğunlaşmıştır?", "options": ["A) Blind spot", "B) Fovea", "C) Cornea", "D) Ciliary body"], "correct": 1, "explanation": "Koniler en net görmeyi sağlayan Fovea merkezinde yoğunlaşmıştır."}, {"id": 7, "topic": "W3: Visual Illusions", "text": "The visual phenomenon where the eye perceives exaggerated brightness undershoot and overshoot at borders between intensity bands is called:", "trText": "Yoğunluk bantları arasındaki sınırlarda gözün parlaklık dalgalanması algılaması illüzyonuna ne denir?", "options": ["A) Simultaneous Contrast", "B) Mach Bands", "C) Checkerboard Effect", "D) False Contouring"], "correct": 1, "explanation": "Sınırlarda oluşan parlak/koyu bant çizgilerine Mach Bands denir."}, {"id": 8, "topic": "W3: Visual Illusions", "text": "A gray patch surrounded by a black background appears noticeably brighter than the same gray patch on a white background. This is:", "trText": "Aynı gri kutunun siyah arka planda beyaza göre daha parlak görünmesi nedir?", "options": ["A) Weber Ratio", "B) Simultaneous Contrast", "C) Dynamic Range", "D) Gamma shift"], "correct": 1, "explanation": "Arka plana göre parlaklığın farklı algılanması Simultaneous Contrast tır."}, {"id": 9, "topic": "W3: Storage Calculation", "text": "How many Kilobytes (KB) are required to store an uncompressed 256 × 256 8-bit grayscale image?", "trText": "256 × 256 boyutunda, 8-bitlik bir resim kaç KB yer kaplar?", "options": ["A) 64 KB", "B) 128 KB", "C) 256 KB", "D) 512 KB"], "correct": 0, "explanation": "256 × 256 × 1 Byte = 65,536 Bytes. 65,536 / 1024 = 64 KB."}, {"id": 10, "topic": "W3: False Contouring", "text": "When an image is displayed with too few intensity levels (e.g., 2 or 3 bits), smooth gradations appear as distinct banded ridges. This is called:", "trText": "Görüntü çok az yoğunluk seviyesiyle gösterildiğinde pürüzsüz geçişlerin şeritler halinde görünmesi hatası nedir?", "options": ["A) Checkerboard effect", "B) False contouring", "C) Aliasing", "D) Blurring"], "correct": 1, "explanation": "Bit seviyesi düşürülünce False Contouring (sahte kontur) oluşur."}, {"id": 11, "topic": "W4: Distance Calculation", "text": "Given two pixels p(5, 5) and q(9, 8): What is the Chessboard distance D8(p, q)?", "trText": "p(5, 5) ve q(9, 8) pikselleri arasındaki Chessboard (D8) uzaklığı kaçtır?", "options": ["A) 3", "B) 4", "C) 7", "D) 5"], "correct": 1, "explanation": "dx = |5-9| = 4, dy = |5-8| = 3. D8 = max(4, 3) = 4."}, {"id": 12, "topic": "W4: Distance Contours", "text": "The set of pixels at a fixed City-block distance D4 from a central pixel forms what geometric contour?", "trText": "Merkezdeki piksele eşit D4 uzaklığındaki pikseller kümesi hangi geometrik şekli oluşturur?", "options": ["A) Square", "B) Circle", "C) Diamond (Rhombus)", "D) Hexagon"], "correct": 2, "explanation": "D4 uzaklığı Elmas (Diamond) konturu çizer."}, {"id": 13, "topic": "W4: Distance Contours", "text": "The set of pixels at a fixed Chessboard distance D8 from a central pixel forms what geometric contour?", "trText": "Merkezdeki piksele eşit D8 uzaklığındaki pikseller kümesi hangi geometrik şekli oluşturur?", "options": ["A) Diamond", "B) Square", "C) Circle", "D) Triangle"], "correct": 1, "explanation": "D8 uzaklığı Kare (Square) konturu çizer."}, {"id": 14, "topic": "W4: Image Subtraction", "text": "In angiography, subtracting a pre-contrast mask image from an image containing injected contrast medium is known as:", "trText": "Anjiyografide kontrast öncesi görüntüyü kontrastlı görüntüden çıkarma işlemine ne denir?", "options": ["A) Mask Mode Radiography", "B) Shading Correction", "C) Contrast Stretching", "D) Morphological Dilation"], "correct": 0, "explanation": "Mask Mode Radiography arka plan kemiklerini çıkarmak için çıkarma (subtraction) kullanır."}, {"id": 15, "topic": "W4: Linear Operator", "text": "An image processing operator H is LINEAR if and only if:", "trText": "Bir H operatörü hangi şartı sağlıyorsa lineerdir (doğrusaldır)?", "options": ["A) H[f + g] = H[f] · H[g]", "B) H[a·f + b·g] = a·H[f] + b·H[g]", "C) H[f] = max(f)", "D) H[f] = f^2"], "correct": 1, "explanation": "Lineerlik koşulu toplamsallık ve homojenliktir: H[a·f + b·g] = a·H[f] + b·H[g]."}, {"id": 16, "topic": "W5: Thresholding", "text": "Thresholding is a special limiting case of contrast stretching where:", "trText": "Eşikleme (Thresholding), contrast stretching in hangi özel durumudur?", "options": ["A) r1 = r2, producing a binary 0/1 image", "B) gamma = 1", "C) c = 0", "D) All pixels become white"], "correct": 0, "explanation": "r1 = r2 yapıldığında pikseller ya 0 ya da L-1 olur (binary/ikili görüntü)."}, {"id": 17, "topic": "W5: Log Transform", "text": "Which transformation is most commonly applied to compress wide dynamic ranges in Fourier spectrum displays?", "trText": "Fourier spektrumunda geniş dinamik aralığı sıkıştırmak için hangi dönüşüm kullanılır?", "options": ["A) Image Negative", "B) Log Transformation", "C) Histogram Shrinking", "D) Power-law with gamma = 5"], "correct": 1, "explanation": "Log dönüşümü (s = c·log(1+r)) Fourier spektrumunu görünür yapmak için dinamik aralığı sıkıştırır."}, {"id": 18, "topic": "W6: Local Enhancement", "text": "When details in an image need to be enhanced in small localized regions rather than globally across the entire image, we use:", "trText": "Tüm görüntü yerine küçük yerel bölgelerdeki detayları belirginleştirmek için ne kullanılır?", "options": ["A) Global histogram equalization", "B) Local histogram equalization", "C) Image Negative", "D) Decimation"], "correct": 1, "explanation": "Küçük komşuluk pencereleri kullanan Local Histogram Equalization tercih edilir."}, {"id": 19, "topic": "W7: Histogram Interpretation", "text": "In an excessively bright image (washed out), the histogram components will be concentrated predominantly at the:", "trText": "Aşırı parlak bir görüntüde histogram bileşenleri nerede toplanır?", "options": ["A) Lower end (dark values)", "B) Center only", "C) Upper end (high gray levels)", "D) Both extreme edges only"], "correct": 2, "explanation": "Parlak resimlerde pikseller sağ / üst tarafta (upper end) toplanır."}, {"id": 20, "topic": "W7: Histogram Equalization Calculation", "text": "In a 3-bit image (L = 8, multiplier = 7) with 100 pixels, count for r0 is 15 and r1 is 35. What is the equalized level s1?", "trText": "3-bit (L=8, çarpan=7), 100 piksellik resimde r0 için 15, r1 için 35 piksel vardır. Yeni s1 değeri kaçtır?", "options": ["A) 2", "B) 3", "C) 4", "D) 5"], "correct": 2, "explanation": "Toplam = 15 + 35 = 50. Oran = 50 / 100 = 0.50. 7 × 0.50 = 3.50. Yuvarlama kuralı (0.50 yukari): 3.50 -> 4."}]};
+        let currentTestId = 1;
+        let questions = allTests[currentTestId];
         let userAnswers = {};
+
+        function switchTest(testId) {
+            currentTestId = testId;
+            questions = allTests[testId];
+            userAnswers = {};
+            document.querySelectorAll('.test-tab-btn').forEach(b => {
+                if (parseInt(b.getAttribute('data-test')) === testId) {
+                    b.className = 'test-tab-btn px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-bold shadow-lg shadow-purple-600/30 transition';
+                } else {
+                    b.className = 'test-tab-btn px-4 py-2 bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-semibold transition';
+                }
+            });
+            renderQuiz();
+            updateScore();
+        }
+
 
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
